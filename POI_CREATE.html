@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="scss/poi_create.css" />
+
+    <!-- Custom JS -->
+    <script src="POI.js"></script>
+
+    <title>Home</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Travel Local</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Itinerary</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <div class="input-group col-md-8">
+            <input
+              class="form-control mrr-sm-2 border-right-0 border"
+              type="search"
+              placeholder="Search"
+              id="example-search-input"
+            />
+            <span class="input-group-append">
+              <button
+                class="btn btn-outline-secondary border-left-0 border"
+                type="button"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+          </div>
+
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+          </button> -->
+
+          <button class="btn btn-outline-success my-2 my-sm-0" type="button">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </nav>
+
+    <!--Card-->
+    <div class="card m-5" style="max-width: auto;">
+        <div class="row no-gutters">
+
+            <!--Card Image-->
+            <div class="image col-md-5" >
+                <input type="button" id="addimage" value="&#128247 Add image" onclick="">
+            </div>
+
+            <div class="col-md-7 pl-2">
+            <!--Card Body Start-->
+            <div class="card-body">
+                <!--Form Start-->
+                <form id="place">
+
+                    <h3>Title</h3>
+
+                    <div class="address">
+                        Address:
+                        <input type="button" id="addlocation" value="Add location" >
+                    </div>
+
+                    <div class="Duration ">
+                        Recommended Duration:
+                        <input type="text" id="hours" name="hours" placeholder="E.g. 1-2hours">
+                    </div>
+
+                    <div class="star-widget">
+                        Rating:
+                        <input type = "radio" id="rate1" name="rate">
+                        <label for = "rate"></label>
+                        <input type = "radio" id="rate2" name="rate">
+                        <label for = "rate"></label>
+                        <input type = "radio" id="rate3" name="rate">
+                        <label for = "rate"></label>
+                        <input type = "radio" id="rate4" name="rate">
+                        <label for = "rate"></label>
+                        <input type = "radio" id="rate5" name="rate">
+                        <label for = "rate"></label>
+                    </div>
+
+                    <div class="rating">
+                        Review:
+                        <br>
+                        <textarea id="textarea" placeholder="Share your experience!" rows="5" cols="80"></textarea>
+                    </div>
+
+                    <input type="Submit" value="Save and Exit">
+                    <input type="Submit" value="Publish">
+                </form>
+                <!--Form End-->
+            </div>
+            <!--Card Body End-->
+          </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Web Application Development II</span>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
