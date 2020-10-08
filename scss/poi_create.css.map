@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAA;EACL,MAAM,EAAE,CAAC;EACT,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;EACT,aAAa,EAAE,qBAAqB;EACpC,SAAS,EAAE,qBAAqB;CACnC",
+    "sources": [
+        "POI_CREATE.scss"
+    ],
+    "names": [],
+    "file": "POI_CREATE.css"
+}
