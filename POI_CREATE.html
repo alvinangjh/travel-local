@@ -88,16 +88,20 @@
       </div>
     </nav>
 
+    <div class="container-fluid" id="header">
+      Create your POI
+    </div>
+
     <!--Card-->
-    <div class="card m-5" style="max-width: auto;">
+    <div class="card mx-5 mt-5 mb-3" style="max-width: auto;">
         <div class="row no-gutters">
 
             <!--Card Image-->
-            <div class="image col-md-5" >
+            <div class="image col-sm-5" >
                 <input type="button" id="addimage" value="&#128247 Add image" onclick="">
             </div>
 
-            <div class="col-md-7 pl-2">
+            <div class="col-sm-7 pl-2">
             <!--Card Body Start-->
             <div class="card-body">
                 <!--Form Start-->
@@ -115,28 +119,30 @@
                         <input type="text" id="hours" name="hours" placeholder="E.g. 1-2hours">
                     </div>
 
-                    <div class="star-widget">
-                        Rating:
-                        <input type = "radio" id="rate1" name="rate">
-                        <label for = "rate"></label>
-                        <input type = "radio" id="rate2" name="rate">
-                        <label for = "rate"></label>
-                        <input type = "radio" id="rate3" name="rate">
-                        <label for = "rate"></label>
-                        <input type = "radio" id="rate4" name="rate">
-                        <label for = "rate"></label>
-                        <input type = "radio" id="rate5" name="rate">
-                        <label for = "rate"></label>
+                    <div class="review">
+                      Review:
+                      <textarea id="textarea" placeholder="Share your experience!"></textarea>
+                  </div>
+
+                    <div class="rate">
+                        Overall Experience:
+                        <input type = "radio" id="rate5" name="rate" value="5">
+                        <label for = "rate5"></label>
+                        <input type = "radio" id="rate4" name="rate" value="4">
+                        <label for = "rate4"></label>
+                        <input type = "radio" id="rate3" name="rate" value="3">
+                        <label for = "rate3"></label>
+                        <input type = "radio" id="rate2" name="rate" value="2">
+                        <label for = "rate2"></label>
+                        <input type = "radio" id="rate1" name="rate" value="1">
+                        <label for = "rate1"></label>
                     </div>
 
-                    <div class="rating">
-                        Review:
-                        <br>
-                        <textarea id="textarea" placeholder="Share your experience!" rows="5" cols="80"></textarea>
+                    <div class="submission">
+                      <br><br>
+                      <input type="Submit" value="Save and Exit">
+                      <input type="Submit" value="Publish">
                     </div>
-
-                    <input type="Submit" value="Save and Exit">
-                    <input type="Submit" value="Publish">
                 </form>
                 <!--Form End-->
             </div>
@@ -144,6 +150,11 @@
           </div>
         </div>
     </div>
+
+    <div class="addpoiclass">
+      <input type="button" id="addpoi" name="increase" value="+ Add new places" onclick="increaseBtnOnclick()"/>
+    </div>
+    
 
     <!--Footer-->
     <footer class="footer">
