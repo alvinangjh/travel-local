@@ -20,46 +20,15 @@
 		/>
 
 		<!-- Custom CSS -->
-		<link rel="stylesheet" href="scss/itinerary_create.css" />
-		<link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css" />
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-		<script>
-			var today_date = new Date();
-			$(function () {
-				$("#start_date").datepicker({
-					minDate: today_date,
-					onSelect: function (selected) {
-						$("#end_date").datepicker("option", "minDate", selected);
-					},
-				});
-			});
-
-			$(function () {
-				$("#end_date").datepicker({
-					minDate: today_date,
-					onSelect: function (selected) {
-						$("#start_date").datepicker("option", "maxDate", selected);
-					},
-				});
-			});
-		</script>
+		<link rel="stylesheet" href="itinerary_create.css" />
+		<link rel="stylesheet" href="../../scripts/jquery-ui-1.12.1.custom/jquery-ui.css" />
 
 		<title>Itinerary Create</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Travel Local</a>
-			<button
-				class="navbar-toggler"
-				type="button"
-				data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent"
-				aria-expanded="false"
-				aria-label="Toggle navigation"
-			>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
@@ -84,10 +53,7 @@
 							id="example-search-input"
 						/>
 						<span class="input-group-append">
-							<button
-								class="btn btn-outline-secondary border-left-0 border"
-								type="button"
-							>
+							<button class="btn btn-outline-secondary border-left-0 border" type="button">
 								<i class="fa fa-search"></i>
 							</button>
 						</span>
@@ -97,9 +63,7 @@
               Search
             </button> -->
 
-					<button class="btn btn-outline-success my-2 my-sm-0" type="button">
-						Sign Up
-					</button>
+					<button class="btn btn-outline-success my-2 my-sm-0" type="button">Sign Up</button>
 				</form>
 			</div>
 		</nav>
@@ -108,23 +72,23 @@
 			<h1 class="mt-5">Create Itinerary</h1>
 
 			<div class="form-group mt-4">
-				<label for="exampleInputEmail1">Name of your itinerary</label>
-				<input type="email" class="form-control" id="exampleInputEmail1" />
+				<label for="itinerary_name">Name of your itinerary</label>
+				<input type="text" class="form-control" id="itinerary_name" placeholder="7 days in the West!" />
 			</div>
 
 			<div class="form-row">
 				<div class="form-group col-6">
-					<label for="exampleInputPassword1">Start Date</label>
-					<input type="text" class="form-control" id="start_date" />
+					<label for="start_date">Start Date</label>
+					<input type="text" class="form-control" id="start_date" placeholder="DD/MM/YYYY" />
 				</div>
 
 				<div class="form-group col-6">
-					<label for="exampleInputPassword1">End Date</label>
-					<input type="text" class="form-control" id="end_date" />
+					<label for="end_date">End Date</label>
+					<input type="text" class="form-control" id="end_date" placeholder="DD/MM/YYYY" />
 				</div>
 			</div>
 
-			<button class="btn btn-block btn-primary">Create</button>
+			<button type="button" class="btn btn-block btn-primary" onclick="insert_itinerary()">Create</button>
 		</div>
 
 		<footer class="footer">
@@ -135,11 +99,11 @@
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<!-- <script
+		<script
 			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
 			crossorigin="anonymous"
-		></script> -->
+		></script>
 		<script
 			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
 			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -150,5 +114,9 @@
 			integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
 			crossorigin="anonymous"
 		></script>
+
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="../../scripts/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+		<script src="itinerary_create.js"></script>
 	</body>
 </html>
