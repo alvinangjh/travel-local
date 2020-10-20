@@ -32,3 +32,24 @@
   display: none;
 }
 
+.hero-image{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
+    display: block;
+    min-height: 500px;
+	height: 50%; //50%
+	background-position: center;
+	background-repeat: no-repeat;
+    position: relative;
+    margin-bottom: 50px;
+    
+    .hero-content{
+        text-align: center;
+        line-height: 250px;
+        color: white;
+        font-size: 5rem;
+    }
+}
+
+
+
+
