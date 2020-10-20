@@ -18,9 +18,9 @@ CREATE TABLE if not exists `user` (
 CREATE TABLE if not exists `itinerary` (
   `itineraryID` integer NOT NULL,
   `name` varchar(256) NOT NULL,
-  `startDate` datetime NOT NULL,
+  `startDate` date NOT NULL,
   `endDate` datetime NOT NULL,
-  `userID` integer NOT NULL
+  `userID` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE if not exists `activity` (
@@ -56,10 +56,10 @@ insert into user values ("2", "elvin",'ung', '9 Changi South Street 3 #07-05 FRE
 insert into user values ("3", "jairald",'liong', '320 SERANGOON ROAD #04-55 SERANGOON PLAZA Singapore 218108', "jairald@aphro.dite", "ijustneed1chance", "11/04/1997");
 
 
-insert into itinerary values (1,'Powaa Ranger Trip', '2020-10-19 23:44:48', "2020-10-20 21:03:48", "1");
-insert into itinerary values (2,'Need $? Gov will help', '2020-10-19 23:44:48', "2020-10-20 21:03:48", "2");
-insert into itinerary values (3,'Make Singapore great again', '2020-08-19 23:44:48', "2020-08-20 21:03:48", "3");
+insert into itinerary values (1,'Powaa Ranger Trip', '2020/10/19', "2020/10/20", "1");
+insert into itinerary values (2,'Need $? Gov will help', '2020/10/19', "2020/10/20", "2");
+insert into itinerary values (3,'Make Singapore great again', '2020/08/19', "2020/08/20", "3");
 
-insert into activity values (1, 'poiUUID1');
+insert into activity values (1, '10140a0d0e024f0400cb8814cf31a37f2e7');
 insert into activity values (2, 'poiUUID2');
 insert into activity values (3, 'poiUUID3');
