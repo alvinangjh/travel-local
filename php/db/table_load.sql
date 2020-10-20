@@ -47,3 +47,19 @@ CREATE TABLE if not exists `review` (
   `reviewDate` datetime NOT NULL,
   `locID` integer NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+
+
+insert into user values ("1", "jerreal",'luu', 'Bedok North Street 5 Blk 3018 Singapore 486132', "jerrealluu@freshie.snatcher", "iluvxmm", "10/04/1995");
+
+insert into user values ("2", "elvin",'ung', '9 Changi South Street 3 #07-05 FREIGHT LINK EXPRESS DISTRCENTRE Singapore 486361', "elvinpresley@careyme.pls", "abc123", "09/04/1996");
+
+insert into user values ("3", "jairald",'liong', '320 SERANGOON ROAD #04-55 SERANGOON PLAZA Singapore 218108', "jairald@aphro.dite", "ijustneed1chance", "11/04/1997");
+
+
+insert into itinerary values (1,'Powaa Ranger Trip', '2020-10-19 23:44:48', "2020-10-20 21:03:48", "1");
+insert into itinerary values (2,'Need $? Gov will help', '2020-10-19 23:44:48', "2020-10-20 21:03:48", "2");
+insert into itinerary values (3,'Make Singapore great again', '2020-08-19 23:44:48', "2020-08-20 21:03:48", "3");
+
+insert into activity values (1, 'poiUUID1');
+insert into activity values (2, 'poiUUID2');
+insert into activity values (3, 'poiUUID3');
