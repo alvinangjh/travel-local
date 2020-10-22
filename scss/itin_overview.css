@@ -47,8 +47,11 @@
 
 .hero-image .hero-content {
   text-align: center;
-  line-height: 250px;
   color: white;
-  font-size: 5rem;
+  font-size: 3rem;
+}
+
+#rightbox img {
+  max-height: 100px;
 }
 /*# sourceMappingURL=itin_overview.css.map */

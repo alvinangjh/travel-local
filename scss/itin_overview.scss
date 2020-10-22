@@ -44,12 +44,19 @@
     
     .hero-content{
         text-align: center;
-        line-height: 250px;
+        // line-height: 250px;
         color: white;
-        font-size: 5rem;
+        font-size: 3rem;
     }
 }
 
+#rightbox {
+
+        img{
+            max-height: 100px;
+            // max-width: 100px;
+        }
+}
 
 
 

@@ -44,20 +44,6 @@ class itinerary implements \JsonSerializable {
     public function getUserID() {
         return $this->userID;
     }
-
-    public function __toString() { //Requires update to Itinerary Ver
-        $statusMsg = 'available for adoption';
-        if( $this->status == 'P' ) {
-            $statusMsg = 'pending adoption';
-        }
-
-        $prefix = 'Miss';
-        if( $this->gender = 'M' ) {
-            $prefix = 'Mister';
-        }
-
-        return $prefix . ' ' . $this->name . ' is ' . $this->age . ' years old and ' . $statusMsg . '.';
-    }
 }
 
 ?>

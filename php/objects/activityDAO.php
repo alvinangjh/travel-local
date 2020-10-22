@@ -1,6 +1,7 @@
 <?php
 
-include_once '../includes/autoload.php';
+include_once 'Activity.php';
+include_once 'connection.php';
 
 class ActivityDAO {
 
@@ -8,10 +9,8 @@ class ActivityDAO {
         $connMgr = new Connection();
         $conn = $connMgr->getConnection();
 
-        $sql = "SELECT * FROM activity WHERE itineraryID = :itineraryID ";
+        $sql = "SELECT * FROM activity WHERE activityID = :itineraryID ";
         $stmt = $conn->prepare($sql);
-        
-        // echo "<script>console.log('Debug Objects: " . $itineraryID . "' );</script>";
 
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
         
@@ -23,7 +22,6 @@ class ActivityDAO {
             $activity = new Activity(
                 $row["activityID"], 
                 $row["poiUUID"],
-                $row["itineraryID"]
             );
 
             $activities[] = $activity;

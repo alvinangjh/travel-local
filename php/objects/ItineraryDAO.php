@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Itinerary.php';
-require_once 'connection.php';
+include_once 'Itinerary.php';
+include_once 'connection.php';
 
 class itineraryDAO {
     
@@ -43,58 +43,6 @@ class itineraryDAO {
         return $itineraries;
     }
 
-    // This public function is callable from OUTSIDE 'CatDAO' class
-    // By calling this function, the caller can retrieve ALL rows from 'cat' Database table
-    // It returns an Indexed Array of Cat objects
-    public function getCats2() {
-        
-        // STEP 1
-        $connMgr = new ConnectionManager();
-        $pdo = $connMgr->connect(); // PDO object
-        
-        // STEP 2
-        $sql = "SELECT
-                    name, age, gender, status
-                FROM
-                    cat";
-        $stmt = $pdo->prepare($sql); // SQLStatement object
-        
-        // STEP 3
-        // Run SQL
-        $stmt->execute(); // RUN SQL
-        $stmt->setFetchMode(PDO::FETCH_NUM);
-        // Retrieve each row as an Indexed Array
-        /* Each row loooks like this
-            [
-                'Flower',
-                7,
-                'F',
-                'P'
-            ]
-        */
-
-        // STEP 4
-        $cats = []; // Array of Cat objects, empty now
-        while ( $row = $stmt->fetch() ) {
-            $cat = new Cat( 
-                        $row[0], 
-                        $row[1], 
-                        $row[2], 
-                        $row[3] 
-                    ); // new Cat object
-            $cats[] = $cat; // add Cat object to ret array
-        }
-        
-        // STEP 5
-        $stmt = null; // clear memory
-        $pdo = null; // clear memory
-        
-
-        // STEP 6
-        return $cats;
-    }
-
-
     // Returns an Indexed Array of cats with a given 'status'
     public function getCatsByStatus($status) {
         // $status == 'A' or 'P'
@@ -110,7 +58,7 @@ class itineraryDAO {
                 FROM
                     cat
                 WHERE
-                    status = :status ";
+                    status = :gender ";
 
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':status', $status, PDO::PARAM_STR);

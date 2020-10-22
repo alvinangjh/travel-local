@@ -19,8 +19,8 @@ CREATE TABLE if not exists `itinerary` (
   `itineraryID` integer NOT NULL,
   `name` varchar(256) NOT NULL,
   `startDate` date NOT NULL,
-  `endDate` datetime NOT NULL,
-  `userID` date NOT NULL
+  `endDate` date NOT NULL,
+  `userID` integer NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE if not exists `activity` (
@@ -60,6 +60,6 @@ insert into itinerary values (1,'Powaa Ranger Trip', '2020/10/19', "2020/10/20",
 insert into itinerary values (2,'Need $? Gov will help', '2020/10/19', "2020/10/20", "2");
 insert into itinerary values (3,'Make Singapore great again', '2020/08/19', "2020/08/20", "3");
 
-insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); --Marina Bay Sands
-insert into activity values (2, '009a1980d7ce8604435a6c3996184a5403a'); --Kampong Glam
-insert into activity values (3, '002f1eb8d5a13324c56b25344b30465d861'); --USSingapore
+insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); 
+insert into activity values (2, '0026271c23371bb4aafbf5985bef950172e'); 
+insert into activity values (3, '002f1eb8d5a13324c56b25344b30465d861'); 

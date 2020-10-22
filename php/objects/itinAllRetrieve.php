@@ -7,5 +7,5 @@ $dao = new itineraryDAO();
 
 $jsonData = json_encode($dao->getItineraries());
 // echo "<script>console.log('Debug Objects: " . $jsonData . "' );</script>";
-echo json_encode($dao->getItineraries());;
+echo $jsonData;
 ?>

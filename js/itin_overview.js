@@ -47,35 +47,90 @@ const apiKey = "2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63";
 
 var url= "../travel-local-1/php/objects/itinAllRetrieve.php";
 var request = new XMLHttpRequest();
+request.open("GET", url, true);
+request.send();
 request.onreadystatechange = function() {
     if( this.readyState == 4 && this.status == 200 ) {
 
-        var response_json = JSON.parse(this.responseText);
-        // console.log(response_json.records);
-        display_default_cards(response_json);
+        var itinsObj = JSON.parse(this.responseText);
+        display_default_cards(itinsObj);
+        for (i in itinsObj){
+
+
+            let url= "../travel-local-1/php/objects/itinActsRetrieve.php";
+            var request = new XMLHttpRequest();
+            request.open("POST", url, true);
+            request.send(itinsObj[i].itineraryID);
+            request.onreadystatechange = function() {
+                if( this.readyState == 4 && this.status == 200 ) {
+
+                    var actsObj = JSON.parse(this.responseText)[0]; //Returns only first activity currently
+                    console.log(actsObj.poiUUID); //first activity's uuid
+
+                    var base_url = "https://tih-api.stb.gov.sg/content/v1/attractions";
+                    var final_url = base_url + "?uuid=" + actsObj.poiUUID + "&apikey=" + apiKey;
+                
+                    var tax = new XMLHttpRequest();
+                    tax.open("GET", final_url, true);
+                    tax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    tax.send();
+                    tax.onreadystatechange = function () {
+                        if (tax.readyState == 4 && tax.status == 200) {
+                            var data = JSON.parse(tax.responseText);
+                            // console.log(data.data[0].images[0].uuid); //first activity's image uuid
+                            var img_uuid = data.data[0].images[0].uuid;
+                            console.log(img_uuid);
+
+                            // 10140a0d0e024f0400cb8814cf31a37f2e7?apikey=2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63
+                            var pre_url = "https://tih-api.stb.gov.sg/media/v1/image/uuid/";
+                            var complete_url = pre_url + img_uuid + "?apikey=" + apiKey;
+                            
+
+
+                            var tbx = new XMLHttpRequest();
+                            tbx.open("GET", complete_url, true);
+                            tbx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                            tbx.send();
+                        
+                            tbx.onreadystatechange = function () {
+                                if (tbx.readyState == 4 && tbx.status == 200) {
+                                    var img_url_data = JSON.parse(tbx.responseText);
+                                    // console.log(img_url.data.url);
+                                    var img_url = img_url_data.data.url + "?apikey=" + apiKey;
+                                    console.log(img_url);
+                                    var rbox = document.getElementById('rightbox').innerHTML;
+                                    rbox += `<img src="${img_url}">`;
+                                    document.getElementById('rightbox').innerHTML = rbox;
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }   
+        }
+
     }
 }
-request.open("GET", url, true);
-request.send();
 
 
-
+// GET /content/v1/attractions?uuid=002f1eb8d5a13324c56b25344b30465d861&apikey=2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63
 // for (var i = 0; i < poiUUID_list.length; i++) {
 //     (function (i) {
-    var base_url = "https://tih-api.stb.gov.sg/content/v1/attractions";
-    var final_url = base_url + "?uuid=" + poiUUID_list[i] + "&apikey=" + apiKey;
+    // var base_url = "https://tih-api.stb.gov.sg/content/v1/attractions";
+    // var final_url = base_url + "?uuid=" + poiUUID_list[i] + "&apikey=" + apiKey;
 
-    var request = new XMLHttpRequest();
-    request.open("GET", final_url, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send();
+    // var request = new XMLHttpRequest();
+    // request.open("GET", final_url, true);
+    // request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // request.send();
 
-    request.onreadystatechange = function () {
-        if (request.readyState == 4 && request.status == 200) {
-        var data = JSON.parse(request.responseText);
+    // request.onreadystatechange = function () {
+    //     if (request.readyState == 4 && request.status == 200) {
+    //     var data = JSON.parse(request.responseText);
 
-        }
-    };
+    //     }
+    // };
 //     })(i);
 // }
 
@@ -95,7 +150,7 @@ request.send();
 // }
 
 function display_default_cards(locations){ //Runs on load
-    // console.log('new card method');
+    console.log(locations);
     let itins_view = document.getElementById("popular_itins");
     for (let i = 0; i < 3; i++){
         let new_card = document.createElement('div');
