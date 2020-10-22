@@ -60,6 +60,6 @@ insert into itinerary values (1,'Powaa Ranger Trip', '2020/10/19', "2020/10/20",
 insert into itinerary values (2,'Need $? Gov will help', '2020/10/19', "2020/10/20", "2");
 insert into itinerary values (3,'Make Singapore great again', '2020/08/19', "2020/08/20", "3");
 
-insert into activity values (1, '10140a0d0e024f0400cb8814cf31a37f2e7');
-insert into activity values (2, 'poiUUID2');
-insert into activity values (3, 'poiUUID3');
+insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); --Marina Bay Sands
+insert into activity values (2, '009a1980d7ce8604435a6c3996184a5403a'); --Kampong Glam
+insert into activity values (3, '002f1eb8d5a13324c56b25344b30465d861'); --USSingapore
