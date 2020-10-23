@@ -45,6 +45,7 @@ const falseDB = [
 
 const apiKey = "2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63";
 
+var count = 0;
 var url= "../travel-local-1/php/objects/itinAllRetrieve.php";
 var request = new XMLHttpRequest();
 request.open("GET", url, true);
@@ -54,19 +55,17 @@ request.onreadystatechange = function() {
 
         var itinsObj = JSON.parse(this.responseText);
         display_default_cards(itinsObj);
-        for (i in itinsObj){
-
+        for (itinCount in itinsObj){
 
             let url= "../travel-local-1/php/objects/itinActsRetrieve.php";
             var request = new XMLHttpRequest();
             request.open("POST", url, true);
-            request.send(itinsObj[i].itineraryID);
+            request.send(itinsObj[itinCount].itineraryID);
             request.onreadystatechange = function() {
                 if( this.readyState == 4 && this.status == 200 ) {
 
                     var actsObj = JSON.parse(this.responseText)[0]; //Returns only first activity currently
-                    console.log(actsObj.poiUUID); //first activity's uuid
-
+                    // console.log(actsObj.poiUUID); //first activity's uuid
                     var base_url = "https://tih-api.stb.gov.sg/content/v1/attractions";
                     var final_url = base_url + "?uuid=" + actsObj.poiUUID + "&apikey=" + apiKey;
                 
@@ -79,14 +78,9 @@ request.onreadystatechange = function() {
                             var data = JSON.parse(tax.responseText);
                             // console.log(data.data[0].images[0].uuid); //first activity's image uuid
                             var img_uuid = data.data[0].images[0].uuid;
-                            console.log(img_uuid);
-
-                            // 10140a0d0e024f0400cb8814cf31a37f2e7?apikey=2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63
                             var pre_url = "https://tih-api.stb.gov.sg/media/v1/image/uuid/";
                             var complete_url = pre_url + img_uuid + "?apikey=" + apiKey;
                             
-
-
                             var tbx = new XMLHttpRequest();
                             tbx.open("GET", complete_url, true);
                             tbx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -94,13 +88,15 @@ request.onreadystatechange = function() {
                         
                             tbx.onreadystatechange = function () {
                                 if (tbx.readyState == 4 && tbx.status == 200) {
+
                                     var img_url_data = JSON.parse(tbx.responseText);
                                     // console.log(img_url.data.url);
                                     var img_url = img_url_data.data.url + "?apikey=" + apiKey;
-                                    console.log(img_url);
-                                    var rbox = document.getElementById('rightbox').innerHTML;
-                                    rbox += `<img src="${img_url}">`;
-                                    document.getElementById('rightbox').innerHTML = rbox;
+                                    var current_itin = 'itinerary' + count;
+                                    // console.log(itinCount);
+                                    document.getElementById(current_itin).src = img_url;
+                                    count++;
+
                                     
                                 }
                             }
@@ -114,53 +110,18 @@ request.onreadystatechange = function() {
 }
 
 
-// GET /content/v1/attractions?uuid=002f1eb8d5a13324c56b25344b30465d861&apikey=2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63
-// for (var i = 0; i < poiUUID_list.length; i++) {
-//     (function (i) {
-    // var base_url = "https://tih-api.stb.gov.sg/content/v1/attractions";
-    // var final_url = base_url + "?uuid=" + poiUUID_list[i] + "&apikey=" + apiKey;
-
-    // var request = new XMLHttpRequest();
-    // request.open("GET", final_url, true);
-    // request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    // request.send();
-
-    // request.onreadystatechange = function () {
-    //     if (request.readyState == 4 && request.status == 200) {
-    //     var data = JSON.parse(request.responseText);
-
-    //     }
-    // };
-//     })(i);
-// }
-
-// function call_api(url,function_callback){
-//     var request = new XMLHttpRequest();
-//     request.onreadystatechange = function() {
-//         if( this.readyState == 4 && this.status == 200 ) {
-
-//             var response_json = JSON.parse(this.responseText);
-//             // console.log(response_json.records);
-//             var Obj = response_json.records;
-//             function_callback(Obj);
-//         }
-//     }
-//     request.open("GET", url, true);
-//     request.send();
-// }
-
-function display_default_cards(locations){ //Runs on load
-    console.log(locations);
+function display_default_cards(intineraries){ //Runs on load
+    console.log(intineraries);
     let itins_view = document.getElementById("popular_itins");
-    for (let i = 0; i < 3; i++){
+    for (let i = 0; i < intineraries.length; i++){
         let new_card = document.createElement('div');
-        new_card.className = "col-lg-3 col-md-4 d-flex";
+        new_card.className = "col-lg-4 col-md-6 d-flex"; 
         new_card.innerHTML = `
             <div class="card mx-auto mb-5" style="width: 22rem;">
-                <img alt="Card image cap" class="card-img-top img-fluid" src="${falseDB[i].pic_url}">
-                <div class="card-body">
-                    <h4 class="card-title"><a href="#">${locations[i].name}</a> ${display_rating(0)}</h4>
-                    <p class="card-text danger">${locations[i].startDate} - ${locations[i].endDate}</p>
+                <img alt="Card image cap" id="${'itinerary'+i}" class="card-img-top img-fluid" src="${falseDB[i].pic_url}">
+                <div class="card-img-overlay">
+                    <h4 class="card-title"><a href="#">${intineraries[i].name}</a> ${display_rating(0)}</h4>
+                    <footer class="blockquote-footer">${intineraries[i].startDate} - ${intineraries[i].endDate}</p>
                 </div>
             </div>
             `;
