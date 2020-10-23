@@ -8,16 +8,25 @@
   }
 
 .card {
-  display: flex;
-  // flex-direction: column;
-  overflow: scroll;
-  height: 70%;
-  background-color: lightgrey;
-  // scrollbar-width: none;
+    display: flex;
+    overflow: none;
+    height: 70%;
+    background-color: lightgrey;
+    text-align: center;
 
-  .card-text{
-    font-size: 12px;
-  }
+    .card-text{
+            font-size: 12px;
+    }
+    .card-img-overlay{
+        color: white;
+    }
+}
+a{
+    color: white;
+}
+
+.card-img-top{
+    max-height: 250px;
 }
 
 .checked{

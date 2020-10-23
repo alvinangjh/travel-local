@@ -12,13 +12,26 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  overflow: scroll;
+  overflow: none;
   height: 70%;
   background-color: lightgrey;
+  text-align: center;
 }
 
 .card .card-text {
   font-size: 12px;
+}
+
+.card .card-img-overlay {
+  color: white;
+}
+
+a {
+  color: white;
+}
+
+.card-img-top {
+  max-height: 250px;
 }
 
 .checked {
