@@ -1,10 +1,13 @@
 const apiKey = "2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63"; //Hong Tao's API Auth Token
 
 
-var url= "../travel-local-1/php/objects/itinAllRetrieve.php";
+var url= "../travel-local-1/php/objects/userItinRetrieve.php";
 var get_userID = 2
 // var userID = sessionStorage.getItem("userID");
 ajaxCall(url,display_itin_cards,'POST',{'userID':get_userID});  //Call api, d
+
+url= "../travel-local-1/php/objects/retrievePopItins.php";
+ajaxCall(url,display_itin_cards);
 
 function ajaxCall(search,callback,method='GET',value=null){
     console.log(value);
@@ -26,8 +29,9 @@ function ajaxCall(search,callback,method='GET',value=null){
 }
 
 function display_itin_cards(intineraries){
+    // console.log(intineraries);
     let startDate = null;
-    let itins_view = document.getElementById("popular_itins");
+    let itins_view = document.getElementById("my_itins");
     itins_view.innerHTML = '';
     for (let i = 0; i < intineraries.length; i++){
         startDate = intineraries[i].startDate.replaceAll('-', '/');
@@ -39,15 +43,14 @@ function display_itin_cards(intineraries){
                 <img alt="Card image cap" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
                 <div class="card-img-overlay">
                     <h4 class="card-title"><a href="#">${intineraries[i].name}</a></h4>
-                    <footer class="blockquote-footer">${startDate} - ${endDate}</p>
+                    <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
+                    
                 </div>
-                <div class="card-footer bg-transparent border-success">Footer</div>
             </div>
             `;
         itins_view.appendChild(new_card);
     }
 }
-
 
 function add_itinerary() {
 
