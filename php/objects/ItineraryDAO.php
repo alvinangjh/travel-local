@@ -8,7 +8,7 @@ class itineraryDAO {
     // This public function is callable from OUTSIDE 'ItineraryDAO' class
     // By calling this function, the caller can retrieve ALL rows from 'Itinerary' Database table
     // It returns an Indexed Array of Itinerary objects
-    public function getItineraries() {
+    public function getItineraries($userID) {
         
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection(); // PDO object
@@ -16,9 +16,12 @@ class itineraryDAO {
         $sql = "SELECT
                     *
                 FROM
-                    itinerary";
+                    itinerary
+                WHERE
+                    userID = :userID";
+                    
         $stmt = $pdo->prepare($sql); // SQLStatement object
-
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
         $stmt->execute(); // RUN SQL
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -29,6 +32,7 @@ class itineraryDAO {
                         $row['name'], 
                         $row['startDate'], 
                         $row['endDate'], 
+                        $row['itineraryType'],
                         $row['userID'] 
                     ); // new itinerary object
             $itineraries[] = $itinerary; // add itinerary object to ret array
@@ -38,10 +42,11 @@ class itineraryDAO {
         // STEP 5
         $stmt = null; // clear memory
         $pdo = null; // clear memory
-        // STEP 6
-        // echo "<script>console.log('Debug Objects2: " . json_encode($itineraries) . "' );</script>";
+        
         return $itineraries;
     }
+
+   
 
     // Returns an Indexed Array of cats with a given 'status'
     public function getCatsByStatus($status) {

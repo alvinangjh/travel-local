@@ -1,11 +1,14 @@
 
 <?php
-#MY API KEY = 2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63
+
 require_once 'ItineraryDAO.php';
 $dao = new itineraryDAO();
 
-
-$jsonData = json_encode($dao->getItineraries());
-// echo "<script>console.log('Debug Objects: " . $jsonData . "' );</script>";
+// header('Content-Type: application/json');
+$userID = $_POST['userID'];
+$jsonData = json_encode($dao->getItineraries($userID));
+// // echo "<script>alert('Debug Objects: " . $userID . "' );</script>";
+// echo $userID;
 echo $jsonData;
+
 ?>

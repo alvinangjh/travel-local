@@ -40,24 +40,13 @@ a {
   overflow: hidden;
 }
 
-.checked {
-  color: orangered;
-}
-
-.fa {
-  font-size: 1rem;
-}
-
-::-webkit-scrollbar {
-  display: none;
-}
-
 .hero-image {
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.5))), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
   display: block;
   min-height: 500px;
-  height: 50%;
+  max-height: 500px;
+  height: 40%;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
@@ -70,7 +59,35 @@ a {
   font-size: 3rem;
 }
 
-#rightbox img {
-  max-height: 100px;
+.hero-image #HeroTitle {
+  font-size: 2rem;
+}
+
+.hero-image #itinCreationForm {
+  color: white;
+}
+
+.p-5 {
+  color: white;
+  text-align: center;
+  background-color: #249915;
+}
+
+.container-fluid {
+  min-height: 100%;
+}
+
+#MyPlans {
+  margin-bottom: 2rem;
+  text-decoration: underline;
+}
+
+#datepicker {
+  width: 180px;
+  margin: 0 20px 20px 20px;
+}
+
+#datepicker > span:hover {
+  cursor: pointer;
 }
 /*# sourceMappingURL=itin_overview.css.map */

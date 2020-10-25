@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
-    />
+        <!-- Bootstrap CSS -->
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+        crossorigin="anonymous"
+        />
+        <!-- Font Awesome CSS -->
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <!-- Date pickcer CSS -->
+        <link rel="stylesheet" type="text/css" href="scss/itin_overview.css" />
 
-    <!-- Font Awesome CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="scss/itin_overview.css" />
 
-    <!-- Custom JavaScript -->
-    <script src="../travel-local-1/js/itin_overview.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script> src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" </script>
+        <script src="../travel-local-1/js/itin_overview.js"></script>
 
-    <title>Itinerary Overview</title>
+        <title>Itinerary Overview</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!--Navbar-->
@@ -89,23 +92,62 @@
         </nav>
 
         <div class="hero-image">
-            <div class="container">
-                <div class="row">
-                    <div class="col hero-content">
-                        <p>Roads less travelled</p>
-                    </div>
-                    <div class="col container bg-danger" id="rightbox">
-                        <!-- <p>Roads less travelled</p> -->
-                    </div>
+            <div class="d-flex flex-column bd-highlight ">
+
+                <div class="p-5 m-2 " id="HeroTitle">
+                    Don't know where to go? Choose from Jurong to Punggol
                 </div>
-                
+                <div class="px-5 mx-2 ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col container"> <!--Left Container under BIG WORDS-->
+                                <p>GET OUT OF YOUR HOUSE NOW>> <br>
+                                    Hot singles waiting for you nearby!
+                                </p>
+                            </div>
+                            <div class="col container"  id="itinCreationForm"> <!--Right Container under BIG WORDS-->
+                                <p class="h3">Create Itinerary</p>
+                                <form action="" autocomplete="off">
+                                    <div class="form-group">
+                                        <label for="itinName">Itinerary Name</label>
+                                        <input type="email" class="form-control" id="itinName" aria-describedby="itinNameHelp">
+                                        <small id="itinNameHelp" class="form-text">The name will be visible to others!</small>
+                                    
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                            <label class="input-group-text" for="itinType">Itinerary Type</label>
+                                            </div>
+                                            <select class="custom-select" id="itinType">
+                                            <option selected>Select...</option>
+                                            <option value="Family">Family</option>
+                                            <option value="Casual">Casual</option>
+                                            <option value="Nature">Nature</option>
+                                            <option value="Romantic">Romantic</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <Label for="fromDate">Start Date: <input type="text" class="mb-1" id="fromDate" name="fromDate"></Label>
+                                    <label for="toDate">End Date: <input type="text" class="mb-1 " id="toDate" name="toDate"></label>
+
+                                </form>
+                                <!-- <label for="itinStartDate">Start Date<input type="date" name="itinStartDate"></label>
+                                <label for="itinEndDate">End Date<input type="date" name="itinEndDate"></label> -->
+                                
+                                <button type="submit" class="btn bg-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+
             </div>
-            
+                
         </div>
 
-        
 
     <div class="container">   <!-- Cards -->
+        <p class="h2" id="MyPlans">Your Plans</p>
         <div class="row" id="popular_itins">
             <!-- Space for the Itinerary card display elements -->
         </div>
@@ -120,11 +162,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -135,5 +174,26 @@
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+        $(document).ready(function(){
+   $("#fromDate").datepicker({
+       format: 'dd-mm-yyyy',
+       autoclose: true,
+   }).on('changeDate', function (selected) {
+       var minDate = new Date(selected.date.valueOf());
+       $('#toDate').datepicker('setStartDate', minDate);
+   });
+
+   $("#toDate").datepicker({
+       format: 'dd-mm-yyyy',
+       autoclose: true,
+   }).on('changeDate', function (selected) {
+           var minDate = new Date(selected.date.valueOf());
+           $('#fromDate').datepicker('setEndDate', minDate);
+   });
+});
+    </script>
+
   </body>
 </html>

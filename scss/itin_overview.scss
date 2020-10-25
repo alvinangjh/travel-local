@@ -1,3 +1,6 @@
+$font-color: white;
+$theme-color: rgb(36, 153, 21);
+
 .footer {
     // position: relative;
     bottom: 0;
@@ -13,21 +16,21 @@
     height: 70%;
     max-height: 100%;
     text-align: center;
-    color: white;
+    color: $font-color;
     font-size: 2rem;
 
 
     .blockquote-footer{
             font-size: 12px;
-            color: white;
+            color: $font-color;
     }
     .card-img-overlay{
-        color: white;
+        color: $font-color;
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     }
 }
 a{
-    color: white;
+    color: $font-color;
 }
 
 .card-img-top{
@@ -35,23 +38,12 @@ a{
     overflow: hidden;
 }
 
-.checked{
-  color:orangered;
-}
-
-.fa{
-  font-size: 1rem;
-}
-
-::-webkit-scrollbar{
-  display: none;
-}
-
 .hero-image{
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
     display: block;
     min-height: 500px;
-	height: 50%; //50%
+    max-height: 500px;
+	height: 40%; //50%
 	background-position: center;
 	background-repeat: no-repeat;
     position: relative;
@@ -63,15 +55,45 @@ a{
         color: white;
         font-size: 3rem;
     }
+
+    #HeroTitle{
+        font-size: 2rem;
+    }
+
+    #itinCreationForm{
+        color: $font-color;
+        // background-color: $theme-color;
+        // opacity: 0.2;
+    }
+
 }
 
-#rightbox {
-
-        img{
-            max-height: 100px;
-            // max-width: 100px;
-        }
+.p-5{
+    color: $font-color;
+    text-align: center;
+    background-color: $theme-color;
 }
 
+// .px-5 {
+//     justify-items: center;
+//     background-color:$theme-color;
+//     // opacity: 0.2;
+//     padding-left: 3rem;
+//     padding-right: 3rem;
+//     width: 50%;
+// }
 
 
+.container-fluid{
+    min-height: 100%;
+}
+
+#MyPlans{
+    margin-bottom: 2rem;
+    text-decoration: underline;
+}
+
+// testing Dpicker
+// label{margin-left: 20px;}
+#datepicker{width:180px; margin: 0 20px 20px 20px;}
+#datepicker > span:hover{cursor: pointer;}
