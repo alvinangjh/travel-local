@@ -3,7 +3,8 @@ const apiKey = "2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63"; //Hong Tao's API Auth Token
 
 var url= "../travel-local-1/php/objects/itinAllRetrieve.php";
 var get_userID = 2
-ajaxCall(url,display_default_cards,'POST',{'userID':get_userID});
+// var userID = sessionStorage.getItem("userID");
+ajaxCall(url,display_itin_cards,'POST',{'userID':get_userID});  //Call api, d
 
 function ajaxCall(search,callback,method='GET',value=null){
     console.log(value);
@@ -24,7 +25,7 @@ function ajaxCall(search,callback,method='GET',value=null){
     });
 }
 
-function display_default_cards(intineraries){
+function display_itin_cards(intineraries){
     let startDate = null;
     let itins_view = document.getElementById("popular_itins");
     itins_view.innerHTML = '';
@@ -63,7 +64,7 @@ function add_itinerary() {
     ajaxCall(url,console.log,'POST',data);
     url= "../travel-local-1/php/objects/itinAllRetrieve.php";
     var get_userID = 2
-    ajaxCall(url,display_default_cards,'POST',{'userID':get_userID});
+    ajaxCall(url,display_itin_cards,'POST',{'userID':get_userID});
 }
 
 function dateFormat(date){
