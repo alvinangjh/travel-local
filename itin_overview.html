@@ -34,7 +34,7 @@
         <title>Itinerary Overview</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="navbar"> <!--Navbar-->
         <a class="navbar-brand" href="#">Travel Local</a>
         <button
             class="navbar-toggler"
@@ -100,7 +100,7 @@
                 <div class="px-5 mx-2 ">
                     <div class="container">
                         <div class="row">
-                            <div class="col container"> <!--Left Container under BIG WORDS-->
+                            <div class="col container" id=""> <!--Left Container under BIG WORDS-->
                                 <p>GET OUT OF YOUR HOUSE NOW>> <br>
                                     Hot singles waiting for you nearby!
                                 </p>
@@ -127,14 +127,14 @@
                                         </div>
                                     </div>
 
-                                    <Label for="fromDate">Start Date: <input type="text" class="mb-1" id="fromDate" name="fromDate"></Label>
-                                    <label for="toDate">End Date: <input type="text" class="mb-1 " id="toDate" name="toDate"></label>
+                                    <Label for="startDate">Start Date: <input type="text" class="mb-1 Readonly" id="startDate" name="startDate"></Label>
+                                    <label for="endDate">End Date: <input type="text" class="mb-1 " id="endDate" name="endDate"></label>
 
                                 </form>
                                 <!-- <label for="itinStartDate">Start Date<input type="date" name="itinStartDate"></label>
                                 <label for="itinEndDate">End Date<input type="date" name="itinEndDate"></label> -->
                                 
-                                <button type="submit" class="btn bg-success">Submit</button>
+                                <button type="submit" onclick="add_itinerary()" class="btn btn-success ">Create!</button>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
 
     <div class="container">   <!-- Cards -->
         <p class="h2" id="MyPlans">Your Plans</p>
-        <div class="row" id="popular_itins">
+        <div class="row border border-top-0 border-left-0 border-right-0 rounded mb-5" id="popular_itins">
             <!-- Space for the Itinerary card display elements -->
         </div>
     </div>
@@ -177,22 +177,22 @@
 
     <script>
         $(document).ready(function(){
-   $("#fromDate").datepicker({
-       format: 'dd-mm-yyyy',
-       autoclose: true,
-   }).on('changeDate', function (selected) {
-       var minDate = new Date(selected.date.valueOf());
-       $('#toDate').datepicker('setStartDate', minDate);
-   });
+            $("#startDate").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+            }).on('changeDate', function (selected) {
+                var minDate = new Date(selected.date.valueOf());
+                $('#endDate').datepicker('setStartDate', minDate);
+            });
 
-   $("#toDate").datepicker({
-       format: 'dd-mm-yyyy',
-       autoclose: true,
-   }).on('changeDate', function (selected) {
-           var minDate = new Date(selected.date.valueOf());
-           $('#fromDate').datepicker('setEndDate', minDate);
-   });
-});
+            $("#endDate").datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+            }).on('changeDate', function (selected) {
+                    var minDate = new Date(selected.date.valueOf());
+                    $('#startDate').datepicker('setEndDate', minDate);
+            });
+        });
     </script>
 
   </body>

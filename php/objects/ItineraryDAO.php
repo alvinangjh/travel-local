@@ -46,53 +46,40 @@ class itineraryDAO {
         return $itineraries;
     }
 
-   
+    public function add_itinerary( $name, $startDate, $endDate, $itineraryType, $userID) {        
 
-    // Returns an Indexed Array of cats with a given 'status'
-    public function getCatsByStatus($status) {
-        // $status == 'A' or 'P'
-
-        // STEP 1
-        $connMgr = new ConnectionManager();
-        $pdo = $connMgr->connect(); // PDO object
-        
-
-        // STEP 2
-        $sql = "SELECT
-                    name, age, gender, status 
-                FROM
-                    cat
-                WHERE
-                    status = :gender ";
-
+        // STEP 1 - Connect to MySQL Database
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+        // STEP 2 - Prepare SQL Query
+        $sql = "
+            INSERT INTO
+                itinerary
+            VALUES
+                (null, :name, :startDate, :endDate, :itineraryType, :userID)
+        ";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        // $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(':endDate', $endDate, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryType', $itineraryType, PDO::PARAM_STR);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+
+        // ($itineraryID, $name, $startDate, $endDate, $itineraryType, $userID) 
+        // STEP 3 - Run Query
+        $isOk = $stmt->execute();
         
-        // STEP 3
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-       
         // STEP 4
-        $cats = [];
-        while ($row = $stmt->fetch() ) {
-            $cat = new Cat( 
-                    $row['name'], 
-                    $row['age'], 
-                    $row['gender'], 
-                    $row['status'] 
-                );
-            $cats[] = $cat;
-        }
+        $stmt = null;
+        $pdo = null;        
         
         // STEP 5
-        $stmt = null;
-        $pdo = null;       
-
-        // STEP 6
-        return $cats;
+        return $isOk; //result of insertion, True or False
     }
+    
 
-
+   
     // Returns an Indexed Array of cats with a given 'gender'
     public function getCatsByGender($gender) {
 
