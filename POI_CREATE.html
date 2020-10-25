@@ -26,10 +26,13 @@
     <link rel="stylesheet" type="text/css" href="scss/poi_create.css" />
 
     <!-- Custom JS -->
-    <script src="POI.js"></script>
+    <script src="./js/POI.js"></script>
+
+   
 
     <title>Home</title>
   </head>
+  
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Travel Local</a>
@@ -88,73 +91,99 @@
       </div>
     </nav>
 
+    <!--header-->
     <div class="container-fluid" id="header">
-      Create your POI
+      <h2>Hidden Gems</h2>
     </div>
 
+    <div id="card_container">
     <!--Card-->
-    <div class="card mx-5 mt-5 mb-3" style="max-width: auto;">
+      <div class="card mx-5 mt-5 mb-3 p-2" style="max-width: auto;">
         <div class="row no-gutters">
 
-            <!--Card Image-->
-            <div class="image col-sm-5" >
-                <input type="button" id="addimage" value="&#128247 Add image" onclick="">
+          <!--Card Image-->
+          <div class="col-sm-5 align-self-center text-center"> 
+            
+            <p><img id="output" width="90%" height="90%" class="p-2;" style="z-index:1"/></p>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" onchange="loadFile(event)">
+              <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
+            <!-- <p width="auto">
+              <input type="file"  accept="image/*" name="image" id="imageUrl" onchange="loadFile(event)">
+            </p>
+            <label for="upload" style="cursor: pointer;" class="font-weight-light text-muted"></label> -->
 
-            <div class="col-sm-7 pl-2">
-            <!--Card Body Start-->
-            <div class="card-body">
-                <!--Form Start-->
-                <form id="place">
-
-                    <h3>Title</h3>
-
-                    <div class="address">
-                        Address:
-                        <input type="button" id="addlocation" value="Add location" >
-                    </div>
-
-                    <div class="Duration ">
-                        Recommended Duration:
-                        <input type="text" id="hours" name="hours" placeholder="E.g. 1-2hours">
-                    </div>
-
-                    <div class="review">
-                      Review:
-                      <textarea id="textarea" placeholder="Share your experience!"></textarea>
-                  </div>
-
-                    <div class="rate">
-                        Overall Experience:
-                        <input type = "radio" id="rate5" name="rate" value="5">
-                        <label for = "rate5"></label>
-                        <input type = "radio" id="rate4" name="rate" value="4">
-                        <label for = "rate4"></label>
-                        <input type = "radio" id="rate3" name="rate" value="3">
-                        <label for = "rate3"></label>
-                        <input type = "radio" id="rate2" name="rate" value="2">
-                        <label for = "rate2"></label>
-                        <input type = "radio" id="rate1" name="rate" value="1">
-                        <label for = "rate1"></label>
-                    </div>
-
-                    <div class="submission">
-                      <br><br>
-                      <input type="Submit" value="Save and Exit">
-                      <input type="Submit" value="Publish">
-                    </div>
-                </form>
-                <!--Form End-->
-            </div>
-            <!--Card Body End-->
           </div>
+
+          <!--Card Body Start-->
+          <div class="card-body col-sm-7 p-2">
+
+            <!--Form Start-->
+            <form id="place">
+               
+              <!--Title-->
+              <div class="form-group">
+                <h4>Title</h4>
+                <input class="form-control form-control-lg" type="text" id="locTitle" placeholder="Kampong Lorong Buangkok">
+              </div>
+
+              <!--Postal Code-->
+              <div class="form-group">
+                <label for="inputZip">Postal Code</label>
+                <input type="text" id="locPostalCode" class="form-control" placeholder="E.g. 819663" oninput="fillAddress()">
+              </div>
+
+              <!--Address plus checkbox-->
+              <div class="form-group">
+                <label>Address</label>
+                <input type="text" id="locAddress" class="form-control" placeholder="E.g. 65 AIRPORT BOULEVARD CHANGI AIRPORT BUS TERMINAL 3" disabled="disabled">
+                <input type="checkbox" id="addressChkBox" onclick="EnableDisableTextBox(this)" /> Edit address
+              </div>
+              
+              <!--Recommended Duration-->
+              <div class="form-group">
+                <label>Recommended Duration</label>
+                <input type="text" id="recDuration" class="form-control" name="hours" placeholder="E.g. 1 hours">
+              </div>
+
+              <!--Experiences-->
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Share Your Experience!</label>
+                <textarea class="form-control" id="locDesc" rows="3"></textarea>
+              </div>
+
+              <!--Ratings-->
+              <div class="rate" id="rating">
+                Overall Experience:
+                <input type = "radio" id="rate5" name="rate" value="5">
+                <label for = "rate5"></label>
+                <input type = "radio" id="rate4" name="rate" value="4">
+                <label for = "rate4"></label>
+                <input type = "radio" id="rate3" name="rate" value="3">
+                <label for = "rate3"></label>
+                <input type = "radio" id="rate2" name="rate" value="2">
+                <label for = "rate2"></label>
+                <input type = "radio" id="rate1" name="rate" value="1">
+                <label for = "rate1"></label>
+              </div>
+
+              <br><br>
+              <!--Submit-->
+              <input type="submit" class="btn btn-block btn-primary" value="Publish" onclick="insert_poi()"/>
+                  
+            </form>
+                <!--Form End-->
+          </div>
+            <!--Card Body End-->
         </div>
+      </div>
     </div>
 
-    <div class="addpoiclass">
-      <input type="button" id="addpoi" name="increase" value="+ Add new places" onclick="increaseBtnOnclick()"/>
-    </div>
-    
+<!-- 
+  <div class="addpoiclass">
+    <input type="button" id="addpoi" name="increase" value="+ Add new places" onclick="addcard()"/>
+  </div> -->
 
     <!--Footer-->
     <footer class="footer">
@@ -165,11 +194,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -180,5 +205,13 @@
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+     $('input[type="file"]').change(function(e){
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+    });
+       </script>
+    
   </body>
 </html>
