@@ -9,24 +9,23 @@
 }
 
 #navbar {
-  background-color: rgba(36, 153, 21, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  overflow: hidden;
   height: 70%;
   max-height: 100%;
   text-align: center;
   color: white;
   font-size: 2rem;
+  overflow: hidden;
 }
 
-.card .card-img-top {
-  min-height: 85%;
-  max-height: 85%;
+.card .card-img-top :hover {
+  background-color: red;
 }
 
 .card .blockquote-footer {
@@ -40,13 +39,18 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
+.card .card-footer {
+  color: white;
+  vertical-align: text-top;
+  font-size: 0.5rem;
+}
+
 a {
   color: white;
 }
 
 .card-img-top {
   max-height: 250px;
-  overflow: hidden;
 }
 
 .hero-image {
@@ -70,6 +74,9 @@ a {
 
 .hero-image #HeroTitle {
   font-size: 2rem;
+  color: red;
+  opacity: 0;
+  font-weight: bold;
 }
 
 .hero-image #itinCreationForm {
@@ -79,14 +86,14 @@ a {
 .p-5 {
   color: white;
   text-align: center;
-  background-color: rgba(36, 153, 21, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .container-fluid {
   min-height: 100%;
 }
 
-#MyPlans {
+.h2 {
   margin-bottom: 2rem;
   text-decoration: underline;
 }

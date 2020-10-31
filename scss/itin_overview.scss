@@ -1,6 +1,6 @@
 $font-color: white;
-$theme-color: rgb(36, 153, 21);
-$alpha: .5;
+$theme-color: white;
+$alpha: .7;
 $theme-color-alpha: rgba($theme-color, $alpha);
 .footer {
     // position: relative;
@@ -12,24 +12,22 @@ $theme-color-alpha: rgba($theme-color, $alpha);
   }
 
 #navbar{
-    background-color: $theme-color-alpha;
+    background-color: $theme-color-alpha;   
 }
 
 .card {
     display: flex;
-    overflow: hidden;
     height: 70%;
     max-height: 100%;
     text-align: center;
     color: $font-color;
     font-size: 2rem;
-
+    overflow: hidden;
     
-
-    .card-img-top{
-        min-height: 85%;
-        max-height: 85%;
+    .card-img-top :hover{
+        background-color: red;
     }
+    // }
     // :hover{
         
     //     min-height: 50%;
@@ -46,14 +44,23 @@ $theme-color-alpha: rgba($theme-color, $alpha);
         color: $font-color;
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     }
+
+    
+
+    .card-footer{
+        color: $font-color;
+        vertical-align: text-top;
+        font-size: 0.5rem;
+    }
 }
+
 a{
     color: $font-color;
 }
 
 .card-img-top{
     max-height: 250px;
-    overflow: hidden;
+    
 }
 
 .hero-image{
@@ -77,13 +84,13 @@ a{
 
     #HeroTitle{
         font-size: 2rem;
-
+        color: red;
+        opacity: 0;
+        font-weight: bold;
     }
 
     #itinCreationForm{
         color: $font-color;
-        // background-color: $theme-color;
-        // opacity: 0.2;
     }
 
 }
@@ -95,27 +102,14 @@ a{
     
 }
 
-// .px-5 {
-//     justify-items: center;
-//     background-color:$theme-color;
-//     // opacity: 0.2;
-//     padding-left: 3rem;
-//     padding-right: 3rem;
-//     width: 50%;
-// }
-
-
 .container-fluid{
     min-height: 100%;
 }
 
-#MyPlans{
+.h2{
     margin-bottom: 2rem;
     text-decoration: underline;
 }
-
-// testing Dpicker
-// label{margin-left: 20px;}
 
 .mb-1 > span:hover{
     cursor: pointer;

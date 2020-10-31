@@ -8,14 +8,16 @@ class itinerary implements \JsonSerializable {
     private $endDate;
     private $itineraryType;
     private $userID;
+    private $shared;
 
-    public function __construct($itineraryID, $name, $startDate, $endDate, $itineraryType, $userID) {
+    public function __construct($itineraryID, $name, $startDate, $endDate, $itineraryType, $userID, $shared) {
         $this->itineraryID = $itineraryID;
         $this->name = $name;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->itineraryType = $itineraryType;
         $this->userID = $userID;
+        $this->shared = $shared;
     }
 
     public function jsonSerialize(){
@@ -49,6 +51,10 @@ class itinerary implements \JsonSerializable {
 
     public function getUserID() {
         return $this->userID;
+    }
+
+    public function getSharedCount() {
+        return $this->shared;
     }
 }
 

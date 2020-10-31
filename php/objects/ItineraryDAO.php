@@ -33,7 +33,8 @@ class itineraryDAO {
                         $row['startDate'], 
                         $row['endDate'], 
                         $row['itineraryType'],
-                        $row['userID'] 
+                        $row['userID'],
+                        $row['shared'] 
                     ); // new itinerary object
             $itineraries[] = $itinerary; // add itinerary object to ret array
         }
@@ -42,6 +43,37 @@ class itineraryDAO {
         // STEP 5
         $stmt = null; // clear memory
         $pdo = null; // clear memory
+        
+        return $itineraries;
+    }
+
+    public function getPopItins() {
+        
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection(); // PDO object
+        
+        $sql = "SELECT * FROM itinerary ORDER BY shared desc LIMIT 4
+                ";
+                    
+        $stmt = $pdo->prepare($sql); // SQLStatement object
+        $stmt->execute(); // RUN SQL
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $itineraries = [];
+        while ( $row = $stmt->fetch() ) {
+            $itinerary = new itinerary( 
+                        $row['itineraryID'], 
+                        $row['name'], 
+                        $row['startDate'], 
+                        $row['endDate'], 
+                        $row['itineraryType'],
+                        $row['userID'],
+                        $row['shared'] 
+                    ); // new itinerary object
+            $itineraries[] = $itinerary; // add itinerary object to ret array
+        }
+        $stmt = null;
+        $pdo = null; 
         
         return $itineraries;
     }
@@ -56,7 +88,7 @@ class itineraryDAO {
             INSERT INTO
                 itinerary
             VALUES
-                (null, :name, :startDate, :endDate, :itineraryType, :userID)
+                (null, :name, :startDate, :endDate, :itineraryType, :userID, 0)
         ";
         $stmt = $pdo->prepare($sql);
         // $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
@@ -66,62 +98,42 @@ class itineraryDAO {
         $stmt->bindParam(':itineraryType', $itineraryType, PDO::PARAM_STR);
         $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
 
-        // ($itineraryID, $name, $startDate, $endDate, $itineraryType, $userID) 
-        // STEP 3 - Run Query
         $isOk = $stmt->execute();
         
-        // STEP 4
         $stmt = null;
         $pdo = null;        
         
-        // STEP 5
         return $isOk; //result of insertion, True or False
     }
     
+    public function delete_itinerary( $name, $startDate, $endDate, $itineraryType, $userID) {        
 
-   
-    // Returns an Indexed Array of cats with a given 'gender'
-    public function getCatsByGender($gender) {
-
-        // STEP 1
-        $connMgr = new ConnectionManager();
-        $pdo = $connMgr->connect(); // PDO object
-        
-        // STEP 2
-        $sql = "SELECT
-                    name, age, gender, status 
-                FROM
-                    cat
-                WHERE
-                    gender = :gender ";
-
+        // STEP 1 - Connect to MySQL Database
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+        // STEP 2 - Prepare SQL Query
+        $sql = "
+            DELETE FROM
+                itinerary
+            VALUES
+                
+        ";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
+        // $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(':endDate', $endDate, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryType', $itineraryType, PDO::PARAM_STR);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+
+        $isOk = $stmt->execute();
         
-        // STEP 3
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        
-        // STEP 4
-        $cats = [];
-        while ($row = $stmt->fetch() ) {
-            $cat = new Cat( 
-                    $row['name'], 
-                    $row['age'], 
-                    $row['gender'], 
-                    $row['status'] 
-                );
-            $cats[] = $cat;
-        }
-        
-        // STEP 5
         $stmt = null;
         $pdo = null;        
         
-        // STEP 6
-        return $cats;
+        return $isOk; //result of insertion, True or False
     }
-
+   
 
 
     // Returns an Indexed Array of cats with a given 'gender' AND a given 'status'

@@ -22,6 +22,7 @@
     `endDate` date NOT NULL,
     `itineraryType` varchar(256) NOT NULL,
     `userID` integer NOT NULL,
+    `shared` integer NOT NULL,
     PRIMARY KEY (`itineraryID`)
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
@@ -58,10 +59,10 @@
     insert into user values ("3", "jairald",'liong', '320 SERANGOON ROAD #04-55 SERANGOON PLAZA Singapore 218108', "jairald@aphro.dite", "ijustneed1chance", "11/04/1997");
 
 
-    insert into itinerary values (1,'Down the rabbit hole', '2020/10/19', "2020/10/20",'nature', "1");
-    insert into itinerary values (2,'Ready, STEADY, Go!', '2020/10/19', "2020/10/20",'romantic', "2");
-    insert into itinerary values (3,"Let's go down for coffee", '2020/10/19', "2020/10/20",'casual', "2");
-    insert into itinerary values (4,'Make Singapore great again', '2020/08/19', "2020/08/20",'family', "3");
+    insert into itinerary values (1,'Down the rabbit hole', '2020/10/19', "2020/10/20",'Nature', "1", 0);
+    insert into itinerary values (2,'Ready, STEADY, Go!', '2020/10/19', "2020/10/20",'Romantic', "2", 2);
+    insert into itinerary values (3,"Let's go down for coffee", '2020/10/19', "2020/10/20",'Casual', "2", 4);
+    insert into itinerary values (4,'Make Singapore great again', '2020/08/19', "2020/08/20",'Family', "3", 16);
 
     insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); 
     insert into activity values (2, '0026271c23371bb4aafbf5985bef950172e'); 
