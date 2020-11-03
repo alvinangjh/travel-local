@@ -28,6 +28,11 @@
     />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+
     <!-- Custom CSS -->
     <script src="calling_api.js"></script>
 <style>
@@ -110,42 +115,26 @@
             <a class="nav-link" href="#">Profile</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="javascript:void(-1)">
           <div class="input-group col-md-8">
             <input
               class="form-control mrr-sm-2 border-right-0 border"
               type="search"
               placeholder="Search"
               id="searching_poi"
+              onkeypress="onEvent(event)"
             />
             <span class="input-group-append">
               <button
                 class="btn btn-outline-secondary border-left-0 border"
                 type="button"
-                onclick="call_api(document.getElementById('searching_poi').value,document.getElementById('dropdownMenuLink').innerText.trim())"
-              >
+                onclick="poi_page_html(document.getElementById('searching_poi').value,'all')"
+                >
                 <i class="fa fa-search"></i>
               </button>
-              <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  All
-                </a>
-              
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'All' ">All</a>
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'Attractions' ">Attractions</a>
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'Malls & Shops' ">Malls & Shops</a>
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'Venues' ">Venues</a>
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'Food & Beverages' ">Food & Beverages</a>
-                  <a class="dropdown-item" href="#" onclick="document.getElementById('dropdownMenuLink').innerText = 'Accommodation' ">Accommodation</a>
-                </div>
-              </div>
+
             </span>
           </div>
-
-          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button> -->
 
           <button class="btn btn-outline-success my-2 my-sm-0" type="button">
             Sign Up
@@ -154,11 +143,46 @@
       </div>
     </nav>
     <body id='insert_poi_body'>
-      <div id='insert_poi'>
-        <button class='btn-outline-secondary' onclick="review_section()"></button>
-
+      <div id='insert_poi' class='m-0'>
       </div>
     </body>
+
+
+		<div                                              
+			class="modal fade"
+			id="exampleModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <!--   Modal    --> 
+        <div class="modal-dialog" role="document">      
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Choose your itinerary
+              <select class="form-control">
+                <option>Itinerary 1</option>
+              </select>
+              <br />
+              Start Time
+              <input type="text" class="form-control" id="startTime" />
+              <br />
+              End Time
+              <input type="text" class="form-control" id="endTime" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <footer class="footer">
       <div class="container">
@@ -184,7 +208,42 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.js"><\/script>')</script> -->
+  
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <script>
+      			$(document).ready(function () {
+				$("#startTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					defaultTime: $("#openHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					startTime: $("#openHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					zindex: 3500,
+					change: function (time) {
+						$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+					},
+				});
+
+				$("#endTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					zindex: 3500,
+					defaultTime: $("#closeHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					change: function (time) {
+						$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+					},
+				});
+			});
+    </script>
   </body>
 </html>
