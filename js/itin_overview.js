@@ -33,12 +33,6 @@ function display_itin_cards(intineraries){
     var itins_view = document.getElementById("my_itins");
     itins_view.innerHTML = '';
     for (let i = 0; i < intineraries.length; i++){
-        if (i < 4){
-            itins_view = document.getElementById("my_itins");
-        }
-        else{
-            itins_view = document.getElementById("my_itins_see_more");
-        }
         startDate = intineraries[i].startDate.replaceAll('-', '/');
         endDate = intineraries[i].endDate.replaceAll('-', '/');
         var new_card = document.createElement('div');
@@ -55,12 +49,12 @@ function display_itin_cards(intineraries){
             `;
         itins_view.appendChild(new_card);
     }
-    if (intineraries.length >= 5){
-        var btn = document.getElementById("buttonSpot");
-        btn.innerHTML = `<button onclick="seeMoreBtn()" type="button" class="btn btn-light ml-3" id="see_more">See More</button>`;
-        var extra = document.getElementById("my_itins_see_more");
-        extra.style.display = "none";
-    }
+    // if (intineraries.length >= 5){
+    //     var btn = document.getElementById("buttonSpot");
+    //     btn.innerHTML = `<button onclick="seeMoreBtn()" type="button" class="btn btn-light ml-3" id="see_more">See More</button>`;
+    //     var extra = document.getElementById("my_itins_see_more");
+    //     extra.style.display = "none";
+    // }
     
 }
 
