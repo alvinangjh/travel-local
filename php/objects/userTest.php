@@ -5,6 +5,7 @@ include_once '../includes/autoload.php';
 $user = file_get_contents('php://input');
 
 $decoded = array();
+
 $decoded = json_decode($user, true);
 
 $new_user = new User("", $decoded["firstName"], $decoded["lastName"], $decoded["emailAdd"], $decoded["password"], $decoded["dob"]);
