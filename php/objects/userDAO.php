@@ -1,6 +1,6 @@
 <?php
 
-include_once 'autoload.php';
+include_once '../includes/autoload.php';
 
 class UserDAO {
 
@@ -44,7 +44,6 @@ class UserDAO {
     }
 
     public function deleteUser($userID){
-        $conn = new Connection();
         $pdo = $conn->getConnection();
 
         $sql = "DELETE from User where userID = :userID";
@@ -57,7 +56,6 @@ class UserDAO {
 
         return $isOK;
     }
-
 
     public function retrieveAll() {
         $connMgr = new Connection();
