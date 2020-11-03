@@ -39,17 +39,8 @@
 
 .card{
       margin:10px;
-      }
-.btn-grey{
-    background-color:#D8D8D8;
-	color:#FFF;
 }
-.rating-block{
-	background-color:#FAFAFA;
-	border:1px solid #EFEFEF;
-	padding:15px 15px 20px 15px;
-	border-radius:3px;
-}
+
 .bold{
 	font-weight:700;
 }
@@ -57,36 +48,14 @@
 	padding-bottom:7px;
 }
 
-.review-block{
-	background-color:#FAFAFA;
-	border:1px solid #EFEFEF;
-	padding:15px;
-	border-radius:3px;
-	margin-bottom:15px;
-}
-.review-block-name{
-	font-size:12px;
-	margin:10px 0;
-}
-.review-block-date{
-	font-size:12px;
-}
-.review-block-rate{
-	font-size:13px;
-	margin-bottom:15px;
-}
-.review-block-title{
-	font-size:15px;
-	font-weight:700;
-	margin-bottom:10px;
-}
-.review-block-description{
-	font-size:13px;
+.card:hover{
+  box-shadow:
+  5px 4px 9px 7px rgba(0,0,0,0.15)
 }
 </style>
     <title>Home</title>
   </head>
-  <body>
+  <body onload="poi_page_html(document.getElementById('searching_poi').value,'all')">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Travel Local</a>
       <button
@@ -142,47 +111,17 @@
         </form>
       </div>
     </nav>
-    <body id='insert_poi_body'>
-      <div id='insert_poi' class='m-0'>
+
+
+    <div id='insert_poi_body'>
+      <div id='insert_poi'>
       </div>
+    </div>
+
+
     </body>
 
 
-		<div                                              
-			class="modal fade"
-			id="exampleModal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <!--   Modal    --> 
-        <div class="modal-dialog" role="document">      
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              Choose your itinerary
-              <select class="form-control">
-                <option>Itinerary 1</option>
-              </select>
-              <br />
-              Start Time
-              <input type="text" class="form-control" id="startTime" />
-              <br />
-              End Time
-              <input type="text" class="form-control" id="endTime" />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     <footer class="footer">
       <div class="container">

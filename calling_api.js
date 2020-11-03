@@ -54,7 +54,7 @@ function display_poi(name,image_uuid,counter,uuid,category,description){
     var search_poi_html = `<div class="card mb-3" >
                             <div class="row no-gutters">
                                 <div class="col-md-5">
-                                    <img src="${image_link}" class="card-img stretched-link" onclick="call_uuid_api('${uuid}','${category_type}')" alt="${name}" style='height:250px;'>                                 
+                                    <img src="${image_link}" class="card-img stretched-link " onclick="redirect('${uuid}','${category_type}')" alt="${name}" style='height:250px;'>                                 
                                 </div>
                                 <div class="col-md-7 w-100">
                                     <div class="card-body">
@@ -406,4 +406,8 @@ function onEvent(event) {
         // After user typed enter
         poi_page_html(document.getElementById('searching_poi').value,'all');
     }
-};
+}
+
+function redirect(uuid,type){
+    window.location.href = "specific_poi_design.html?uuid="+uuid+'&type='+type;
+}
