@@ -1,5 +1,6 @@
 <?php
 
+
 include_once '../includes/autoload.php';
 
 class ActivityDAO {
@@ -11,19 +12,9 @@ class ActivityDAO {
         $sql = "SELECT * FROM activity WHERE itineraryID = :itineraryID";
         $stmt = $conn->prepare($sql);
         
-        // echo "<script>console.log('Debug Objects: " . $itineraryID . "' );</script>";
-
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
         
         $status = $stmt->execute();
-
-        // $activity = [];
-        // $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        // while( $row = $stmt->fetch() ) {
-        //     $activity[] = ["activityID" => $row["activityID"], 
-        //         "poiUUID" => $row["poiUUID"],
-        //         "itineraryID" => $row["itineraryID"]];
-        // }
 
         $activities = [];
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
