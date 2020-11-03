@@ -4,11 +4,11 @@ include_once '../includes/autoload.php';
 
     class Itinerary {
         // object properties
-        private $itineraryID;
-        private $name;
-        private $startDate;
-        private $endDate;
-        private $userID;
+        public $itineraryID;
+        public $name;
+        public $startDate;
+        public $endDate;
+        public $userID;
             
         // constructor with $db as database connection
         public function __construct($itineraryID, $name, $startDate, $endDate, $userID) {

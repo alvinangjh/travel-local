@@ -21,6 +21,9 @@
 			crossorigin="anonymous"
 		/>
 
+		<!-- Timepicki CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css" />
+
 		<!-- Custom CSS -->
 		<link id="itineraryTheme" rel="stylesheet" href="itinerary_nature.css" />
 
@@ -71,76 +74,44 @@
 			</div>
 		</nav>
 
-		<div class="p-3 mt-2 mb-5 clearfix">
-			<div class="text-right">
-				<div class="dropdown mb-3">
-					<button class="btn utility">Add New Activity</button>
+		<p id="openHour">08:00 AM</p>
+		<p id="closeHour">07:00 PM</p>
 
-					<a class="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown">
-						<i class="fas fa-cog"></i> Settings
-					</a>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
 
-					<div class="dropdown-menu" id="ddlSetting" aria-labelledby="dropdownMenuLink">
-						<button
-							type="button"
-							class="btn btn-primary dropdown-item"
-							data-toggle="modal"
-							data-target="#themeModal"
-						>
-							<i class="icon fas fa-palette"></i> Change theme
+		<div
+			class="modal fade"
+			id="exampleModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
 						</button>
-						<!-- <a href="#" class="dropdown-item"><i class="icon fas fa-palette"></i> Change theme</a> -->
-						<a href="#" class="dropdown-item"><i class="icon fas fa-copy"></i> Copy itinerary</a>
-						<a href="#" class="dropdown-item"><i class="icon fas fa-share-alt"></i> Share itinerary</a>
-						<button onclick="display()" class="dropdown-item"><i class="icon fas fa-print"></i> Print itinerary</button>
+					</div>
+					<div class="modal-body">
+						Choose your itinerary
+						<select class="form-control">
+							<option>Itinerary 1</option>
+						</select>
+						<br />
+						Start Time
+						<input type="text" class="form-control" id="startTime" />
+						<br />
+						End Time
+						<input type="text" class="form-control" id="endTime" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
-			</div>
-
-			<div class="modal fade" id="themeModal" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="lblThemeModal">Choose your theme!</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<button id="nature" class="btn btn-success btn-block" onclick="changeTheme(this.id)">
-								Nature
-							</button>
-							<button id="family" class="btn btn-primary btn-block" onclick="changeTheme(this.id)">
-								Family
-							</button>
-							<button id="dating" class="btn btn-danger btn-block" onclick="changeTheme(this.id)">
-								Dating
-							</button>
-						</div>
-						<!-- <div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
-						</div> -->
-					</div>
-				</div>
-			</div>
-
-			<div id="headerDiv" class="shadow p-3 mb-3 rounded text-center img-fluid">
-				<h2 id="itinerary_name" class="font-weight-bold"></h2>
-				<h5 id="itinerary_date"></h5>
-			</div>
-
-			<div id="leftDiv" class="float-left">
-				<div id="navigationDiv" class="shadow p-3 mb-4 bg-white rounded pl-3">
-					<h5 class="text-center">Navigate me to:</h5>
-					<div id="itinerary_days"></div>
-				</div>
-
-				<!-- <div id="utilityDiv" class="shadow p-3 mb-5 bg-white rounded text-center"></div> -->
-			</div>
-
-			<div id="entrySectionDiv" class="float-right">
-				<div id="entry_section"></div>
 			</div>
 		</div>
 
@@ -174,6 +145,41 @@
 			crossorigin="anonymous"
 		></script>
 
-		<script src="itinerary_details.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+		<script>
+			$(document).ready(function () {
+				$("#startTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					defaultTime: $("#openHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					startTime: $("#openHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					zindex: 3500,
+					change: function (time) {
+						$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+					},
+				});
+
+				$("#endTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					zindex: 3500,
+					defaultTime: $("#closeHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					change: function (time) {
+						$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+					},
+				});
+			});
+
+			function addActivity() {}
+		</script>
 	</body>
 </html>

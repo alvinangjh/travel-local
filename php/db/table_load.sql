@@ -20,7 +20,8 @@ CREATE TABLE if not exists `itinerary` (
   `name` varchar(256) NOT NULL,
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
-  `userID` integer NOT NULL
+  `userID` integer NOT NULL,
+  `referredID` integer NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE if not exists `activity` (
