@@ -47,25 +47,20 @@ function display_itin_cards(intineraries){
                             <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
                         </div>
                     </button>
-                    <button type="button"  onClick="delete_itin(${intineraries[i].id})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
+                    <button type="button"  onClick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
                 </div>
             `;
         itins_view.appendChild(new_card);
     }
 }
-// data-toggle="modal" data-target="#exampleModalCenter"
+
+function open_Modal(itin){
+    document.getElementById('confirm').id = itin;
+    $('#exampleModalCenter').modal('show');
+}
 
 function view_itin(link){
     window.location.href = "../travel-local/php/objects/userItinRetrieve.php";
-    console.log(link);
-}
-
-function delete_confirmation(itin){
-    
-    document.getElementById('modal_title').innerText = itin.name;
-    print( document.getElementById('modal_title').innerText);
-    document.getElementById('modal_body').innerText = "You are about to delete your itinerary! \n Are you sure?";
-    document.getElementById('confirm').onclick = delete_itin(itin.id);
 }
 
 
