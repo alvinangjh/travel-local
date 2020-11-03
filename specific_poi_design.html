@@ -8,6 +8,11 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous"
+  ></script>
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -21,21 +26,69 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
 
     <!-- Custom CSS -->
     <script src="calling_api.js"></script>
+
+ 
 <style>
 
 .card{
       margin:10px;
       }
-img {
-    height:50%;
+.btn-grey{
+    background-color:#D8D8D8;
+	color:#FFF;
+}
+.rating-block{
+	background-color:#FAFAFA;
+	border:1px solid #EFEFEF;
+	padding:15px 15px 20px 15px;
+	border-radius:3px;
+}
+.bold{
+	font-weight:700;
+}
+.padding-bottom-7{
+	padding-bottom:7px;
+}
+
+.review-block{
+	background-color:#FAFAFA;
+	border:1px solid #EFEFEF;
+	padding:15px;
+	border-radius:3px;
+	margin-bottom:15px;
+}
+.review-block-name{
+	font-size:12px;
+	margin:10px 0;
+}
+.review-block-date{
+	font-size:12px;
+}
+.review-block-rate{
+	font-size:13px;
+	margin-bottom:15px;
+}
+.review-block-title{
+	font-size:15px;
+	font-weight:700;
+	margin-bottom:10px;
+}
+.review-block-description{
+	font-size:13px;
 }
 </style>
     <title>Home</title>
   </head>
-  <body>
+  <body onload="call_uuid_api(new URL(window.location.href).searchParams.get('uuid'), new URL(window.location.href).searchParams.get('type'))">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Travel Local</a>
       <button
@@ -64,28 +117,26 @@ img {
             <a class="nav-link" href="#">Profile</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="javascript:void(-1)">
           <div class="input-group col-md-8">
             <input
               class="form-control mrr-sm-2 border-right-0 border"
               type="search"
               placeholder="Search"
               id="searching_poi"
+              onkeypress="onEvent(event)"
             />
             <span class="input-group-append">
               <button
                 class="btn btn-outline-secondary border-left-0 border"
                 type="button"
-                onclick="call_api(document.getElementById('searching_poi').value)"
-              >
+                onclick="poi_page_html(document.getElementById('searching_poi').value,'all')"
+                >
                 <i class="fa fa-search"></i>
               </button>
+
             </span>
           </div>
-
-          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button> -->
 
           <button class="btn btn-outline-success my-2 my-sm-0" type="button">
             Sign Up
@@ -93,56 +144,58 @@ img {
         </form>
       </div>
     </nav>
-    <body>
-      <div id='insert_poi' style='width:80%; margin:auto;' class='row'>
-        <div class='col-7'>
-            <div id='title'>
-                <h1 class='display-4'>Fort Canning Park</h1>
-            </div>
-            <div id='poi_category' class='row'>
-                <h6 class='col text-muted'>4.7</h6>
-                <h5 class='col text-muted'>Nature.Park</h5>
-            </div>
-            <div id='poi_image'>
-                <img src="fort_canning.jpg" alt="fort_canning" class="img-thumbnail" style='width: 100%; height: 100%;'>
-            </div>
-            <div id='poi_description'>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus ducimus provident nisi ad alias. Unde natus molestias sunt explicabo sed laboriosam numquam perspiciatis non, consequatur deserunt at eaque placeat delectus!</p>
-                <span>On the Web: <a href='www.wherearewegoing.com'>www.wherearewegoing.com</a></span>       
-            </div>
-        </div>
 
-        <div class='col'>
-            <div id='empty_for_now' style='margin-bottom: 105px;'>
 
+
+
+      <div id='insert_poi'>
+      </div>
+  
+
+
+
+
+    </body>
+
+
+
+
+
+		<div                                              
+			class="modal fade"
+			id="exampleModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <!--   Modal    --> 
+        <div class="modal-dialog" role="document">      
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div id='recommended_duration'>
-                <h6>Recommended Duration</h6>
-                <p>1HR 30MINS</p>
+            <div class="modal-body">
+              Choose your itinerary
+              <select class="form-control">
+                <option>Itinerary 1</option>
+              </select>
+              <br />
+              Start Time
+              <input type="text" class="form-control" id="startTime" />
+              <br />
+              End Time
+              <input type="text" class="form-control" id="endTime" />
             </div>
-            <div id='poi_business_hours'>
-              <h6>Business Hours</h6>
-              <p>Opening hours: 05:00 - 02:00 (daily)<br></p>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
-            <div id='poi_contact'>
-                <h6>Contact</h6>
-                <p>Email: hello@hotmail.com </br>
-                Phone: +65 1234 5678</p>
-            </div>
-            <div id='poi_price'>
-                <h6>Price</h6>
-                <p>$35</p>
-            </div>
-            <div id='poi_itinerary_creation' style='width: 100%;'>
-                <h6>Create an itinerary with Fort Canning Park</h6>
-                <button type="button" style='margin:auto;' class="btn btn-info">Start Planning</button>
-            </div>
-            <div id='onemap_image' class='mt-3'>
-                <img src='https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=1.31955&lng=103.84223&zoom=17&height=512&width=512&points=[1.31955,103.84223,"255,255,178","A"]' alt='map' class="img-thumbnail">
-            </div>
+          </div>
         </div>
       </div>
-    </body>
 
     <footer class="footer">
       <div class="container">
@@ -167,5 +220,43 @@ img {
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.js"><\/script>')</script> -->
+  
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <script>
+      			$(document).ready(function () {
+				$("#startTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					defaultTime: $("#openHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					startTime: $("#openHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					zindex: 3500,
+					change: function (time) {
+						$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+					},
+				});
+
+				$("#endTime").timepicker({
+					timeFormat: "hh:mm p",
+					interval: 15,
+					zindex: 3500,
+					defaultTime: $("#closeHour").text(),
+					minTime: $("#openHour").text(),
+					maxTime: $("#closeHour").text(),
+					dropdown: true,
+					scrollbar: false,
+					change: function (time) {
+						$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+					},
+				});
+			});
+    </script>
   </body>
 </html>
