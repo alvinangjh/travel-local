@@ -1,6 +1,6 @@
 <?php
 
-include_once 'autoload.php';
+include_once '../includes/autoload.php';
 
     class User {
         // object properties
