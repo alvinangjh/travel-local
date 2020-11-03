@@ -1,48 +1,44 @@
 <?php
 
-include_once '../includes/autoload.php';
+include_once 'autoload.php';
 
-    class User {
-        // object properties
-        private $userID;
-        private $firstName;
-        private $lastName;
-        private $emailAdd;
-        private $password;
-        private $dob;
-            
-        // constructor with $db as database connection
-        public function __construct($userID, $firstName, $lastName, $emailAdd, $password, $dob) {
-            $this->userID = $userID;
-            $this->firstName = $firstName;
-            $this->lastName = $lastName;
-            $this->emailAdd = $emailAdd;
-            $this->password = $password;
-            $this->dob = $dob;
-        }
+class User {
+    private $userID;
+    private $firstName;
+    private $lastName;
+    private $email;
+    private $passwordHash;
 
-        public function getUserID(){
-            return $this->userID;
-        }
-
-        public function getFirstName(){
-            return $this->firstName;
-        }
-
-        public function getLastName(){
-            return $this->lastName;
-        }
-
-        public function getEmailAdd(){
-            return $this->emailAdd;
-        }
-
-        public function getPassword(){
-            return $this->password;
-        }
-
-        public function getDOB(){
-            return $this->dob;
-        }
+    function __construct($userID, $firstName, $lastName, $email, $passwordHash) {
+        $this->userID = $userID;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
     }
-?>
+
+    public function getUserID(){
+        return $this->userID;
+    }
+
+    public function getFirstName(){
+        return $this->firstName;
+    }
+
+    public function getLastName(){
+        return $this->lastName;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function getPasswordHash(){
+        return $this->passwordHash;
+    }
+
+    public function setPasswordHash($hashed){
+        $this->passwordHash = $hashed;
+    }
+
+}
