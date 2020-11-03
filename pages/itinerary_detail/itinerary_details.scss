@@ -1,0 +1,43 @@
+@use "../home/homepage.scss";
+@import "../../node_modules/rfs/scss";
+
+// .entry {
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// }
+
+// .entry-detail {
+// }
+
+body {
+	background-color: #fffafa;
+}
+
+.dayLink {
+	color: #d91a72;
+	font-weight: bold;
+}
+.dayLink:hover {
+	color: pink;
+	text-decoration: none;
+}
+
+.utility {
+	color: #d91a72;
+	font-weight: bold;
+}
+
+.utility:hover {
+	color: pink;
+	text-decoration: none;
+}
+
+#header {
+	background: url("../../images/test2.png") no-repeat;
+	background-size: 100%;
+}
+
+.footer {
+	@extend .footer;
+}
