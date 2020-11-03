@@ -38,7 +38,6 @@ function display_itin_cards(intineraries){
         var new_card = document.createElement('div');
         new_card.className = "col-lg-3 col-md-4 d-flex"; 
         new_card.innerHTML = `
-            
                 <div class="card mx-auto mb-5" style="width: 22rem;">
                     <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
                     <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
@@ -60,7 +59,7 @@ function open_Modal(itin){
 }
 
 function view_itin(link){
-    window.location.href = "../travel-local/php/objects/userItinRetrieve.php";
+    window.location.href = "";
 }
 
 
@@ -75,14 +74,16 @@ function display_popular_cards(intineraries){
         let new_card = document.createElement('div');
         new_card.className = "col-lg-3 col-md-4 d-flex"; 
         new_card.innerHTML = `
-            <div class="card mx-auto mb-5" style="width: 22rem;">
-                <img alt="Card image cap" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
+        <div class="card mx-auto mb-5" style="width: 22rem;">
+            <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
+            <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
                 <div class="card-img-overlay">
-                    <h4 class="card-title"><a href="#">${intineraries[i].name}</a></h4>
+                    <h4 class="card-title">${intineraries[i].name}</h4>
                     <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
                 </div>
-            </div>
-            `;
+            </button>
+        </div>
+    `;
         itins_view.appendChild(new_card);
     }
 }

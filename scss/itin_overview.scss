@@ -24,28 +24,11 @@ $theme-color-alpha: rgba($theme-color, $alpha);
     font-size: 2rem;
     overflow: hidden;
     
-    .card-img-top :hover{
-        background-color: red;
-    }
-    // }
-    // :hover{
-        
-    //     min-height: 50%;
-    //     max-height: 50%;
-
-    // }
-
 
     .blockquote-footer{
             font-size: 12px;
             color: $font-color;
     }
-    .card-img-overlay{
-        color: $font-color;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-    }
-
-    
 
     .card-footer{
         color: $font-color;
@@ -60,9 +43,20 @@ a{
 
 .link_overlay :hover{
     background-color: rgba($color: #000000, $alpha: 0.5);
+    transform: scale(1.15);
+    overflow: hidden;
 }
 
+.card-img-overlay{
+    color: $font-color;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
 
+.card-img-overlay :hover{
+    background-color: rgba($color: #000000, $alpha: 0);
+    transform: scale(1);
+    
+}
 .card-img-top{
     max-height: 250px;
     
@@ -71,8 +65,8 @@ a{
 .hero-image{
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
     display: block;
-    min-height: 500px;
-    max-height: 500px;
+    min-height: 520px;
+    max-height: 520px;
 	height: 40%; //50%
 	background-position: center;
 	background-repeat: no-repeat;
@@ -87,17 +81,17 @@ a{
 
     }
 
-    #HeroTitle{
-        font-size: 2rem;
-        color: red;
-        opacity: 0;
-        font-weight: bold;
-    }
-
     #itinCreationForm{
         color: $font-color;
     }
 
+    #btm_cont{
+        margin-top: 10%;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        // background-color: red;
+    }
 }
 
 .p-5{
@@ -116,10 +110,10 @@ a{
     text-decoration: underline;
 }
 
-// .mb-1 > span:hover{
-//     cursor: pointer;
-
-// }
+#left_words{
+    color: $font-color;
+    text-decoration: none;
+}
 
 .to_delete{
     position: absolute;
