@@ -1,0 +1,69 @@
+@use "../home/homepage.scss";
+$main-color: #e83e8c;
+$secondary-color: #d91a72;
+$bg-color: #fffafa;
+$theme-name: "dating";
+
+body {
+	background-color: bg-color;
+	padding-top: 60px;
+}
+
+.dayLink {
+	color: $secondary-color;
+	font-weight: bold;
+}
+
+.dayLink:hover {
+	color: $main-color;
+	text-decoration: none;
+}
+
+.utility {
+	background-color: $secondary-color;
+	font-weight: bold;
+	color: white;
+}
+
+// .utility:hover {
+// 	color: $main-color;
+// 	text-decoration: none;
+// }
+
+#headerDiv {
+	background: url("../../images/" + $theme-name + ".png") no-repeat center;
+	background-size: cover;
+	border-left: 12px solid $secondary-color;
+	border-right: 12px solid $secondary-color;
+}
+
+#leftDiv {
+	width: 20%;
+	overflow: hidden;
+	position: fixed;
+	z-index: 99;
+}
+
+.icon {
+	color: $secondary-color;
+}
+
+#entrySectionDiv {
+	float: right;
+	width: 78%;
+}
+
+.dailyDiv {
+	background-color: $main-color;
+	border-bottom: 9px solid $secondary-color;
+	color: black;
+}
+
+.transport {
+	border: 3px solid $secondary-color;
+}
+
+.footer {
+	@extend .footer;
+	position: fixed;
+}

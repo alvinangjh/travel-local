@@ -22,6 +22,7 @@
     `endDate` date NOT NULL,
     `itineraryType` varchar(256) NOT NULL,
     `userID` integer NOT NULL,
+    `referredID` integer NOT NULL,
     `shared` integer NOT NULL,
     PRIMARY KEY (`itineraryID`)
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
