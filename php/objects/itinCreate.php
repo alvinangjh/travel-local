@@ -14,10 +14,7 @@ $endDate = $new['endDate'];
 $itinType = $new['itinType'];
 $userID = $new['userID'];
 $result = json_encode($dao->add_itinerary($itinName,$startDate,$endDate,$itinType,$userID,0));
-// ($name, $startDate, $endDate, $itineraryType, $userID)
-// echo "<script>alert('Debug Objects: " . $new['itinName'] . "' );</script>";
 
-// {itinName: "fsdfsdfsd", itinType: "Family", startDate: "12-10-2020", endDate: "27-10-2020", userID: 2}
 
 echo $result;
 

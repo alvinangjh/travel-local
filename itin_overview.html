@@ -153,11 +153,6 @@
         <div class="row" id="my_itins"> 
             <!-- Space for the Itinerary first 4 card display elements -->
         </div>
-        
-        <!-- <div class="row border border-top-0 border-left-0 border-right-0 rounded" id="my_itins_see_more"> -->
-            <!-- Space for the Itinerary other card display elements -->
-        <!-- </div>
-        <div id="buttonSpot"></div> -->
     </div>
 
     <div class="container">   <!-- Cards pop itins -->
@@ -165,7 +160,28 @@
         <div class="row border border-top-0 border-left-0 border-right-0 rounded mb-4" id="popular_itins">
         </div>
     </div>
-      
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal_body">
+                You're about to delete your itinerary! Are you sure?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="confirm">Delete!</button>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer"> <!--Footer-->
         <div class="container">

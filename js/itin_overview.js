@@ -38,35 +38,36 @@ function display_itin_cards(intineraries){
         var new_card = document.createElement('div');
         new_card.className = "col-lg-3 col-md-4 d-flex"; 
         new_card.innerHTML = `
-            <div class="card mx-auto mb-5" style="width: 22rem;">
-                <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
-                <div class="card-img-overlay">
-                    <h4 class="card-title"><a href="#">${intineraries[i].name}</a></h4>
-                    <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
-                    
+            
+                <div class="card mx-auto mb-5" style="width: 22rem;">
+                    <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="../travel-local-1/images/${intineraries[i].itineraryType}.jpg">
+                    <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">${intineraries[i].name}</h4>
+                            <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
+                        </div>
+                    </button>
+                    <button type="button"  onClick="delete_itin(${intineraries[i].id})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
                 </div>
-            </div>
             `;
         itins_view.appendChild(new_card);
     }
-    // if (intineraries.length >= 5){
-    //     var btn = document.getElementById("buttonSpot");
-    //     btn.innerHTML = `<button onclick="seeMoreBtn()" type="button" class="btn btn-light ml-3" id="see_more">See More</button>`;
-    //     var extra = document.getElementById("my_itins_see_more");
-    //     extra.style.display = "none";
-    // }
-    
+}
+// data-toggle="modal" data-target="#exampleModalCenter"
+
+function view_itin(link){
+    window.location.href = "../travel-local/php/objects/userItinRetrieve.php";
+    console.log(link);
 }
 
-function seeMoreBtn(){
-    let see_more = document.getElementById("my_itins_see_more");
-    console.log(see_more.style.display == "none");
-    if (see_more.style.display === "none") {
-        see_more.style.display = "inline";
-      } else {
-        see_more.style.display = "none";
-      }
+function delete_confirmation(itin){
+    
+    document.getElementById('modal_title').innerText = itin.name;
+    print( document.getElementById('modal_title').innerText);
+    document.getElementById('modal_body').innerText = "You are about to delete your itinerary! \n Are you sure?";
+    document.getElementById('confirm').onclick = delete_itin(itin.id);
 }
+
 
 function display_popular_cards(intineraries){
     // console.log(intineraries);
@@ -84,12 +85,19 @@ function display_popular_cards(intineraries){
                 <div class="card-img-overlay">
                     <h4 class="card-title"><a href="#">${intineraries[i].name}</a></h4>
                     <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
-                    
                 </div>
             </div>
             `;
         itins_view.appendChild(new_card);
     }
+}
+
+function delete_itin(id){
+    var itineraryID = {itineraryID:id};
+    itineraryID = JSON.stringify(itineraryID);
+    let url= "../travel-local-1/php/objects/itinDelete.php";
+    ajaxCall(url,console.log,'POST',itineraryID);
+    location.reload();
 }
 
 function add_itinerary() {
@@ -109,7 +117,7 @@ function add_itinerary() {
     var get_userID = 2
     // var get_userID = sessionStorage.getItem("userID");
     ajaxCall(url,display_itin_cards,'POST',{'userID':get_userID});
-    document.reload();
+    location.reload();
 }
 
 function dateFormat(date){

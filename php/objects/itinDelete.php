@@ -4,10 +4,14 @@
 require_once 'ItineraryDAO.php';
 $dao = new itineraryDAO();
 
+$data = file_get_contents("php://input");
+$new = array();
+$new = json_decode($data,true);
 
-$result = json_encode($dao->delete_itinerary();
+$itineraryID = $new['itineraryID'];
 
-// {itinName: "fsdfsdfsd", itinType: "Family", startDate: "12-10-2020", endDate: "27-10-2020", userID: 2}
+$result = json_encode($dao->delete_itinerary($itineraryID));
+
 
 echo $result;
 

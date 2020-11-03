@@ -106,7 +106,7 @@ class itineraryDAO {
         return $isOk; //result of insertion, True or False
     }
     
-    public function delete_itinerary( $name, $startDate, $endDate, $itineraryType, $userID) {        
+    public function delete_itinerary($itineraryID) {        
 
         // STEP 1 - Connect to MySQL Database
         $connMgr = new Connection();
@@ -115,23 +115,19 @@ class itineraryDAO {
         $sql = "
             DELETE FROM
                 itinerary
-            VALUES
-                
+            WHERE
+                itineraryID = :itineraryID
         ";
         $stmt = $pdo->prepare($sql);
-        // $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':startDate', $startDate, PDO::PARAM_STR);
-        $stmt->bindParam(':endDate', $endDate, PDO::PARAM_STR);
-        $stmt->bindParam(':itineraryType', $itineraryType, PDO::PARAM_STR);
-        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
+ 
 
         $isOk = $stmt->execute();
         
         $stmt = null;
         $pdo = null;        
         
-        return $isOk; //result of insertion, True or False
+        return $isOk; //result of deletion, True or False
     }
    
 
