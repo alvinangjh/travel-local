@@ -22,13 +22,15 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
+    <link rel="stylesheet" href="scripts/jquery-ui-1.12.1.custom/jquery-ui.css" />
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="scss/poi_create.css" />
 
     <!-- Custom JS -->
     <script src="./js/POI.js"></script>
-
-   
 
     <title>Home</title>
   </head>
@@ -93,7 +95,7 @@
 
     <!--header-->
     <div class="container-fluid" id="header">
-      <h2>Hidden Gems</h2>
+      <h3>Share Hidden Gem Leh!</h3>
     </div>
 
     <div id="card_container">
@@ -102,25 +104,27 @@
         <div class="row no-gutters">
 
           <!--Card Image-->
-          <div class="col-sm-5 align-self-center text-center"> 
+          <div class="col-sm-5 align-self-center text-center p-3"> 
             
-            <p><img id="output" width="90%" height="90%" class="p-2;" style="z-index:1"/></p>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFile" onchange="loadFile(event)">
-              <label class="custom-file-label" for="customFile">Choose file</label>
+            <p>
+              <img id="output" width="100%" height="80%" style="z-index:1"/>
+            </p>
+            <div class="custom-file" >
+              <input type="file" class="custom-file-input" id="imageUrl" onchange="loadFile(event)">
+              <label class="custom-file-label" for="imageUrl">Choose file</label>
             </div>
             <!-- <p width="auto">
               <input type="file"  accept="image/*" name="image" id="imageUrl" onchange="loadFile(event)">
             </p>
             <label for="upload" style="cursor: pointer;" class="font-weight-light text-muted"></label> -->
 
-          </div>
+        </div>
 
           <!--Card Body Start-->
           <div class="card-body col-sm-7 p-2">
 
             <!--Form Start-->
-            <form id="place">
+            <form action="./php/objects/locationTest.php" method="POST" name="insertPOI">
                
               <!--Title-->
               <div class="form-group">
@@ -170,7 +174,7 @@
 
               <br><br>
               <!--Submit-->
-              <input type="submit" class="btn btn-block btn-primary" value="Publish" onclick="insert_poi()"/>
+              <input type="submit" class="btn btn-block btn-danger" value="Publish" onclick="insert_poi()"/>
                   
             </form>
                 <!--Form End-->
@@ -194,7 +198,11 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -207,11 +215,11 @@
     ></script>
 
     <script>
-     $('input[type="file"]').change(function(e){
+      $('input[type="file"]').change(function(e){
         var fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
-    });
-       </script>
+      });
+    </script>
     
   </body>
 </html>

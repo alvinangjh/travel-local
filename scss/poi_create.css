@@ -9,11 +9,11 @@
 }
 
 #header {
-  background-color: whitesmoke;
+  background-color: red;
   vertical-align: middle;
   padding-left: 50px;
   padding-top: 15px;
-  height: 80px;
+  height: 0px;
   margin: 10px;
   width: auto;
 }
@@ -39,13 +39,11 @@
 .rate {
   float: left;
   height: 46px;
-  
 }
 
 .rate:not(:checked) > input {
   position: absolute;
   top: -9999px;
-  visibility: hidden
 }
 
 .rate:not(:checked) > label {
@@ -116,3 +114,4 @@
   z-index: 2;
   position: relative;
 }
+/*# sourceMappingURL=poi_create.css.map */

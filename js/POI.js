@@ -4,7 +4,6 @@
 * ========================================== */ 
 
 var loadFile = function(event) {
-    
     var image = document.getElementById('output');
     image.src = URL.createObjectURL(event.target.files[0]);
 };
@@ -45,7 +44,7 @@ function fillAddress(){
 
     // Step 4
     request.send();
-}
+};
 
 function EnableDisableTextBox(addressChkBox) {
     var txtPassportNumber = document.getElementById("locAddress");
@@ -53,10 +52,10 @@ function EnableDisableTextBox(addressChkBox) {
     if (!txtPassportNumber.disabled) {
         txtPassportNumber.focus();
     }
-}
+};
 
 function insert_poi() {
-    
+
     var location = {
         locTitle: $("#locTitle").val(),
         locAddress: $("#locAddress").val(),

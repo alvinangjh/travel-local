@@ -19,5 +19,4 @@ $status = $location->add($new_location);
 echo "<script>console.log('Debug Objects: " . $status . "' );</script>";
 return $status;
 
-
 ?>

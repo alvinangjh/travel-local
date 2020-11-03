@@ -10,7 +10,7 @@ class LocationDAO {
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection();
         $sql = 'INSERT INTO custom_loc (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
-                VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :recDuration, :rating, :imageUrl, :createdBy)';
+        VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :recDuration, :rating, :imageUrl, :createdBy)';
         $stmt = $pdo->prepare($sql); 
 
         $locID = $location->getLocID(); 
@@ -43,4 +43,5 @@ class LocationDAO {
         }
     }
 }
+
 ?>
