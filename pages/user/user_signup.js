@@ -1,25 +1,31 @@
 function register() {
 	var user = {
-		firstName: $("#firstName").val(),
-		lastName: $("#lastName").val(),
-		email: $("#email").val(),
-		password: $("#password").va(),
-    };
-    
-    var baseUrl = "../../php/objects/"
+		firstName: document.getElementById("inputFirstName").value,
+		lastName: document.getElementById("inputLastName").value,
+		email: document.getElementById("inputEmail").value,
+		password: document.getElementById("inputPassword").value,
+	};
 
-	$.ajax({
-		url: baseUrl,
-		type: "POST",
-		dataType: "json",
-		data: {
-			activityID: clicked_id,
-			startTime: document.getElementById("tbStartTime" + clicked_id).value,
-			endTime: document.getElementById("tbEndTime" + clicked_id).value,
-		},
-	}).done(function (responseText) {
-		if (responseText == 1) {
-			window.location.reload();
+	// (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
+
+	var data = JSON.stringify(user);
+	var url = "../../php/objects/UserTest.php";
+	var request = new XMLHttpRequest();
+
+	request.onreadystatechange = function () {
+		if (request.readyState == 4 && request.status == 200) {
+			var status = request.responseText;
+			console.log("hello")
+			console.log(status)
+			if (status == "Success") {
+				console.log(status + "SDADSAD")
+				$("#registermodal").modal("show");
+			}
 		}
-	});
-}
+	};
+	
+	request.open("POST", url, true);
+	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	request.send(data);
+}	
+

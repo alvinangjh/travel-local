@@ -1,1 +1,10 @@
-{"version":3,"sourceRoot":"","sources":["../home/homepage.scss","itinerary_details.scss"],"names":[],"mappings":"AAAA;EACC;EACA;EACA;AAAc;EACd;AAAmB;EACnB;;;ACOD;EACC;;;AAGD;EACC;EACA;;;AAED;EACC;EACA;;;AAGD;EACC;EACA;;;AAGD;EACC;EACA;;;AAGD;EACC;EACA","file":"itinerary_details.css"}
+{
+    "version": 3,
+    "mappings": "AAWA,AAAA,IAAI,CAAC;EACJ,gBAAgB,EAAE,OAAO;CACzB;;AAED,AAAA,QAAQ,CAAC;EACR,KAAK,EAAE,OAAO;EACd,WAAW,EAAE,IAAI;CACjB;;AACD,AAAA,QAAQ,AAAA,MAAM,CAAC;EACd,KAAK,EAAE,IAAI;EACX,eAAe,EAAE,IAAI;CACrB;;AAED,AAAA,QAAQ,CAAC;EACR,KAAK,EAAE,OAAO;EACd,WAAW,EAAE,IAAI;CACjB;;AAED,AAAA,QAAQ,AAAA,MAAM,CAAC;EACd,KAAK,EAAE,IAAI;EACX,eAAe,EAAE,IAAI;CACrB",
+    "sources": [
+        "itinerary_details.scss",
+        "../../node_modules/rfs/scss.scss"
+    ],
+    "names": [],
+    "file": "itinerary_details.css"
+}

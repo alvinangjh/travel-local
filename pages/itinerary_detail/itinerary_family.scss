@@ -1,11 +1,10 @@
-@use "../home/homepage.scss";
 $main-color: #00aaff;
 $secondary-color: #0088cc;
 $bg-color: #fffafa;
 $theme-name: "family";
 
 body {
-	background-color: bg-color;
+	background-color: $bg-color;
 }
 
 .dayLink {
@@ -28,7 +27,7 @@ body {
 // }
 
 #headerDiv {
-	background: url("../../images/" + $theme-name + ".png") no-repeat center;
+	background: url("images/" + $theme-name + ".png") no-repeat center;
 	background-size: 100%;
 	border-left: 12px solid $secondary-color;
 	border-right: 12px solid $secondary-color;
@@ -57,8 +56,4 @@ body {
 
 .transport {
 	border: 3px solid $secondary-color;
-}
-
-.footer {
-	@extend .footer;
 }

@@ -1,45 +1,45 @@
 <?php
 
-class activity implements \JsonSerializable {
+include_once '../includes/autoload.php';
 
-    private $activityID;
-    private $poiUUID;
-
-    public function __construct($activityID,$poiUUID) {
-        $this->activityID = $activityID;
-        $this->poiUUID = $poiUUID;
-    }
-
-    public function jsonSerialize(){
-        if (!isset($json)) $json = new stdClass();
-        foreach ($this as $key => $value){
+    class Activity {
+        // object properties
+        public $activityID;
+        public $poiUUID;
+        public $itineraryID;
             
-            $json->$key = $value;
-        }
-        return $json;
-    }
-
-    public function getActivityID() {
-        return $this->activityID;
-    }
-
-    public function getPoiUUID() {
-        return $this->name;
-    }
-
-    public function __toString() { //Requires update to Itinerary Ver
-        $statusMsg = 'available for adoption';
-        if( $this->status == 'P' ) {
-            $statusMsg = 'pending adoption';
+        // constructor with $db as database connection
+        public function __construct($activityID, $poiUUID, $startTime, $endTime, $activityDate, $itineraryID) {
+            $this->activityID = $activityID;
+            $this->poiUUID = $poiUUID;
+            $this->startTime = $startTime;
+            $this->endTime = $endTime;
+            $this->activityDate = $activityDate;
+            $this->itineraryID = $itineraryID;
         }
 
-        $prefix = 'Miss';
-        if( $this->gender = 'M' ) {
-            $prefix = 'Mister';
+        public function getActivityID(){
+            return $this->activityID;
         }
 
-        return $prefix . ' ' . $this->name . ' is ' . $this->age . ' years old and ' . $statusMsg . '.';
-    }
-}
+        public function getPOIUUID(){
+            return $this->poiUUID;
+        }
 
+        public function getStartTime(){
+            return $this->startTime;
+        }
+
+        public function getActivityDate(){
+            return $this->activityDate;
+        }
+
+        public function getEndTime(){
+            return $this->endTime;
+        }
+
+        public function getItineraryID(){
+            return $this->itineraryID;
+        }
+    }
 ?>

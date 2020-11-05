@@ -27,7 +27,11 @@
 
     CREATE TABLE if not exists `activity` (
     `activityID` integer NOT NULL,
-    `poiUUID` varchar(256) NOT NULL
+    `poiUUID` varchar(256) NOT NULL,
+    `startTime` TIME NOT NULL,
+    `endTime` TIME NOT NULL,
+    `activityDate` DATE NOT NULL,
+    `itineraryID` integer NOT NULL,
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
     CREATE TABLE if not exists `custom_loc` (
@@ -40,7 +44,7 @@
   `rating` integer NOT NULL,
   `imageUrl` varchar(256) NOT NULL,
   `createdBy` integer NOT NULL,
-  PRIMARY KEY (`userID`)
+  PRIMARY KEY (`locID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
     CREATE TABLE if not exists `review` (
@@ -52,17 +56,17 @@
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 
-    insert into user values ("1", "jerreal",'luu', 'Bedok North Street 5 Blk 3018 Singapore 486132', "jerrealluu@freshie.snatcher", "iluvxmm", "10/04/1995");
+    -- insert into user values ("1", "jerreal",'luu', 'Bedok North Street 5 Blk 3018 Singapore 486132', "jerrealluu@freshie.snatcher", "iluvxmm", "10/04/1995");
 
-    insert into user values ("2", "elvin",'ung', '9 Changi South Street 3 #07-05 FREIGHT LINK EXPRESS DISTRCENTRE Singapore 486361', "elvinpresley@careyme.pls", "abc123", "09/04/1996");
+    -- insert into user values ("2", "elvin",'ung', '9 Changi South Street 3 #07-05 FREIGHT LINK EXPRESS DISTRCENTRE Singapore 486361', "elvinpresley@careyme.pls", "abc123", "09/04/1996");
 
-    insert into user values ("3", "jairald",'liong', '320 SERANGOON ROAD #04-55 SERANGOON PLAZA Singapore 218108', "jairald@aphro.dite", "ijustneed1chance", "11/04/1997");
+    -- insert into user values ("3", "jairald",'liong', '320 SERANGOON ROAD #04-55 SERANGOON PLAZA Singapore 218108', "jairald@aphro.dite", "ijustneed1chance", "11/04/1997");
 
 
-    insert into itinerary values (1,'Down the rabbit hole', '2020/10/19', "2020/10/20",'Nature', "1", 0);
-    insert into itinerary values (2,'Ready, STEADY, Go!', '2020/10/19', "2020/10/20",'Romantic', "2", 2);
-    insert into itinerary values (3,"Let's go down for coffee", '2020/10/19', "2020/10/20",'Casual', "2", 4);
-    insert into itinerary values (4,'Make Singapore great again', '2020/08/19', "2020/08/20",'Family', "3", 16);
+insert into itinerary values (1,'Down the rabbit hole', '2020/10/19', "2020/10/20",'Nature', "1", 0, 0);
+insert into itinerary values (2,'Ready, STEADY, Go!', '2020/10/19', "2020/10/20",'Romantic', "2", 0, 2);
+insert into itinerary values (3,"Let's go down for coffee", '2020/10/19', "2020/10/20",'Casual', "2", 0, 4);
+insert into itinerary values (4,'Make Singapore great again', '2020/08/19', "2020/08/20",'Family', "3", 0, 16);
 
     insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); 
     insert into activity values (2, '0026271c23371bb4aafbf5985bef950172e'); 

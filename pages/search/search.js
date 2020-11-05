@@ -1,57 +1,52 @@
+function call_api(keyword, data_types) {
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			var response_json = JSON.parse(this.responseText);
+			var results = response_json.data.results;
+			var counter = 0;
+			var new_str = "";
+			var obj_to_prevent_duplicate = {};
+			for (poi of results) {
+				if (poi.images.length != 0 && poi.images[0].uuid != "" && !(poi.name in obj_to_prevent_duplicate)) {
+					new_str += display_poi(
+						poi.name,
+						poi.images[0].uuid,
+						counter,
+						poi.uuid,
+						poi.categoryDescription,
+						poi.description
+					);
+					obj_to_prevent_duplicate[poi.name] = "";
+					counter++;
+				}
+			}
+			document.getElementById("insert_poi_result").innerHTML = new_str + "</div> </div>";
+		}
+	};
 
+	if (data_types == "all") {
+		var dataset = "accommodation,attractions,event,food_beverages,shops,venue,walking_trail";
+	} else {
+		var dataset = data_types;
+	}
 
+	const apiKey = "i9IigYi6bl70KMqOcpewpzHHQ2NanEqx";
+	var base_url = "https://tih-api.stb.gov.sg/content/v1/search/all";
+	var final_url = base_url + "?dataset=" + dataset + "&keyword=" + keyword + "&apikey=" + apiKey;
 
-function call_api(keyword, data_types){
+	request.open("GET", final_url, true);
 
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if( this.readyState == 4 && this.status == 200 ){
-
-            var response_json = JSON.parse(this.responseText);
-            var results = response_json.data.results
-            var counter = 0;
-            var new_str = '';
-            var obj_to_prevent_duplicate = {};  
-            for(poi of results){               
-                if(poi.images.length != 0 && poi.images[0].uuid != "" && !(poi.name in obj_to_prevent_duplicate)){
-                    new_str += display_poi(poi.name, poi.images[0].uuid, counter, poi.uuid, poi.categoryDescription,poi.description);
-                    obj_to_prevent_duplicate[poi.name] = "";
-                    counter++;
-                }
-            }   
-            document.getElementById('insert_poi_result').innerHTML = new_str + "</div> </div>";
-        }
-
-    }
-
-    if(data_types == 'all'){
-        var dataset = 'accommodation,attractions,event,food_beverages,shops,venue,walking_trail';
-    }
-    else{
-        var dataset = data_types;
-    }
-
-
-    const apiKey = 'i9IigYi6bl70KMqOcpewpzHHQ2NanEqx';
-    var base_url = "https://tih-api.stb.gov.sg/content/v1/search/all";
-    var final_url = base_url +'?dataset='+ dataset  + '&keyword=' + keyword + '&apikey=' +apiKey ;
-
-    request.open("GET",final_url, true); 
-
-    request.send();
-
+	request.send();
 }
 
-function display_poi(name,image_uuid,counter,uuid,category,description){
+function display_poi(name, image_uuid, counter, uuid, category, description) {
+	const apiKey = "i9IigYi6bl70KMqOcpewpzHHQ2NanEqx";
+	var category_type = type_of_dataset(category);
 
-    const apiKey = 'i9IigYi6bl70KMqOcpewpzHHQ2NanEqx';
-    var category_type = type_of_dataset(category); 
+	var image_link = "https://tih-api.stb.gov.sg/media/v1/download/uuid/" + image_uuid + "?apikey=" + apiKey;
 
-    var image_link = 'https://tih-api.stb.gov.sg/media/v1/download/uuid/'+image_uuid+'?apikey='+apiKey;
-    
-
-    
-    var search_poi_html = `<div class="card mb-3" >
+	var search_poi_html = `<div class="card mb-3" >
                             <div class="row no-gutters">
                                 <div class="col-md-5">
                                     <img src="${image_link}" class="card-img stretched-link " onclick="redirect('${uuid}','${category_type}')" alt="${name}" style='height:250px;'>                                 
@@ -60,34 +55,49 @@ function display_poi(name,image_uuid,counter,uuid,category,description){
                                     <div class="card-body">
                                         <h5 class="card-title">${name}</h5>
                                         <p class="card-text">${description}</p>
-                                        <a onclick="call_uuid_api('${uuid}','${category_type}')" class="btn btn-primary stretched-link">More details</a>     
+                                        <a onclick="redirect('${uuid}','${category_type}')" class="btn btn-primary stretched-link">More details</a>     
                                     </div>
                                 </div>
                             </div>
                         </div>`;
 
-    return search_poi_html;
+	return search_poi_html;
 }
 
-function display_specific_poi(image_uuid,title,rating,hp_contact,description,business_hours,lat,lng,postal,type_of_poi,reviews,email,website){
-    
-    var insert_poi = document.getElementById('insert_poi');
-    const apiKey = 'i9IigYi6bl70KMqOcpewpzHHQ2NanEqx';
-    var map_link = call_onemap_api(lat,lng,postal);
-    var image_link = 'https://tih-api.stb.gov.sg/media/v1/download/uuid/'+image_uuid+'?apikey='+apiKey;
-    
-    
+function display_specific_poi(
+	image_uuid,
+	title,
+	rating,
+	hp_contact,
+	description,
+	business_hours,
+	lat,
+	lng,
+	postal,
+	type_of_poi,
+	reviews,
+	email,
+	website
+) {
+	var insert_poi = document.getElementById("insert_poi");
+	const apiKey = "i9IigYi6bl70KMqOcpewpzHHQ2NanEqx";
+	var map_link = call_onemap_api(lat, lng, postal);
+	var image_link = "https://tih-api.stb.gov.sg/media/v1/download/uuid/" + image_uuid + "?apikey=" + apiKey;
 
-    insert_poi.setAttribute('style', 'width:80%; margin:auto;');
-    // insert_poi.setAttribute('class','row');
-     
-    var poi_html = `        <div class='container my-4'>                 
+	insert_poi.setAttribute("style", "width:80%; margin:auto;");
+	// insert_poi.setAttribute('class','row');
+
+	document.getElementById("siteTitle").innerText = title;
+
+	var poi_html = `        <div class='container my-4'>                 
                                     <div id='title'>
                                         <p class='h2'>${title}</p>
                                     </div>
                             </div>
                             <div id='poi_category' class='row'>
-                                        <h4 class='col-4 text-muted ml-2'> ${creating_stars_html(Math.floor(rating))}</h4>
+                                        <h4 class='col-4 text-muted ml-2'> ${creating_stars_html(
+											Math.floor(rating)
+										)}</h4>
                                        
                                         <h5 class='col-4 text-muted'>${type_of_poi}</h5>
                             </div>
@@ -108,7 +118,9 @@ function display_specific_poi(image_uuid,title,rating,hp_contact,description,bus
 
                                 <div id='poi_business_hours'>
                                     <h6>Business Hours</h6>
-                                    <p>Opening hours: ${business_hours['openTime']} - ${business_hours['closeTime']}<br></p>
+                                    <p>Opening hours: ${business_hours["openTime"]} - ${
+		business_hours["closeTime"]
+	}</p> <br>
                                 </div>
                                 <div id='poi_contact'>
                                     <h6>Contact</h6>
@@ -125,162 +137,206 @@ function display_specific_poi(image_uuid,title,rating,hp_contact,description,bus
                                 </div>
                             </div>
                         </div>`;
-        
-        insert_poi.innerHTML = poi_html + review_section(reviews,rating);
-        window.scrollTo(0,0);
+
+	insert_poi.innerHTML = poi_html + review_section(reviews, rating);
+	window.scrollTo(0, 0);
+
+	$("#startTime").timepicker({
+		timeFormat: "hh:mm p",
+		interval: 15,
+		defaultTime: business_hours["openTime"],
+		minTime: business_hours["openTime"],
+		maxTime: business_hours["closeTime"],
+		startTime: business_hours["openTime"],
+		dropdown: true,
+		scrollbar: false,
+		zindex: 3500,
+		change: function (time) {
+			$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+		},
+	});
+
+	$("#endTime").timepicker({
+		timeFormat: "hh:mm p",
+		interval: 15,
+		zindex: 3500,
+		defaultTime: business_hours["closeTime"],
+		minTime: business_hours["openTime"],
+		maxTime: business_hours["closeTime"],
+		dropdown: true,
+		scrollbar: false,
+		change: function (time) {
+			$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+		},
+	});
 }
 
-
-function type_of_dataset(type){
-    if(type == 'Attractions'){
-        return 'attractions';
-    }
-    if(type == 'Malls & Shops'){
-        return 'shops';
-    }
-    if(type == 'Venues'){
-        return 'venue';
-    }
-    if(type == 'Food & Beverages'){
-        return 'food-beverages';
-    }
-    if(type == 'Accommodation'){
-        return 'accommodation';
-    }
-    if(type == 'All'){
-        return 'all';
-    }
-
+function type_of_dataset(type) {
+	if (type == "Attractions") {
+		return "attractions";
+	}
+	if (type == "Malls & Shops") {
+		return "shops";
+	}
+	if (type == "Venues") {
+		return "venue";
+	}
+	if (type == "Food & Beverages") {
+		return "food-beverages";
+	}
+	if (type == "Accommodation") {
+		return "accommodation";
+	}
+	if (type == "All") {
+		return "all";
+	}
 }
 
-function call_uuid_api(uuid,type){
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function(){
-        if( this.readyState == 4 && this.status == 200 ){
-            console.log(uuid);
-            var response_json = JSON.parse(this.responseText);
-            var data = response_json.data[0];
+function call_uuid_api(uuid, type) {
+	check_user();
 
-            if(data.images.length != 0 || data.images[0].uuid != ""){
-                var image_uuid = data.images[0].uuid;
-            }
-            else{
-                var image_uuid = '';
-            }
-            
-            if(data.businessHour != undefined){
-                if(data.businessHour.length != 0) {
-                    var business_hours = {'openTime': moment(data.businessHour[0]["openTime"], "HH:mm").format("hh:mm A"), 'closeTime': moment(data.businessHour[0]["closeTime"], "HH:mm").format("hh:mm A") };
-                }
-                else{
-                    var business_hours = {'daily':'none','openTime':'??','closeTime':"??"};
-                }
-            }
-            else{
-                var business_hours = {'daily':'none','openTime':'??','closeTime':"??"};
-            }
-            if(data.officialEmail == ""){
-                var email = "-";
-            }
-            else{
-                var email = data.officialEmail;
-            }
-            if(data.officialWebsite == ""){
-                var website = "-";
-            }
-            else{
-                var website = data.officialWebsite;
-            }
-            if(data.contact['primaryContactNo'] == ""){
-                var hp_contact = "-";
-            }
-            else{
-                var hp_contact = data.contact['primaryContactNo'];
-            }
-            
-            var title = data.name;
-            var rating = data.rating;
-            var description = data.body;
-            var reviews = data.reviews; // array
-            var lat = data.location['latitude'];
-            var lng = data.location['longitude'];
-            var postal = data.address['postalCode'];
-            var type_of_poi = data.type;
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			console.log(uuid);
+			var response_json = JSON.parse(this.responseText);
+			var data = response_json.data[0];
 
-            display_specific_poi(image_uuid,title,rating,hp_contact,description,business_hours,lat,lng,postal,type_of_poi,reviews,email,website);
-            }
-        }
-    
-    const apiKey = 'i9IigYi6bl70KMqOcpewpzHHQ2NanEqx';
-    var base_url = "https://tih-api.stb.gov.sg/content/v1/";
-    var final_url = base_url + type +'?apikey=' +apiKey +'&uuid=' + uuid;
+			if (data.images.length != 0 || data.images[0].uuid != "") {
+				var image_uuid = data.images[0].uuid;
+			} else {
+				var image_uuid = "";
+			}
 
-    request.open("GET",final_url, true); 
+			if (data.businessHour != undefined) {
+				if (data.businessHour.length != 0) {
+					var business_hours = {
+						openTime: moment(data.businessHour[0]["openTime"], "HH:mm").format("hh:mm A"),
+						closeTime: moment(data.businessHour[0]["closeTime"], "HH:mm").format("hh:mm A"),
+					};
+				} else {
+					var business_hours = { daily: "none", openTime: "??", closeTime: "??" };
+				}
+			} else {
+				var business_hours = { daily: "none", openTime: "??", closeTime: "??" };
+			}
+			if (data.officialEmail == "") {
+				var email = "-";
+			} else {
+				var email = data.officialEmail;
+			}
+			if (data.officialWebsite == "") {
+				var website = "-";
+			} else {
+				var website = data.officialWebsite;
+			}
+			if (data.contact["primaryContactNo"] == "") {
+				var hp_contact = "-";
+			} else {
+				var hp_contact = data.contact["primaryContactNo"];
+			}
 
-    request.send();
+			var title = data.name;
+			var rating = data.rating;
+			var description = data.body;
+			var reviews = data.reviews; // array
+			var lat = data.location["latitude"];
+			var lng = data.location["longitude"];
+			var postal = data.address["postalCode"];
+			var type_of_poi = data.type;
 
+			display_specific_poi(
+				image_uuid,
+				title,
+				rating,
+				hp_contact,
+				description,
+				business_hours,
+				lat,
+				lng,
+				postal,
+				type_of_poi,
+				reviews,
+				email,
+				website
+			);
+		}
+	};
+
+	const apiKey = "i9IigYi6bl70KMqOcpewpzHHQ2NanEqx";
+	var base_url = "https://tih-api.stb.gov.sg/content/v1/";
+	var final_url = base_url + type + "?apikey=" + apiKey + "&uuid=" + uuid;
+
+	request.open("GET", final_url, true);
+
+	request.send();
 }
 
+function call_onemap_api(lat, lng, postal) {
+	var layerchosen = "layerchosen=default";
+	var new_lat = "&lat=" + lat;
+	var new_lng = "&lng=" + lng;
+	var new_postal = "&postal=" + postal;
+	var zoom = "&zoom=17"; // 11-19
+	var width = "&width=512"; //128 - 512
+	var height = "&height=512"; //128-512
+	var points = `&points=[${lat},${lng},"255,255,178","A"]`; //optional, to have a pointer on the map
 
-function call_onemap_api(lat,lng,postal){
+	var onemap_image =
+		`https://developers.onemap.sg/commonapi/staticmap/getStaticImage?` +
+		layerchosen +
+		new_lat +
+		new_lng +
+		new_postal +
+		zoom +
+		width +
+		height +
+		points;
 
-    var layerchosen = 'layerchosen=default';
-    var new_lat = '&lat=' + lat;
-    var new_lng = '&lng=' + lng;
-    var new_postal = '&postal=' + postal;
-    var zoom = '&zoom=17'; // 11-19
-    var width = '&width=512' //128 - 512
-    var height = '&height=512' //128-512
-    var points = `&points=[${lat},${lng},"255,255,178","A"]`; //optional, to have a pointer on the map
-
-    var onemap_image = `https://developers.onemap.sg/commonapi/staticmap/getStaticImage?` + layerchosen + new_lat + new_lng + new_postal + zoom + width + height + points;
-
-    return onemap_image;
+	return onemap_image;
 }
 
-function review_section(reviews,rating){
-    var number = Math.floor(rating); // integer only please jerriel, i wanna cyr
-    var header_html = "";
+function review_section(reviews, rating) {
+	var number = Math.floor(rating); // integer only please jerriel, i wanna cyr
+	var header_html = "";
 
-    if(reviews != null){
-        header_html += creating_reviews_html(reviews);
-    }
+	if (reviews != null) {
+		header_html += creating_reviews_html(reviews);
+	}
 
-    return header_html;
-    // document.getElementById('insert_poi').innerHTML = header_html;
-
+	return header_html;
+	// document.getElementById('insert_poi').innerHTML = header_html;
 }
 
-function creating_stars_html(number){
-    var stars_html = "";
-    for(i=0;i<number;i++){
-        stars_html += ` 			
+function creating_stars_html(number) {
+	var stars_html = "";
+	for (i = 0; i < number; i++) {
+		stars_html += ` 			
 					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
 					  <span class="fas fa-star" aria-hidden="true"></span>
 					</button>`;
-    }
-    for(i=0;i<5-number;i++){
-        stars_html += `
+	}
+	for (i = 0; i < 5 - number; i++) {
+		stars_html += `
                         <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
                             <span class="fas fa-star" aria-hidden="true"></span>
                         </button>`;
-    }
-    return stars_html;
+	}
+	return stars_html;
 }
 
-function creating_reviews_html(reviews){
-
-    var reviews_html =      `<div class="row">
+function creating_reviews_html(reviews) {
+	var reviews_html = `<div class="row">
                                 <div class="col-sm-12">
                                     <hr/>
                                     <div class="review-block">`;
 
-    for(j=0;j<reviews.length;j++){
-        // var temp = reviews[j]['time'].split('T');
-        // var date = temp[0];
-        // var time = temp[1].slice(0,temp[1].length-1);
-        var title = reviews[j].text.split('.')[0];
-        reviews_html +=             `<div class="row">
+	for (j = 0; j < reviews.length; j++) {
+		// var temp = reviews[j]['time'].split('T');
+		// var date = temp[0];
+		// var time = temp[1].slice(0,temp[1].length-1);
+		var title = reviews[j].text.split(".")[0];
+		reviews_html += `<div class="row">
                                         <div class="col-sm-3">
                                             <img src="${reviews[j].profilePhoto}" class="img-rounded" style='width: 100px; height: 100px;'>
                                             <div class="review-block-name ml-3"><a href="${reviews[j].authorURL}">${reviews[j].authorName}</a></div>
@@ -288,49 +344,50 @@ function creating_reviews_html(reviews){
                                         </div>
                                         <div class="col-sm-9">
                                             <div class="review-block-rate">`;
-        reviews_html += creating_stars_html(Math.floor(reviews[j].rating));                                 
-        reviews_html +=                 `</div>
+		reviews_html += creating_stars_html(Math.floor(reviews[j].rating));
+		reviews_html += `</div>
                                             <div class="review-block-title">${title}</div>
                                             <div class="review-block-description">${reviews[j].text}</div>
                                         </div>
                                     </div>
                                     <hr/>`;
-    }
-    reviews_html += `				</div>
+	}
+	reviews_html += `				</div>
                                 </div>
                             </div>
                         </div>`;
 
-    return reviews_html
+	return reviews_html;
 }
 
-function filter(){
-    var checkboxes = document.getElementsByName('categories');
-    var categories_array = [];
+function filter() {
+	var checkboxes = document.getElementsByName("categories");
+	var categories_array = [];
 
-    for (var checkbox of checkboxes) {
-        if (checkbox.checked){
-            categories_array.push(checkbox.getAttribute('value'));
-        }     
-    }
-    var str_for_types = '';
-    for(category of categories_array){
-        str_for_types += category + ',';
-    }
-    call_api(document.getElementById('searching_poi').value,str_for_types.slice(0,str_for_types.length-1));
+	for (var checkbox of checkboxes) {
+		if (checkbox.checked) {
+			categories_array.push(checkbox.getAttribute("value"));
+		}
+	}
+	var str_for_types = "";
+	for (category of categories_array) {
+		str_for_types += category + ",";
+	}
+	call_api(document.getElementById("searching_poi").value, str_for_types.slice(0, str_for_types.length - 1));
 }
 
-function poi_page_html(keyword,data_types){
+function poi_page_html(keyword, data_types) {
+	check_user();
 
-    document.getElementById('insert_poi').setAttribute('class',"");
-    document.getElementById('insert_poi').setAttribute('style',"");
+	document.getElementById("insert_poi").setAttribute("class", "");
+	document.getElementById("insert_poi").setAttribute("style", "");
 
-    document.getElementById('insert_poi').innerHTML = `<div class="jumbotron jumbotron-fluid">
+	document.getElementById("insert_poi").innerHTML = `<div class="jumbotron jumbotron-fluid">
                                                         <div class="container">
                                                             <h1 class="display-4" style='text-align:center;'>Things to do in Singapore</h1>
                                                             </div>
-                                                        </div>`;    
-    document.getElementById('insert_poi').innerHTML += `<div class='container row'>
+                                                        </div>`;
+	document.getElementById("insert_poi").innerHTML += `<div class='container row'>
                                                             <div class='col-3 ml-3'>
                                                                 <div class='container border'>   
                                                                     <div class='border-bottom px-3 pt-2 pb-3'>
@@ -397,17 +454,35 @@ function poi_page_html(keyword,data_types){
                                                             </div>
                                                             <div class='col' id='insert_poi_result'>
                                                                 <h5> Recommended for you</h5>`;
-    call_api(keyword,data_types);
-
+	call_api(keyword, data_types);
 }
 
 function onEvent(event) {
-    if (event.key === "Enter") {
-        // After user typed enter
-        poi_page_html(document.getElementById('searching_poi').value,'all');
-    }
+	if (event.key === "Enter") {
+		// After user typed enter
+		poi_page_html(document.getElementById("searching_poi").value, "all");
+	}
 }
 
-function redirect(uuid,type){
-    window.location.href = "specific_poi_design.html?uuid="+uuid+'&type='+type;
+function redirect(uuid, type) {
+	window.location.href = "specific_poi_design.html?uuid=" + uuid + "&type=" + type;
+}
+
+function redirect_to_poi(keyword) {
+	window.location.href = "search_poi.html?keyword=" + keyword;
+}
+
+function check_user() {
+	if (sessionStorage.getItem("userID") === null) {
+		window.location.href = "../user/user_login.html";
+	} else {
+		console.log("hello");
+		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
+		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
+	}
+}
+
+function logOut() {
+	window.location.href = "../user/user_login.html";
+	sessionStorage.clear();
 }

@@ -5,6 +5,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+			integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+			crossorigin="anonymous"
+		></script>
 		<!-- Bootstrap CSS -->
 		<link
 			rel="stylesheet"
@@ -16,68 +21,80 @@
 		<!-- Font Awesome CSS -->
 		<link
 			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-			integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+			integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 			crossorigin="anonymous"
 		/>
 
-		<!-- Timepicki CSS -->
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css" />
+		<link rel="stylesheet" href="../../scss/master.css" />
+		<link rel="stylesheet" href="search.css" />
 
-		<!-- Custom CSS -->
-		<link id="itineraryTheme" rel="stylesheet" href="itinerary_nature.css" />
-
-		<title>Itinerary Overview</title>
+		<title id="siteTitle"></title>
 	</head>
-
-	<body class="pt-5" onload="retrieveActivity()">
+	<body
+		class="pt-5"
+		onload="call_uuid_api(new URL(window.location.href).searchParams.get('uuid'), new URL(window.location.href).searchParams.get('type'))"
+	>
 		<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
-			<a class="navbar-brand" href="#">Travel Local</a>
+			<a class="navbar-brand" href="../home/homepage.html">Travel Local</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item active">
-						<a class="nav-link" href="#">My Itinerary</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">My Profile</a>
-					</li>
-				</ul>
-				<form class="form-inline my-2 my-lg-0 ml-auto">
-					<div class="input-group col-md-8">
+				<!-- <ul class="navbar-nav"> -->
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
+				</li> -->
+				<!-- <li class="nav-item active">
+					<a class="nav-link" href="#">My Itinerary</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">My Profile</a>
+				</li> -->
+				<!-- </ul> -->
+				<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
+					<div class="input-group">
 						<input
-							class="form-control mrr-sm-2 border-right-0 border"
+							class="form-control border-right-0 border"
 							type="search"
-							placeholder="Search"
-							id="example-search-input"
+							placeholder="Search for places of interest"
+							id="searching_poi"
+							onkeypress="onEvent(event)"
 						/>
 						<span class="input-group-append">
-							<button class="btn btn-outline-secondary border-left-0 border" type="button">
+							<button
+								class="btn btn-outline-secondary border-left-0 border"
+								type="button"
+								onclick="poi_page_html(document.getElementById('searching_poi').value,'all')"
+							>
 								<i class="fa fa-search"></i>
 							</button>
 						</span>
 					</div>
 
 					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-						Search
-					</button> -->
-
-					<button class="btn btn-danger my-2 my-sm-0" type="button">Sign Up</button>
+					Search
+				</button> -->
 				</form>
+
+				<div id="signUpDiv" class="ml-auto">
+					<a href="../user/user_signup.html" class="btn btn-danger my-2 my-sm-0">Sign Up</a>
+				</div>
+
+				<div id="signOutDiv" class="ml-auto">
+					<a onclick="logOut()" class="btn btn-danger my-2 my-sm-0">Log Out</a>
+				</div>
 			</div>
 		</nav>
 
-		<p id="openHour">08:00 AM</p>
-		<p id="closeHour">07:00 PM</p>
-
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
+		<div id="insert_poi"></div>
 
 		<div
 			class="modal fade"
@@ -87,6 +104,7 @@
 			aria-labelledby="exampleModalLabel"
 			aria-hidden="true"
 		>
+			<!--   Modal    -->
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -139,47 +157,9 @@
 			crossorigin="anonymous"
 		></script>
 
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-			integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-			crossorigin="anonymous"
-		></script>
-
 		<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
-		<script>
-			$(document).ready(function () {
-				$("#startTime").timepicker({
-					timeFormat: "hh:mm p",
-					interval: 15,
-					defaultTime: $("#openHour").text(),
-					minTime: $("#openHour").text(),
-					maxTime: $("#closeHour").text(),
-					startTime: $("#openHour").text(),
-					dropdown: true,
-					scrollbar: false,
-					zindex: 3500,
-					change: function (time) {
-						$("#endTime").timepicker("option", "minTime", $("#startTime").val());
-					},
-				});
-
-				$("#endTime").timepicker({
-					timeFormat: "hh:mm p",
-					interval: 15,
-					zindex: 3500,
-					defaultTime: $("#closeHour").text(),
-					minTime: $("#openHour").text(),
-					maxTime: $("#closeHour").text(),
-					dropdown: true,
-					scrollbar: false,
-					change: function (time) {
-						$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
-					},
-				});
-			});
-
-			function addActivity() {}
-		</script>
+		<!-- Custom CSS -->
+		<script src="search.js"></script>
 	</body>
 </html>

@@ -1,4 +1,3 @@
-@use "../home/homepage.scss";
 @import "../../node_modules/rfs/scss";
 
 // .entry {
@@ -33,11 +32,7 @@ body {
 	text-decoration: none;
 }
 
-#header {
-	background: url("../../images/test2.png") no-repeat;
-	background-size: 100%;
-}
-
-.footer {
-	@extend .footer;
-}
+// #header {
+// 	background: url("../../images/test2.png") no-repeat;
+// 	background-size: 100%;
+// }

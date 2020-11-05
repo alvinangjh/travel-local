@@ -1,8 +1,7 @@
-@use "../home/homepage.scss";
 $main-color: #e83e8c;
 $secondary-color: #d91a72;
 $bg-color: #fffafa;
-$theme-name: "dating";
+$theme-name: "romantic";
 
 body {
 	background-color: bg-color;
@@ -31,7 +30,7 @@ body {
 // }
 
 #headerDiv {
-	background: url("../../images/" + $theme-name + ".png") no-repeat center;
+	background: url("images/" + $theme-name + ".png") no-repeat center;
 	background-size: cover;
 	border-left: 12px solid $secondary-color;
 	border-right: 12px solid $secondary-color;
@@ -61,9 +60,4 @@ body {
 
 .transport {
 	border: 3px solid $secondary-color;
-}
-
-.footer {
-	@extend .footer;
-	position: fixed;
 }

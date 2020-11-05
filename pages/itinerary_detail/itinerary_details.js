@@ -9,18 +9,21 @@ Date.prototype.addDays = function (days) {
 
 function changeTheme(clicked_id) {
 	if (clicked_id == "nature") {
+		console.log(clicked_id);
 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
 		var icons = document.getElementsByClassName("navigationIcon");
 		for (icon of icons) {
 			icon.className = "icon navigationIcon fas fa-leaf";
 		}
 	} else if (clicked_id == "family") {
+		console.log(clicked_id);
 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
 		var icons = document.getElementsByClassName("navigationIcon");
 		for (icon of icons) {
 			icon.className = "icon navigationIcon fas fa-home";
 		}
-	} else if (clicked_id == "dating") {
+	} else if (clicked_id == "romantic") {
+		console.log(clicked_id);
 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
 		var icons = document.getElementsByClassName("navigationIcon");
 		for (icon of icons) {
@@ -28,7 +31,7 @@ function changeTheme(clicked_id) {
 		}
 	}
 
-	$("#exampleModal").modal("hide");
+	$("#themeModal").modal("hide");
 }
 
 function getDates(startDate, stopDate) {
@@ -43,8 +46,11 @@ function getDates(startDate, stopDate) {
 
 /* Retrieve all activities under the same itinerary */
 function retrieveActivity() {
+	check_user();
+
 	//remember to change to dynamic itineraryID
-	var itineraryID = "1";
+	var itineraryID = new URL(window.location.href).searchParams.get("id");
+
 	var activities = [];
 	var baseUrl = "../../php/objects/activityRetrieve.php";
 
@@ -72,13 +78,13 @@ function retrieveActivity() {
 			activities.push(activity);
 		}
 
-		generateDay(activities);
+		generateDay(itineraryID, activities);
 	});
 }
 
-function generateDay(activities) {
+function generateDay(itineraryID, activities) {
 	//remember to change to dynamic itineraryID
-	var itineraryID = "10";
+	var itineraryID = itineraryID;
 	var baseUrl = "../../php/objects/itineraryRetrieve.php";
 
 	$.ajax({
@@ -89,6 +95,8 @@ function generateDay(activities) {
 	}).done(function (responseText) {
 		var result = responseText;
 
+		document.getElementById("siteHeader").innerText = result[0].name;
+		document.getElementById("itineraryTheme").href = "itinerary_" + result[0].itineraryType.toLowerCase() + ".css";
 		document.getElementById("itinerary_name").innerText = result[0].name;
 		document.getElementById("itinerary_date").innerText = result[0].startDate + " - " + result[0].endDate;
 
@@ -101,8 +109,16 @@ function generateDay(activities) {
 			//dating: heart
 			//family: home
 			//nature: leaf
-			itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-leaf"></i> 
+			if (result[0].itineraryType.toLowerCase() == "romantic") {
+				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-heart"></i> 
 			Day ${i + 1}</a></h5>`;
+			} else if (result[0].itineraryType.toLowerCase() == "family") {
+				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-home"></i> 
+			Day ${i + 1}</a></h5>`;
+			} else if (result[0].itineraryType.toLowerCase() == "nature") {
+				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-leaf"></i> 
+			Day ${i + 1}</a></h5>`;
+			}
 		}
 
 		populateItinerary(activities, result[0].startDate, result[0].endDate);
@@ -353,4 +369,30 @@ function deleteActivity(clicked_id) {
 function display() {
 	$("#ddlSetting").dropdown("toggle");
 	window.print();
+}
+
+function redirect_to_poi(keyword) {
+	window.location.href = "../search/search_poi.html?keyword=" + keyword;
+}
+
+function onEvent(event) {
+	if (event.key === "Enter") {
+		// After user typed enter
+		poi_page_html(document.getElementById("searching_poi").value, "all");
+	}
+}
+
+function check_user() {
+	if (sessionStorage.getItem("userID") === null) {
+		window.location.href = "../user/user_login.html";
+	} else {
+		console.log("hello");
+		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
+		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
+	}
+}
+
+function logOut() {
+	window.location.href = "../user/user_login.html";
+	sessionStorage.clear();
 }

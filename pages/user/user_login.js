@@ -1,6 +1,5 @@
 function login() {
-
-	var url = "./php/objects/UserTestLogin.php";
+	var url = "../../php/objects/UserTestLogin.php";
 	// var request = new XMLHttpRequest();
 
 	// request.onreadystatechange = function () {
@@ -11,7 +10,7 @@ function login() {
 	// 		}
 	// 	}
 	// };
-	
+
 	// request.open("POST", url, true);
 	// request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	// request.send(user);
@@ -19,18 +18,19 @@ function login() {
 	$.ajax({
 		url: url,
 		type: "POST",
-		dataType: "text",
 		data: {
 			email: document.getElementById("email").value,
-			password: document.getElementById("password").value
+			password: document.getElementById("password").value,
 		},
 	}).done(function (responseText) {
-		if (responseText == "fail"){	
-			document.getElementById("error_msg").setAttribute("style","display:block;");
-			console.log(document.getElementById("error_msg").innerHTML);
-		}
-		else{
-			window.location.href = responseText;
+		var result = JSON.parse(responseText);
+
+		if (result["status"].toLowerCase() == "fail") {
+			document.getElementById("error_msg").setAttribute("style", "display:block;");
+		} else {
+			alert(result["userID"]);
+			sessionStorage.setItem("userID", result["userID"]);
+			window.location.href = "../home/homepage.html";
 		}
 	});
-}	
+}
