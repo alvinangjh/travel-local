@@ -17,22 +17,19 @@ if ($user){
     // check if the plain text password is valid
     $result = array();
 
+    $result["status"] = "Success";
+    $result["userID"] = $user->getUserID();
+
     if ($status){ 
-        $result["status"] = "Success";
-        $result["userID"] = $user->getUserID();
         echo json_encode($result);
     }
 
     else{
-        $result["status"] = "Fail";
-        $result["userID"] = 0;
-        echo json_encode($result);
+        echo "Fail";
     }
 }
 else{
-    $result["status"] = "Fail";
-    $result["userID"] = 0;
-    echo json_encode($result);
+    echo "Fail";
 }
 
 
