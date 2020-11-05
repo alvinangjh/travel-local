@@ -32,7 +32,9 @@ function fillAddress(){
             // Call HELPER function to retrieve Postal Code
             var address = json_obj.results;
             
-            document.getElementById("locAddress").value = address[0]["ADDRESS"];
+            document.getElementById("locAddress").value = address[0]["ADDRESS"]
+            document.getElementById("lat").value = address[0]["LATITUDE"];
+            document.getElementById("lon").value = address[0]["LONGITUDE"];
 
         }
     }
@@ -64,7 +66,16 @@ function insert_poi() {
         recDuration: $("#recDuration").val(),
         imageUrl: $("#imageUrl").val(),
         rating: document.querySelector('input[name="rate"]:checked').value,
+        latitude:$("#lat").val(),
+        longitude:$("#lon").val(),
+        venueType: $("#venueType").val(),
+        businessContact: $("#businessContact").val(),
+        businessEmail: $("#businessEmail").val(),
+        businessHrs: $("#businessHrs").val(),
+        businessWeb: $("#businessWeb").val(),
     };
+
+    console.log(location);
 
     // (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
 
