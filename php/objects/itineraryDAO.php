@@ -47,55 +47,6 @@ class itineraryDAO {
         return $itineraries;
     }
 
-    public function retrieveByItineraryID($itineraryID) {
-        $connMgr = new Connection();
-        $conn = $connMgr->getConnection();
-
-        $sql = "SELECT * FROM itinerary WHERE itineraryID = :itineraryID";
-        $stmt = $conn->prepare($sql);
-        
-        // echo "<script>console.log('Debug Objects: " . $itineraryID . "' );</script>";
-
-        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
-        
-        $status = $stmt->execute();
-
-        // $activity = [];
-        // $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        // while( $row = $stmt->fetch() ) {
-        //     $activity[] = ["activityID" => $row["activityID"], 
-        //         "poiUUID" => $row["poiUUID"],
-        //         "itineraryID" => $row["itineraryID"]];
-        // }
-
-        $itineraries = [];
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        while( $row = $stmt->fetch() ) {
-
-            $timestamp = strtotime($row["startDate"]);
-            $startDate = date('d M Y', $timestamp);
-
-            $timestamp = strtotime($row["endDate"]);
-            $endDate = date('d M Y', $timestamp);
-
-            $itinerary = new Itinerary(
-                $row["itineraryID"],
-                $row["name"],
-                $startDate,
-                $endDate,
-                $row["itineraryType"],
-                $row["userID"],
-                $row["shared"]
-            );
-            $itineraries[] = $itinerary;
-        }
-        
-        $stmt = null;
-        $conn = null;
-
-        return $itineraries;
-    }
-
     public function getPopItins() {
         
         $connMgr = new Connection();
