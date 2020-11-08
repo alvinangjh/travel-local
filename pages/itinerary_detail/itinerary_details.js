@@ -278,15 +278,15 @@ function populateItinerary(activities, startDate, endDate) {
 												<label for="tbActivity${activities[i].activityID}">End Time</label>
 												<input id="tbEndTime${activities[i].activityID}" type="text" class="form-control" value=${activities[i].endTime} />
 											</div>
-											<div class="form-group col-md-12">
+											<!-- <div class="form-group col-md-12">
 												<div id="conflictAlert${activities[i].activityID}" class="alert alert-danger mb-0" role="alert" style="display: none;">
 													Your start/end time conflict with your existing itinerary!
 												</div>
-											</div>
+											</div> -->
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleteActivity(${activities[i].activityID})">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 										<button type="button" class="btn btn-danger" onclick="editActivity(${activities[i].activityID})">Save Changes</button>
 									</div>
 									</div>
@@ -307,7 +307,7 @@ function populateItinerary(activities, startDate, endDate) {
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-danger">Confirm Delete</button>
+										<button type="button" class="btn btn-danger" onclick="deleteActivity(${activities[i].activityID})">Confirm Delete</button>
 									</div>
 									</div>
 								</div>
@@ -421,7 +421,7 @@ function deleteActivity(clicked_id) {
 	$.ajax({
 		url: baseUrl,
 		type: "POST",
-		data: { activityID: clicked_id },
+		data: { activity_id: clicked_id },
 	}).done(function (responseText) {
 		if (responseText == 1) {
 			window.location.reload();
