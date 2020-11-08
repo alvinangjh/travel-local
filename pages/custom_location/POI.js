@@ -47,49 +47,81 @@ function fillAddress() {
 }
 
 function EnableDisableTextBox(addressChkBox) {
-	var txtPassportNumber = document.getElementById("locAddress");
-	txtPassportNumber.disabled = addressChkBox.checked ? false : true;
-	if (!txtPassportNumber.disabled) {
-		txtPassportNumber.focus();
+	// var txtPassportNumber = document.getElementById("locAddress");
+	// txtPassportNumber.readonly = addressChkBox.checked ? false : true;
+	// if (!txtPassportNumber.readonly) {
+	// 	txtPassportNumber.focus();
+	// }
+
+	if (addressChkBox.checked == true) {
+		$("#locAddress").attr("readonly", false);
+	} else {
+		$("#locAddress").attr("readonly", true);
 	}
 }
 
 function insert_poi() {
-	var location = {
-		locTitle: $("#locTitle").val(),
-		locAddress: $("#locAddress").val(),
-		locPostalCode: $("#locPostalCode").val(),
-		locDesc: $("#locDesc").val(),
-		recDuration: $("#recDuration").val(),
-		imageUrl: $("#imageUrl").val(),
-		rating: document.querySelector('input[name="rate"]:checked').value,
-		latitude: $("#lat").val(),
-		longitude: $("#lon").val(),
-		venueType: $("#venueType").val(),
-		businessContact: $("#businessContact").val(),
-		businessEmail: $("#businessEmail").val(),
-		businessHrs: $("#businessHrs").val(),
-		businessWeb: $("#businessWeb").val(),
-	};
+	// var location = {
+	// 	locTitle: $("#locTitle").val(),
+	// 	locAddress: $("#locAddress").val(),
+	// 	locPostalCode: $("#locPostalCode").val(),
+	// 	locDesc: $("#locDesc").val(),
+	// 	recDuration: $("#recDuration").val(),
+	// 	imageUrl: $("#imageUrl").val(),
+	// 	rating: $('input[name="rate"]:checked').val(),
+	// 	latitude: $("#lat").val(),
+	// 	longitude: $("#lon").val(),
+	// 	venueType: $("#venueType").val(),
+	// 	businessContact: $("#businessContact").val(),
+	// 	businessEmail: $("#businessEmail").val(),
+	// 	businessHrs: $("#businessHrs").val(),
+	// 	businessWeb: $("#businessWeb").val(),
+	// };
 
 	// (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
 
-	var data = JSON.stringify(location);
+	// var data = JSON.stringify(location);
+
 	var url = "../../php/objects/locationTest.php";
-	var request = new XMLHttpRequest();
 
-	request.onreadystatechange = function () {
-		if (request.readyState == 4 && request.status == 200) {
-			var status = request.responseText;
-
-			if (status == "Success") {
-			}
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: {
+			locTitle: $("#locTitle").val(),
+			locAddress: $("#locAddress").val(),
+			locPostalCode: $("#locPostalCode").val(),
+			locDesc: $("#locDesc").val(),
+			recDuration: $("#recDuration").val(),
+			imageUrl: $("#imageUrl").val(),
+			rating: $('input[name="rate"]:checked').val(),
+			latitude: $("#lat").val(),
+			longitude: $("#lon").val(),
+			venueType: $("#venueType").val(),
+			businessContact: $("#businessContact").val(),
+			businessEmail: $("#businessEmail").val(),
+			businessHrs: $("#businessHrs").val(),
+			businessWeb: $("#businessWeb").val(),
+		},
+	}).done(function (responseText) {
+		if (responseText == "Success") {
+			$("#successModal").modal("show");
 		}
-	};
+	});
 
-	request.open("POST", url, true);
-	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	request.send(data);
+	// var request = new XMLHttpRequest();
+
+	// request.onreadystatechange = function () {
+	// 	if (request.readyState == 4 && request.status == 200) {
+	// 		var status = request.responseText;
+
+	// 		if (status == "Success") {
+	// 		}
+	// 	}
+	// };
+
+	// request.open("POST", url);
+	// request.send(data);
 }
 
 function redirect_to_poi(keyword) {
@@ -107,7 +139,6 @@ function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
 		window.location.href = "../user/user_login.html";
 	} else {
-		console.log("hello");
 		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
 		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
 	}

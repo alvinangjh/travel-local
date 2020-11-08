@@ -40,6 +40,12 @@ function changeTheme() {
 		for (icon of icons) {
 			icon.className = "icon navigationIcon fas fa-heart";
 		}
+	} else if (clicked_id == "casual") {
+		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+		var icons = document.getElementsByClassName("navigationIcon");
+		for (icon of icons) {
+			icon.className = "icon navigationIcon fas fa-shoe-prints";
+		}
 	}
 
 	$.ajax({
@@ -153,6 +159,9 @@ function generateDay(itineraryID, activities) {
 			Day ${i + 1}</a></h5>`;
 			} else if (result[0].itineraryType.toLowerCase() == "nature") {
 				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-leaf"></i> 
+			Day ${i + 1}</a></h5>`;
+			} else if (result[0].itineraryType.toLowerCase() == "casual") {
+				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-shoe-prints"></i> 
 			Day ${i + 1}</a></h5>`;
 			}
 		}

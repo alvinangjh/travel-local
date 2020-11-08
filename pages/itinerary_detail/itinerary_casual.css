@@ -3,25 +3,25 @@ body {
 }
 
 .dayLink {
-  color: #0088cc;
+  color: #5d432c;
   font-weight: bold;
 }
 
 .dayLink:hover {
-  color: #00aaff;
+  color: #805c3c;
   text-decoration: none;
 }
 
 .utility {
-  background-color: #0088cc;
+  background-color: #5d432c;
   color: white;
 }
 
 #headerDiv {
-  background: url("images/family.png") no-repeat center;
+  background: url("images/casual.png") no-repeat center;
   background-size: cover;
-  border-left: 12px solid #0088cc;
-  border-right: 12px solid #0088cc;
+  border-left: 12px solid #5d432c;
+  border-right: 12px solid #5d432c;
 }
 
 #leftDiv {
@@ -32,7 +32,7 @@ body {
 }
 
 .icon {
-  color: #0088cc;
+  color: #5d432c;
 }
 
 #entrySectionDiv {
@@ -40,13 +40,13 @@ body {
 }
 
 .dailyDiv {
-  background-color: #0088cc;
-  border-bottom: 9px solid #00aaff;
+  background-color: #5d432c;
+  border-bottom: 9px solid #805c3c;
   color: white;
 }
 
 .transport {
-  border: 3px solid #0088cc;
+  border: 3px solid #5d432c;
 }
 
-/*# sourceMappingURL=itinerary_family.css.map */
+/*# sourceMappingURL=itinerary_casual.css.map */
