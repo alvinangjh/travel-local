@@ -79,34 +79,36 @@ class ActivityDAO {
         return $isOK;
     }
 
-    // public function add($itinerary) {
+    public function add($activity) {
     
-    //     $connMgr = new Connection();
-    //     $pdo = $connMgr->getConnection();
-    //     $sql = 'INSERT INTO itinerary (itineraryID, name, startDate, endDate, userID)
-    //             VALUES (:itineraryID, :name, :startDate, :endDate, :userID)';
-    //     $stmt = $pdo->prepare($sql); 
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+        $sql = 'INSERT INTO activity (activityID, poiUUID, startTime, endTime, activityDate, itineraryID)
+                VALUES (:activityID, :poiUUID, :startTime, :endTime, :activityDate, :itineraryID)';
+        $stmt = $pdo->prepare($sql); 
 
-    //     $itineraryID = $itinerary->getItineraryID(); 
-    //     $name = $itinerary->getName(); 
-    //     $startDate = $itinerary->getStartDate(); 
-    //     $endDate = $itinerary->getEndDate();
-    //     $userID = $itinerary->getUserID(); 
+        $activityID = $activity->getActivityID();
+        $poiUUID = $activity->getPOIUUID();
+        $startTime = $activity->getStartTime();
+        $endTime = $activity->getEndTime();
+        $activityDate = $activity->getActivityDate();
+        $itineraryID = $activity->getItineraryID();
 
-    //     $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
-    //     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    //     $stmt->bindParam(':startDate', $startDate, PDO::PARAM_STR);
-    //     $stmt->bindParam(':endDate', $endDate, PDO::PARAM_STR);
-    //     $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->bindParam(':activityID', $itineraryID, PDO::PARAM_INT);
+        $stmt->bindParam(':poiUUID', $poiUUID, PDO::PARAM_STR);
+        $stmt->bindParam(':startTime', $startTime, PDO::PARAM_STR);
+        $stmt->bindParam(':endTime', $endTime, PDO::PARAM_STR);
+        $stmt->bindParam(':activityDate', $activityDate, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
 
-    //     try {
-    //         $stmt->execute();
-    //         $stmt = null;
-    //         $pdo = null;
-    //         return "Success";
-    //     } catch (Exception $e) {
-    //         return $e;
-    //     }
-    // }
+        try {
+            $stmt->execute();
+            $stmt = null;
+            $pdo = null;
+            return "Success";
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
 }
 ?>

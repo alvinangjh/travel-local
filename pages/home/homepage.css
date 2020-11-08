@@ -1,3 +1,7 @@
+html {
+  background-color: #fffafa;
+}
+
 .card {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -90,7 +94,6 @@ a {
 
 .h2 {
   margin-bottom: 2rem;
-  text-decoration: underline;
 }
 
 #left_words {

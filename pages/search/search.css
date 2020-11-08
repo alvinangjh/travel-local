@@ -58,4 +58,10 @@
 .review-block-description {
   font-size: 13px;
 }
+
+#filterDiv {
+  position: fixed;
+  overflow: hidden;
+  z-index: 99;
+}
 /*# sourceMappingURL=search.css.map */

@@ -9,14 +9,7 @@ function call_api(keyword, data_types) {
 			var obj_to_prevent_duplicate = {};
 			for (poi of results) {
 				if (poi.images.length != 0 && poi.images[0].uuid != "" && !(poi.name in obj_to_prevent_duplicate)) {
-					new_str += display_poi(
-						poi.name,
-						poi.images[0].uuid,
-						counter,
-						poi.uuid,
-						poi.categoryDescription,
-						poi.description
-					);
+					new_str += display_poi(poi.name, poi.images[0].uuid, counter, poi.uuid, poi.categoryDescription, poi.description);
 					obj_to_prevent_duplicate[poi.name] = "";
 					counter++;
 				}
@@ -89,20 +82,16 @@ function display_specific_poi(
 
 	document.getElementById("siteTitle").innerText = title;
 
-	var poi_html = `        <div class='container my-4'>                 
+	var poi_html = `        <div class='mt-4'>                 
                                     <div id='title'>
-                                        <p class='h2'>${title}</p>
+										<p class='h2'>${title}</p>
+										<h5 class='text-muted'>${type_of_poi}</h5>
                                     </div>
                             </div>
                             <div id='poi_category' class='row'>
-                                        <h4 class='col-4 text-muted ml-2'> ${creating_stars_html(
-											Math.floor(rating)
-										)}</h4>
-                                       
-                                        <h5 class='col-4 text-muted'>${type_of_poi}</h5>
+                                    <h4 class='col-4 text-muted'> ${creating_stars_html(Math.floor(rating))}</h4>
                             </div>
                         
-
                             <div class='row'>
                                 <div class='col-7'>
                                     <div id='poi_image'>
@@ -118,9 +107,7 @@ function display_specific_poi(
 
                                 <div id='poi_business_hours'>
                                     <h6>Business Hours</h6>
-                                    <p>Opening hours: ${business_hours["openTime"]} - ${
-		business_hours["closeTime"]
-	}</p> <br>
+                                    <p>Opening hours: ${business_hours["openTime"]} - ${business_hours["closeTime"]}</p> <br>
                                 </div>
                                 <div id='poi_contact'>
                                     <h6>Contact</h6>
@@ -130,7 +117,7 @@ function display_specific_poi(
                                 </div>
                                 <div id='poi_itinerary_creation' style='width: 100%;'>
                                     <h6>Create an itinerary with ${title}</h6>
-                                    <button type="button" style='margin:auto;' class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Start Planning</button>
+                                    <button type="button" class="btn btn-danger btn-block w-50" onclick="startPlanning()">Start Planning</button>
                                 </div>
                                 <div id='onemap_image' class='mt-3'>
                                     <img src='${map_link}' alt='map' class="img-thumbnail">
@@ -389,7 +376,12 @@ function poi_page_html(keyword, data_types) {
                                                         </div>`;
 	document.getElementById("insert_poi").innerHTML += `<div class='container row'>
                                                             <div class='col-3 ml-3'>
-                                                                <div class='container border'>   
+																<div class='container border'>
+																	<div class='border-bottom px-3 pt-2 pb-3'>
+																		<h5>Can't find your place of interest?</h5> 
+																		<h6> Don't kanchiong!</h6>
+                                                                        <button class="btn btn-primary" onclick="window.location.href='../custom_location/poi_create.html'">Click here to add </button>
+                                                                    </div>       
                                                                     <div class='border-bottom px-3 pt-2 pb-3'>
                                                                         <div class='row'>
                                                                             <h3>Filter</h3>
@@ -472,6 +464,112 @@ function redirect_to_poi(keyword) {
 	window.location.href = "search_poi.html?keyword=" + keyword;
 }
 
+function addActivity() {
+	var poiUUID = new URL(window.location.href).searchParams.get("uuid");
+	var selectedItinerary = $("#ddlItinerary :selected").val();
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	var activityDate = $("#ddlActivityDate :selected").val();
+
+	var url = "../../php/objects/activityInsert.php";
+
+	var activity = {
+		activityID: "0",
+		poiUUID: poiUUID,
+		startTime: startTime,
+		endTime: endTime,
+		activityDate: activityDate,
+		itineraryID: selectedItinerary,
+	};
+
+	var data = JSON.stringify(activity);
+
+	console.log(data);
+
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			//hide success modal
+			console.log(request.responseText);
+			if (request.responseText == "Success") {
+				$("#exampleModal").modal("hide");
+				$("#successModal").modal("show");
+			}
+		}
+	};
+
+	request.open("POST", url, true);
+
+	request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+
+	request.send(data);
+}
+
+function startPlanning() {
+	var url = "../../php/objects/itineraryRetrieveAll.php";
+
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function () {
+		if (this.readyState == 4 && this.status == 200) {
+			var data = JSON.parse(request.responseText);
+			sessionStorage.setItem("test", request.responseText);
+			var selectElem = document.getElementById("ddlItinerary");
+
+			for (item of data) {
+				var el = document.createElement("option");
+				el.textContent = item.name;
+				el.value = item.itineraryID;
+				selectElem.appendChild(el);
+			}
+
+			var dateArray = getDates(new Date(data[0].startDate), new Date(data[0].endDate));
+
+			var activityElem = document.getElementById("ddlActivityDate");
+
+			for (var j = 0; j < dateArray.length; j++) {
+				var formattedDate = moment(dateArray[j]).format("DD MMM YYYY");
+				var otherFormatDate = moment(dateArray[j]).format("YYYY-MM-DD");
+
+				var elem = document.createElement("option");
+				elem.textContent = formattedDate;
+				elem.value = otherFormatDate;
+				activityElem.appendChild(elem);
+			}
+
+			$("#exampleModal").modal("show");
+		}
+	};
+
+	request.open("POST", url, true);
+
+	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	request.send("userID=" + sessionStorage.getItem("userID"));
+}
+
+function filterActivityDate() {
+	var selected = $("#ddlItinerary option:selected").val();
+	var data = JSON.parse(sessionStorage.getItem("test"));
+
+	for (item of data) {
+		if (item.itineraryID == selected) {
+			var dateArray = getDates(new Date(item.startDate), new Date(item.endDate));
+
+			$("#ddlActivityDate").empty();
+
+			for (var j = 0; j < dateArray.length; j++) {
+				var formattedDate = moment(dateArray[j]).format("DD MMM YYYY");
+				var otherFormatDate = moment(dateArray[j]).format("YYYY-MM-DD");
+
+				var elem = document.createElement("option");
+				elem.textContent = formattedDate;
+				elem.value = otherFormatDate;
+				$("#ddlActivityDate").append(elem);
+			}
+		}
+	}
+}
+
 function check_user() {
 	if (sessionStorage.getItem("userID") === null) {
 		window.location.href = "../user/user_login.html";
@@ -485,4 +583,20 @@ function check_user() {
 function logOut() {
 	window.location.href = "../user/user_login.html";
 	sessionStorage.clear();
+}
+
+Date.prototype.addDays = function (days) {
+	var dat = new Date(this.valueOf());
+	dat.setDate(dat.getDate() + days);
+	return dat;
+};
+
+function getDates(startDate, stopDate) {
+	var dateArray = new Array();
+	var currentDate = startDate;
+	while (currentDate <= stopDate) {
+		dateArray.push(currentDate);
+		currentDate = currentDate.addDays(1);
+	}
+	return dateArray;
 }

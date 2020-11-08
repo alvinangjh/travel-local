@@ -9,8 +9,8 @@ class LocationDAO {
     
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection();
-        $sql = 'INSERT INTO custom_loc (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
-        VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :recDuration, :rating, :imageUrl, :createdBy)';
+        $sql = 'INSERT INTO custom_loc (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy, latitude, longitude, venueType, businessContact, businessEmail, businessHrs, businessWeb)
+        VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :recDuration, :rating, :imageUrl, :createdBy, :latitude, :longitude, :venueType, :businessContact, :businessEmail, :businessHrs, :businessWeb)';
         $stmt = $pdo->prepare($sql); 
 
         $locID = $location->getLocID(); 
@@ -22,6 +22,13 @@ class LocationDAO {
         $rating = $location->getRating(); 
         $imageUrl = $location->getImageUrl(); 
         $createdBy = $location->getCreatedBy(); 
+        $latitude = $location->getLatitude(); 
+        $longitude = $location->getLongitude(); 
+        $venueType = $location->getVenueType(); 
+        $businessContact = $location->getBusinessContact(); 
+        $businessEmail = $location->getBusinessEmail(); 
+        $businessHrs = $location->getBusinessHrs(); 
+        $businessWeb = $location->getBusinessWeb(); 
 
         $stmt->bindParam(':locID', $locID, PDO::PARAM_INT);
         $stmt->bindParam(':locTitle', $locTitle, PDO::PARAM_STR);
@@ -32,6 +39,13 @@ class LocationDAO {
         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         $stmt->bindParam(':imageUrl', $imageUrl, PDO::PARAM_STR);
         $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_INT);
+        $stmt->bindParam(':latitude', $latitude, PDO::PARAM_STR);
+        $stmt->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+        $stmt->bindParam(':venueType', $venueType, PDO::PARAM_STR);
+        $stmt->bindParam(':businessContact', $businessContact, PDO::PARAM_INT);
+        $stmt->bindParam(':businessEmail', $businessEmail, PDO::PARAM_STR);
+        $stmt->bindParam(':businessHrs', $businessHrs, PDO::PARAM_STR);
+        $stmt->bindParam(':businessWeb', $businessWeb, PDO::PARAM_STR);
 
         try {
             $stmt->execute();

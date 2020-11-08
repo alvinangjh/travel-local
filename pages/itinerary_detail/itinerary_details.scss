@@ -1,5 +1,3 @@
-@import "../../node_modules/rfs/scss";
-
 // .entry {
 // 	display: flex;
 // 	align-items: center;
@@ -8,10 +6,6 @@
 
 // .entry-detail {
 // }
-
-body {
-	background-color: #fffafa;
-}
 
 .dayLink {
 	color: #d91a72;
@@ -30,6 +24,10 @@ body {
 .utility:hover {
 	color: pink;
 	text-decoration: none;
+}
+
+#successLink {
+	display: none;
 }
 
 // #header {

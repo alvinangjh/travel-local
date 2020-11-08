@@ -7,33 +7,6 @@ Date.prototype.addDays = function (days) {
 	return dat;
 };
 
-function changeTheme(clicked_id) {
-	if (clicked_id == "nature") {
-		console.log(clicked_id);
-		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-		var icons = document.getElementsByClassName("navigationIcon");
-		for (icon of icons) {
-			icon.className = "icon navigationIcon fas fa-leaf";
-		}
-	} else if (clicked_id == "family") {
-		console.log(clicked_id);
-		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-		var icons = document.getElementsByClassName("navigationIcon");
-		for (icon of icons) {
-			icon.className = "icon navigationIcon fas fa-home";
-		}
-	} else if (clicked_id == "romantic") {
-		console.log(clicked_id);
-		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-		var icons = document.getElementsByClassName("navigationIcon");
-		for (icon of icons) {
-			icon.className = "icon navigationIcon fas fa-heart";
-		}
-	}
-
-	$("#themeModal").modal("hide");
-}
-
 function getDates(startDate, stopDate) {
 	var dateArray = new Array();
 	var currentDate = startDate;
@@ -43,6 +16,67 @@ function getDates(startDate, stopDate) {
 	}
 	return dateArray;
 }
+
+function changeTheme() {
+	var clicked_id = $("input:radio[name=rdBtnTheme]:checked").val();
+	var baseUrl = "../../php/objects/itineraryThemeUpdate.php";
+	var itineraryID = new URL(window.location.href).searchParams.get("id");
+
+	if (clicked_id == "nature") {
+		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+		var icons = document.getElementsByClassName("navigationIcon");
+		for (icon of icons) {
+			icon.className = "icon navigationIcon fas fa-leaf";
+		}
+	} else if (clicked_id == "family") {
+		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+		var icons = document.getElementsByClassName("navigationIcon");
+		for (icon of icons) {
+			icon.className = "icon navigationIcon fas fa-home";
+		}
+	} else if (clicked_id == "romantic") {
+		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+		var icons = document.getElementsByClassName("navigationIcon");
+		for (icon of icons) {
+			icon.className = "icon navigationIcon fas fa-heart";
+		}
+	}
+
+	$.ajax({
+		url: baseUrl,
+		type: "POST",
+		data: { itinerary_id: itineraryID, itinerary_theme: clicked_id },
+	}).done(function (responseText) {
+		$("#themeModal").modal("hide");
+	});
+}
+
+// function changeTheme(clicked_id) {
+// 	if (clicked_id == "nature") {
+// 		console.log(clicked_id);
+// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+// 		var icons = document.getElementsByClassName("navigationIcon");
+// 		for (icon of icons) {
+// 			icon.className = "icon navigationIcon fas fa-leaf";
+// 		}
+// 	} else if (clicked_id == "family") {
+// 		console.log(clicked_id);
+// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+// 		var icons = document.getElementsByClassName("navigationIcon");
+// 		for (icon of icons) {
+// 			icon.className = "icon navigationIcon fas fa-home";
+// 		}
+// 	} else if (clicked_id == "romantic") {
+// 		console.log(clicked_id);
+// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
+// 		var icons = document.getElementsByClassName("navigationIcon");
+// 		for (icon of icons) {
+// 			icon.className = "icon navigationIcon fas fa-heart";
+// 		}
+// 	}
+
+// 	$("#themeModal").modal("hide");
+// }
 
 /* Retrieve all activities under the same itinerary */
 function retrieveActivity() {
@@ -94,6 +128,8 @@ function generateDay(itineraryID, activities) {
 		data: { itinerary_id: itineraryID },
 	}).done(function (responseText) {
 		var result = responseText;
+
+		document.getElementById("rdBtn" + result[0].itineraryType.charAt(0).toUpperCase() + result[0].itineraryType.slice(1)).checked = true;
 
 		document.getElementById("siteHeader").innerText = result[0].name;
 		document.getElementById("itineraryTheme").href = "itinerary_" + result[0].itineraryType.toLowerCase() + ".css";
@@ -236,11 +272,11 @@ function populateItinerary(activities, startDate, endDate) {
 											</div>
 											<div class="form-group col-md-6">
 												<label for="tbActivity${activities[i].activityID}">Start Time</label>
-												<input id="tbStartTime${activities[i].activityID}" type="time" class="form-control" value=${activities[i].startTime} />
+												<input id="tbStartTime${activities[i].activityID}" type="text" class="form-control" value=${activities[i].startTime} />
 											</div>
 											<div class="form-group col-md-6">
 												<label for="tbActivity${activities[i].activityID}">End Time</label>
-												<input id="tbEndTime${activities[i].activityID}" type="time" class="form-control" value=${activities[i].endTime} />
+												<input id="tbEndTime${activities[i].activityID}" type="text" class="form-control" value=${activities[i].endTime} />
 											</div>
 											<div class="form-group col-md-12">
 												<div id="conflictAlert${activities[i].activityID}" class="alert alert-danger mb-0" role="alert" style="display: none;">
@@ -251,7 +287,7 @@ function populateItinerary(activities, startDate, endDate) {
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleteActivity(${activities[i].activityID})">Close</button>
-										<button type="button" class="btn btn-primary" onclick="editActivity(${activities[i].activityID})">Confirm changes</button>
+										<button type="button" class="btn btn-danger" onclick="editActivity(${activities[i].activityID})">Save Changes</button>
 									</div>
 									</div>
 								</div>
@@ -284,9 +320,7 @@ function populateItinerary(activities, startDate, endDate) {
 							</div>
 						</div> -->`;
 
-						document.getElementById(
-							moment(activities[i].activityDate).format("DD-MM-YYYY")
-						).innerHTML += str;
+						document.getElementById(moment(activities[i].activityDate).format("DD-MM-YYYY")).innerHTML += str;
 
 						var select = document.getElementById("ddlDate" + activities[i].activityID);
 
@@ -303,6 +337,35 @@ function populateItinerary(activities, startDate, endDate) {
 								elem.selected = true;
 							}
 						}
+
+						$("#tbStartTime" + activities[i].activityID).timepicker({
+							timeFormat: "hh:mm p",
+							interval: 15,
+							defaultTime: openingHour,
+							minTime: openingHour,
+							maxTime: closingHour,
+							startTime: openingHour,
+							dropdown: true,
+							scrollbar: false,
+							zindex: 3500,
+							change: function (time) {
+								$("#tbEndTime" + activities[i].activityID).timepicker("option", "minTime", time);
+							},
+						});
+
+						$("#tbEndTime" + activities[i].activityID).timepicker({
+							timeFormat: "hh:mm p",
+							interval: 15,
+							zindex: 3500,
+							defaultTime: closingHour,
+							minTime: openingHour,
+							maxTime: closingHour,
+							dropdown: true,
+							scrollbar: false,
+							change: function (time) {
+								$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
+							},
+						});
 					},
 				});
 			}, 0000);
@@ -367,8 +430,27 @@ function deleteActivity(clicked_id) {
 }
 
 function display() {
-	$("#ddlSetting").dropdown("toggle");
 	window.print();
+}
+
+function shareItinerary() {
+	$("#successLink").attr("style", "display:none");
+	$("#shareModal").modal("show");
+	$("#tbShareLink").val(window.location.href);
+}
+
+function copyLink() {
+	/* Get the text field */
+	var copyText = document.getElementById("tbShareLink");
+
+	/* Select the text field */
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+	/* Copy the text inside the text field */
+	document.execCommand("copy");
+
+	$("#successLink").attr("style", "display:''");
 }
 
 function redirect_to_poi(keyword) {
@@ -386,7 +468,6 @@ function check_user() {
 	if (sessionStorage.getItem("userID") === null) {
 		window.location.href = "../user/user_login.html";
 	} else {
-		console.log("hello");
 		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
 		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
 	}

@@ -25,9 +25,10 @@ body {
 }
 
 #leftDiv {
-  float: left;
-  width: 20%;
+  position: fixed;
+  width: 28%;
   overflow: hidden;
+  z-index: 99;
 }
 
 .icon {
@@ -35,8 +36,7 @@ body {
 }
 
 #entrySectionDiv {
-  float: right;
-  width: 78%;
+  width: 67%;
 }
 
 .dailyDiv {

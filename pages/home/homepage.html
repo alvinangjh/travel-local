@@ -32,173 +32,186 @@
 		<link rel="stylesheet" type="text/css" href="../../scss/master.css" />
 		<link rel="stylesheet" type="text/css" href="homepage.css" />
 
-		<title>Itinerary Overview</title>
+		<link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
+
+		<title>Travel Local - Your one-stop local itinerary planner</title>
 	</head>
-	<body class="pt-5" onload="check_user()">
-		<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
-			<a class="navbar-brand" href="../home/homepage.html">Travel Local</a>
+	<body onload="check_user()">
+		<div id="page-container">
+			<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom shadow-sm">
+				<a class="navbar-brand mb-0 h1" href="../home/homepage.html">
+					<img src="../../images/logo.png" width="32" height="32" class="d-inline-block align-top" loading="lazy" />
+					Travel <span class="font-weight-bold text-danger">Local</span></a
+				>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<!-- <ul class="navbar-nav"> -->
-				<!-- <li class="nav-item">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- <ul class="navbar-nav"> -->
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
 					</li> -->
-				<!-- <li class="nav-item active">
+					<!-- <li class="nav-item active">
 						<a class="nav-link" href="#">My Itinerary</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">My Profile</a>
 					</li> -->
-				<!-- </ul> -->
-				<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
-					<div class="input-group">
-						<input
-							class="form-control border-right-0 border"
-							type="search"
-							placeholder="Search for places of interest"
-							id="searching_poi"
-							onkeypress="onEvent(event)"
-						/>
-						<span class="input-group-append">
-							<button
-								class="btn btn-outline-secondary border-left-0 border"
-								type="button"
-								onclick="redirect_to_poi(document.getElementById('searching_poi').value)"
-							>
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
+					<!-- </ul> -->
+					<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
+						<div class="input-group">
+							<input
+								class="form-control border-right-0 border"
+								type="search"
+								placeholder="Search places & activities"
+								id="searching_poi"
+								onkeypress="onEvent(event)"
+							/>
+							<span class="input-group-append">
+								<button
+									class="btn btn-outline-secondary border-left-0 border"
+									type="button"
+									onclick="redirect_to_poi(document.getElementById('searching_poi').value)"
+								>
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div>
 
-					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+						<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
 						Search
 					</button> -->
-				</form>
+					</form>
 
-				<div id="signUpDiv" class="ml-auto">
-					<a href="../user/user_signup.html" class="btn btn-danger my-2 my-sm-0">Sign Up</a>
+					<div id="signUpDiv" class="ml-auto">
+						<a href="../user/user_signup.html" class="btn btn-danger my-2 my-sm-0">Sign Up</a>
+					</div>
+
+					<div id="signOutDiv" class="ml-auto">
+						<a onclick="logOut()" class="btn btn-danger my-2 my-sm-0">Log Out</a>
+					</div>
 				</div>
+			</nav>
 
-				<div id="signOutDiv" class="ml-auto">
-					<a onclick="logOut()" class="btn btn-danger my-2 my-sm-0">Log Out</a>
-				</div>
-			</div>
-		</nav>
-
-		<div class="hero-image">
-			<div class="d-flex flex-column bd-highlight">
-				<div class="" id="HeroTitle"></div>
-				<div class="px-5 mx-2" id="btm_cont">
-					<div class="container">
-						<div class="row">
-							<div class="col container" id="left_words">
-								<!--Left Container under BIG WORDS-->
-								<p class="h1">Don't Say Bo Jio!</p>
-							</div>
-							<div class="col container" id="itinCreationForm">
-								<!--Right Container under BIG WORDS-->
-								<p class="h3">Create Itinerary</p>
-								<form action="" autocomplete="off">
-									<div class="form-group">
-										<label for="itinName">Itinerary Name</label>
-										<input
-											type="email"
-											class="form-control"
-											id="itinName"
-											aria-describedby="itinNameHelp"
-										/>
-										<small id="itinNameHelp" class="form-text"
-											>The name will be visible to others!</small
-										>
-
-										<div class="input-group mb-3">
-											<div class="input-group-prepend">
-												<label class="input-group-text" for="itinType">Itinerary Type</label>
-											</div>
+			<div id="content-wrap">
+				<div class="hero-image">
+					<div class="d-flex flex-column bd-highlight">
+						<div class="" id="HeroTitle"></div>
+						<div class="px-5 mx-2" id="btm_cont">
+							<div class="container">
+								<div class="row">
+									<div class="col container" id="left_words">
+										<!--Left Container under BIG WORDS-->
+										<p class="h1 text-center">
+											What are you waiting for? <br />
+											Starting Planning Now! <br />
+											Don't say we bo jio!
+										</p>
+									</div>
+									<div class="col container" id="itinCreationForm">
+										<!--Right Container under BIG WORDS-->
+										<p class="h3">Create Itinerary</p>
+										<!-- <form action="" autocomplete="off"> -->
+										<div class="form-group">
+											<!-- <label for="itinName">Itinerary Name</label> -->
+											<input type="text" class="form-control" id="itinName" placeholder="Enter an itinerary name" />
+											<small id="itinNameHelp" class="form-text">The name will be visible to others</small>
+											<!-- <div class="input-group mb-3">
+													<div class="input-group-prepend">
+														<label class="input-group-text" for="itinType">Itinerary Type</label>
+													</div>
+												</div> -->
+										</div>
+										<div class="form-group">
 											<select class="custom-select" id="itinType">
-												<option selected>Select...</option>
-												<option value="Family">Family</option>
-												<option value="Casual">Casual</option>
-												<option value="Nature">Nature</option>
-												<option value="Romantic">Romantic</option>
+												<option selected disabled>Choose an itinerary category</option>
+												<option value="casual">Casual</option>
+												<option value="family">Family</option>
+												<option value="nature">Nature</option>
+												<option value="romantic">Romantic</option>
 											</select>
 										</div>
-									</div>
-
-									<label for="startDate"
-										>Start Date:
-										<input type="text" class="mb-1 Readonly" id="startDate" name="startDate"
-									/></label>
-									<label for="endDate"
-										>End Date: <input type="text" class="mb-1" id="endDate" name="endDate"
-									/></label>
-								</form>
-								<!-- <label for="itinStartDate">Start Date<input type="date" name="itinStartDate"></label>
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<!-- <label for="startDate">Start Date:</label> -->
+												<input
+													type="text"
+													class="form-control mb-1"
+													id="startDate"
+													name="startDate"
+													placeholder="Start Date"
+													autocomplete="off"
+												/>
+											</div>
+											<div class="form-group col-md-6">
+												<!-- <label for="endDate">End Date:</label> -->
+												<input
+													type="text"
+													class="form-control mb-1"
+													id="endDate"
+													name="endDate"
+													autocomplete="off"
+													placeholder="End Date"
+												/>
+											</div>
+										</div>
+										<!-- </form> -->
+										<!-- <label for="itinStartDate">Start Date<input type="date" name="itinStartDate"></label>
                                 <label for="itinEndDate">End Date<input type="date" name="itinEndDate"></label> -->
 
-								<button type="submit" onclick="add_itinerary()" class="btn btn-success">Create!</button>
+										<button type="submit" onclick="add_itinerary()" class="btn btn-danger btn-block">Create!</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container">
+					<!-- Cards My Itins-->
+					<p class="h2" id="MyPlans">Your Plans</p>
+					<div class="row" id="my_itins">
+						<!-- Space for the Itinerary first 4 card display elements -->
+					</div>
+
+					<!-- Cards pop itins -->
+					<p class="h2" id="Popular">Popular Plans</p>
+					<div class="row" id="popular_itins"></div>
+
+					<!-- Cards pop itins -->
+					<p class="h2" id="Recommended">Recommended Plans</p>
+					<!-- <div class="row border border-top-0 border-left-0 border-right-0 rounded mb-4" id="recommended_itins"></div> -->
+					<div class="row" id="recommended_itins"></div>
+				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal_title">Are you sure?</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" id="modal_body">
+								Are you sure you want to delete this itinerary? This action cannot be undone.
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-danger" onclick="delete_itin(this.id)" id="confirm">Confirm</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<footer class="footer">
+				<p class="pl-5 text-muted mt-2">© 2020 Travel Local. All Rights Reserved.</p>
+			</footer>
 		</div>
-
-		<div class="container">
-			<!-- Cards My Itins-->
-			<p class="h2" id="MyPlans">Your Plans</p>
-			<div class="row" id="my_itins">
-				<!-- Space for the Itinerary first 4 card display elements -->
-			</div>
-		</div>
-
-		<div class="container">
-			<!-- Cards pop itins -->
-			<p class="h2" id="Popular">Popular Plans</p>
-			<div class="row border border-top-0 border-left-0 border-right-0 rounded mb-4" id="popular_itins"></div>
-		</div>
-
-		<!-- Modal -->
-		<div
-			class="modal fade"
-			id="exampleModalCenter"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="exampleModalCenterTitle"
-			aria-hidden="true"
-		>
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="modal_title">Deleting Itinerary</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body" id="modal_body">
-						Confirm deleting of itinerary? Action cannot be undone.
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-danger" onclick="delete_itin(this.id)" id="confirm">
-							Delete!
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<footer class="footer">
-			<div class="container">
-				<span class="text-muted">Web Application Development II</span>
-			</div>
-		</footer>
-
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
@@ -236,25 +249,25 @@
 
 		<script>
 			$(document).ready(function () {
-				$("#startDate")
-					.datepicker({
-						format: "dd-mm-yyyy",
-						autoclose: true,
-					})
-					.on("changeDate", function (selected) {
-						var minDate = new Date(selected.date.valueOf());
-						$("#endDate").datepicker("setStartDate", minDate);
-					});
+				$("#startDate").datepicker({
+					minDate: 0,
+					format: "dd-mm-yyyy",
+					autoclose: true,
+					onSelect: function (selected) {
+						var minDate = new Date(selected);
+						$("#endDate").datepicker("option", "minDate", minDate);
+					},
+				});
 
-				$("#endDate")
-					.datepicker({
-						format: "dd-mm-yyyy",
-						autoclose: true,
-					})
-					.on("changeDate", function (selected) {
-						var minDate = new Date(selected.date.valueOf());
-						$("#startDate").datepicker("setEndDate", minDate);
-					});
+				$("#endDate").datepicker({
+					minDate: 0,
+					format: "dd-mm-yyyy",
+					autoclose: true,
+					onSelect: function (selected) {
+						var maxDate = new Date(selected);
+						$("#startDate").datepicker("option", "maxDate", maxDate);
+					},
+				});
 			});
 		</script>
 	</body>

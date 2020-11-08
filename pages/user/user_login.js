@@ -23,12 +23,13 @@ function login() {
 			password: document.getElementById("password").value,
 		},
 	}).done(function (responseText) {
+		console.log(responseText);
 		var result = JSON.parse(responseText);
+		
 
 		if (result["status"].toLowerCase() == "fail") {
 			document.getElementById("error_msg").setAttribute("style", "display:block;");
 		} else {
-			alert(result["userID"]);
 			sessionStorage.setItem("userID", result["userID"]);
 			window.location.href = "../home/homepage.html";
 		}

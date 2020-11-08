@@ -1,6 +1,5 @@
 body {
   background-color: bg-color;
-  padding-top: 60px;
 }
 
 .dayLink {
@@ -27,9 +26,9 @@ body {
 }
 
 #leftDiv {
-  width: 20%;
-  overflow: hidden;
   position: fixed;
+  width: 28%;
+  overflow: hidden;
   z-index: 99;
 }
 
@@ -38,8 +37,7 @@ body {
 }
 
 #entrySectionDiv {
-  float: right;
-  width: 78%;
+  width: 67%;
 }
 
 .dailyDiv {

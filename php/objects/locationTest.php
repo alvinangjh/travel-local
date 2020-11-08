@@ -9,8 +9,8 @@ $decoded = array();
 //Decode the JSON string and convert it into a PHP associative array.
 $decoded = json_decode($location, true);
 
-$new_location = new Location("", $decoded["locTitle"], $decoded["locAddress"], $decoded["locPostalCode"], $decoded["locDesc"], $decoded["recDuration"],  $decoded["rating"], $decoded["imageUrl"], "");
-
+$new_location = new Location("", $decoded["locTitle"], $decoded["locAddress"], $decoded["locPostalCode"], $decoded["locDesc"], $decoded["recDuration"],  $decoded["rating"], $decoded["imageUrl"], "", $decoded["latitude"], $decoded["longitude"], $decoded["venueType"], $decoded["businessContact"], $decoded["businessEmail"], $decoded["businessHrs"], $decoded["businessWeb"]);
+echo "<script>console.log('Debug Objects: " .  $decoded["latitude"] . "' );</script>";
 // (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
 
 // $new_user = new User("", $decoded->getFirstName(), )

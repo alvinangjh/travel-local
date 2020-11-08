@@ -2,7 +2,7 @@
 
 include_once '../includes/autoload.php';
 
-    class Activity {
+    class activity {
         // object properties
         public $activityID;
         public $poiUUID;

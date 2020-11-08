@@ -116,7 +116,7 @@ function display_popular_cards(intineraries) {
 function delete_itin(id) {
 	var itineraryID = { itineraryID: id };
 	itineraryID = JSON.stringify(itineraryID);
-	let url = "../travel-local-1/php/objects/itinDelete.php";
+	let url = "../../php/objects/itinDelete.php";
 	ajaxCall(url, console.log, "POST", itineraryID);
 	location.reload();
 }

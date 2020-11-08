@@ -1,7 +1,6 @@
 <?php
 
-include_once 'Itinerary.php';
-include_once 'connection.php';
+include_once '../includes/autoload.php';
 
 class itineraryDAO {
     
@@ -57,6 +56,55 @@ class itineraryDAO {
         // echo "<script>console.log('Debug Objects: " . $itineraryID . "' );</script>";
 
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
+        
+        $status = $stmt->execute();
+
+        // $activity = [];
+        // $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        // while( $row = $stmt->fetch() ) {
+        //     $activity[] = ["activityID" => $row["activityID"], 
+        //         "poiUUID" => $row["poiUUID"],
+        //         "itineraryID" => $row["itineraryID"]];
+        // }
+
+        $itineraries = [];
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        while( $row = $stmt->fetch() ) {
+
+            $timestamp = strtotime($row["startDate"]);
+            $startDate = date('d M Y', $timestamp);
+
+            $timestamp = strtotime($row["endDate"]);
+            $endDate = date('d M Y', $timestamp);
+
+            $itinerary = new Itinerary(
+                $row["itineraryID"],
+                $row["name"],
+                $startDate,
+                $endDate,
+                $row["itineraryType"],
+                $row["userID"],
+                $row["shared"]
+            );
+            $itineraries[] = $itinerary;
+        }
+        
+        $stmt = null;
+        $conn = null;
+
+        return $itineraries;
+    }
+
+    public function retrieveByUserID($userID) {
+        $connMgr = new Connection();
+        $conn = $connMgr->getConnection();
+
+        $sql = "SELECT * FROM itinerary WHERE userID = :userID";
+        $stmt = $conn->prepare($sql);
+        
+        // echo "<script>console.log('Debug Objects: " . $itineraryID . "' );</script>";
+
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
         
         $status = $stmt->execute();
 
@@ -185,7 +233,7 @@ class itineraryDAO {
     public function getCatsByGenderStatus($gender, $status) {
 
         // STEP 1
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect(); // PDO object
         
         // STEP 2
@@ -241,7 +289,7 @@ class itineraryDAO {
     public function getCatsFilter($status, $gender, $max_age) {
 
         // STEP 1
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect(); // PDO object
 
         // STEP 2
@@ -313,7 +361,7 @@ class itineraryDAO {
     public function isCatFound($name) {
 
         // STEP 1 - Connect to MySQL Database
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect();
         // STEP 2 - Prepare SQL Query
         $sql = "SELECT 
@@ -352,7 +400,7 @@ class itineraryDAO {
     public function getCatByName($name) {
 
         // STEP 1 - Connect to MySQL Database
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect();
         
         $sql = "SELECT * FROM cat WHERE name = :name";
@@ -388,7 +436,7 @@ class itineraryDAO {
         $status = 'A';
 
         // STEP 1 - Connect to MySQL Database
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect();
         // STEP 2 - Prepare SQL Query
         $sql = "
@@ -419,7 +467,7 @@ class itineraryDAO {
     public function delete($name) {      
 
         // STEP 1 - Connect to MySQL Database
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect();
         // STEP 2 - Prepare SQL Query
         $sql = "
@@ -448,7 +496,7 @@ class itineraryDAO {
     public function updateStatus($name, $status) {
 
         // STEP 1 - Connect to MySQL Database
-        $connMgr = new ConnectionManager();
+        $connMgr = new Connection();
         $pdo = $connMgr->connect();
         // STEP 2 - Prepare SQL Query
         $sql = "
@@ -474,13 +522,12 @@ class itineraryDAO {
     }
    
 
-
     // Update cat's details
     // Return TRUE (if no SQL error) or FALSE (SQL error)
     public function update($name, $age, $gender, $status) {        
               
                 // STEP 1 - Connect to MySQL Database
-                $connMgr = new ConnectionManager();
+                $connMgr = new Connection();
                 $pdo = $connMgr->connect();
                 // STEP 2 - Prepare SQL Query
                 $sql = "
@@ -507,6 +554,27 @@ class itineraryDAO {
                 
                 // STEP 5
                 return $isOk;
+    }
+
+    public function updateType($itineraryID, $itineraryType) {      
+
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+
+        $sql = "
+            UPDATE itinerary SET itineraryType = :itineraryType where itineraryID = :itineraryID
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':itineraryType', $itineraryType, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_STR);
+
+        $isOk = $stmt->execute();
+        
+
+        $stmt = null;
+        $pdo = null;        
+        
+        return $isOk;
     }
 
 }
