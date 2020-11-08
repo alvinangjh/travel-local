@@ -14,10 +14,7 @@
 		/>
 
 		<!-- Font Awesome CSS -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 		<link rel="stylesheet" href="scripts/jquery-ui-1.12.1.custom/jquery-ui.css" />
 
@@ -27,10 +24,12 @@
 		<title>Custom Location</title>
 	</head>
 
-	<body class="pt-5" onload="checkUser()">
-		<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
-			<a class="navbar-brand" href="../home/homepage.html">Travel Local</a>
-
+	<body onload="checkUser()">
+		<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom shadow-sm">
+			<a class="navbar-brand mb-0 h1" href="../home/homepage.html">
+				<img src="../../images/logo.png" width="32" height="32" class="d-inline-block align-top" loading="lazy" />
+				Travel <span class="font-weight-bold text-danger">Local</span></a
+			>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -38,21 +37,21 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<!-- <ul class="navbar-nav"> -->
 				<!-- <li class="nav-item">
-						<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
-					</li> -->
+					<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
+				</li> -->
 				<!-- <li class="nav-item active">
-						<a class="nav-link" href="#">My Itinerary</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">My Profile</a>
-					</li> -->
+					<a class="nav-link" href="#">My Itinerary</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">My Profile</a>
+				</li> -->
 				<!-- </ul> -->
 				<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
 					<div class="input-group">
 						<input
 							class="form-control border-right-0 border"
 							type="search"
-							placeholder="Search for places of interest"
+							placeholder="Search places & activities"
 							id="searching_poi"
 							onkeypress="onEvent(event)"
 						/>
@@ -68,8 +67,8 @@
 					</div>
 
 					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-						Search
-					</button> -->
+					Search
+				</button> -->
 				</form>
 
 				<div id="signUpDiv" class="ml-auto">
@@ -82,52 +81,28 @@
 			</div>
 		</nav>
 
-		<!--header-->
-		<div class="container-fluid" id="header">
-			<h3>Share Hidden Gem Leh!</h3>
-		</div>
-
-		<div id="card_container">
+		<div id="card_container" class="mt-4">
+			<div class="container-fluid mb-0" id="header">
+				<h3>Share your Hidden Gem with us!</h3>
+			</div>
 			<!--Card-->
-			<div class="card mx-5 mt-5 mb-3 p-2" style="max-width: auto">
+			<div class="card mx-5 mb-3 p-2" style="max-width: auto">
 				<div class="row no-gutters p-2">
-					<!--Card Image-->
-					<div class="col-sm-5 align-self-center text-center pr-3">
-						<p>
-							<img id="output" width="100%" height="80%" style="z-index: 1" />
-						</p>
-						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="imageUrl" onchange="loadFile(event)" />
-							<label class="custom-file-label" for="imageUrl">Choose file</label>
-						</div>
-					</div>
-
 					<!--Card Body Start-->
-					<div class="card-body col-sm-7 pl-3">
+					<div class="card-body col-md-12 pl-3">
 						<!--Form Start-->
 						<form action="../../php/objects/locationTest.php" method="POST" name="insertPOI">
 							<!--Title-->
 							<div class="row col-sm-12 mb-2 p-0">
 								<h4>Title</h4>
-								<input
-									class="form-control form-control-lg"
-									type="text"
-									id="locTitle"
-									placeholder="Kampong Lorong Buangkok"
-								/>
+								<input class="form-control form-control-lg" type="text" id="locTitle" placeholder="Kampong Lorong Buangkok" />
 							</div>
 
 							<!--Postal Code & Venue Type-->
 							<div class="row col-sm-12 mb-2 p-0 justify-content-between">
 								<div class="col-md-5 p-0">
 									Postal Code
-									<input
-										type="text"
-										id="locPostalCode"
-										class="form-control"
-										placeholder="E.g. 819663"
-										oninput="fillAddress()"
-									/>
+									<input type="text" id="locPostalCode" class="form-control" placeholder="E.g. 819663" oninput="fillAddress()" />
 								</div>
 
 								<div class="col-md-6 p-0">
@@ -181,13 +156,7 @@
 
 								<div class="col-md-5 p-0">
 									Business Contact
-									<input
-										type="text"
-										id="businessContact"
-										class="form-control"
-										name="businessContact"
-										placeholder="E.g. 62353539"
-									/>
+									<input type="text" id="businessContact" class="form-control" name="businessContact" placeholder="E.g. 62353539" />
 								</div>
 							</div>
 
@@ -195,37 +164,19 @@
 							<div class="row col-sm-12 mb-2 p-0 justify-content-between">
 								<div class="col-md-6 p-0">
 									Business Email
-									<input
-										type="text"
-										id="businessEmail"
-										class="form-control"
-										name="businessEmail"
-										placeholder="xyz@yahoo.com.sg"
-									/>
+									<input type="text" id="businessEmail" class="form-control" name="businessEmail" placeholder="xyz@yahoo.com.sg" />
 								</div>
 
 								<div class="col-md-5 p-0">
 									Recommended Duration
-									<input
-										type="text"
-										id="recDuration"
-										class="form-control"
-										name="recDuration"
-										placeholder="E.g. 1 hours"
-									/>
+									<input type="text" id="recDuration" class="form-control" name="recDuration" placeholder="E.g. 1 hours" />
 								</div>
 							</div>
 
 							<!--Business website-->
 							<div class="row col-sm-12 mb-2 p-0 justify-content-between">
 								Business Website
-								<input
-									type="text"
-									id="businessWeb"
-									class="form-control"
-									name="businessWeb"
-									placeholder="E.g. www.xyz.com.sg"
-								/>
+								<input type="text" id="businessWeb" class="form-control" name="businessWeb" placeholder="E.g. www.xyz.com.sg" />
 							</div>
 
 							<!--Experiences-->
@@ -251,14 +202,26 @@
 								</div>
 							</div>
 
+							<div class="row col-sm-12 mb-2 p-0 justify-content-between">
+								<p>
+									<img id="output" width="100%" height="80%" style="z-index: 1" />
+								</p>
+								<div class="custom-file">
+									<input
+										type="file"
+										class="custom-file-input"
+										id="imageUrl"
+										accept="image/x-png,image/gif,image/jpeg"
+										onchange="loadFile(event)"
+										multiple
+									/>
+									<label class="custom-file-label" for="imageUrl">Choose file</label>
+								</div>
+							</div>
+
 							<!--Submit-->
 							<div class="row col-sm-12 mb-2 p-0 justify-content-between">
-								<input
-									type="submit"
-									class="btn btn-block btn-danger"
-									value="Publish"
-									onclick="insert_poi()"
-								/>
+								<input type="submit" class="btn btn-block btn-danger" value="Publish" onclick="insert_poi()" />
 							</div>
 						</form>
 						<!--Form End-->
