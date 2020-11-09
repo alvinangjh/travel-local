@@ -39,7 +39,8 @@ function display_poi(name, image_uuid, counter, uuid, category, description) {
 
 	var image_link = "https://tih-api.stb.gov.sg/media/v1/download/uuid/" + image_uuid + "?apikey=" + apiKey;
 
-	var search_poi_html = `<div class="card mb-3" >
+	var search_poi_html = `
+	<div class="card mb-3" >
                             <div class="row no-gutters">
                                 <div class="col-md-5">
                                     <img src="${image_link}" class="card-img stretched-link " onclick="redirect('${uuid}','${category_type}')" alt="${name}" style='height:250px;'>                                 
@@ -599,4 +600,11 @@ function getDates(startDate, stopDate) {
 		currentDate = currentDate.addDays(1);
 	}
 	return dateArray;
+}
+
+function alvin_search() {
+	check_user();
+
+	var keyword = new URL(window.location.href).searchParams.get("uuid");
+	call_api("garden", "all");
 }

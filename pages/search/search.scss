@@ -52,7 +52,12 @@
 }
 
 #filterDiv {
-	position: fixed;
-	overflow: hidden;
-	z-index: 99;
+	@media (min-width: 576px) {
+	}
+
+	@media (min-width: 1200px) {
+		position: fixed;
+		overflow: hidden;
+		z-index: 99;
+	}
 }

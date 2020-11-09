@@ -11,8 +11,7 @@
 }
 
 .card:hover {
-  -webkit-box-shadow: 5px 4px 9px 7px rgba(0, 0, 0, 0.15);
-          box-shadow: 5px 4px 9px 7px rgba(0, 0, 0, 0.15);
+  box-shadow: 5px 4px 9px 7px rgba(0, 0, 0, 0.15);
 }
 
 .btn-grey {
@@ -59,9 +58,12 @@
   font-size: 13px;
 }
 
-#filterDiv {
-  position: fixed;
-  overflow: hidden;
-  z-index: 99;
+@media (min-width: 1200px) {
+  #filterDiv {
+    position: fixed;
+    overflow: hidden;
+    z-index: 99;
+  }
 }
+
 /*# sourceMappingURL=search.css.map */
