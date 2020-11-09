@@ -49,7 +49,7 @@ function display_poi(name, image_uuid, counter, uuid, category, description) {
                                     <div class="card-body">
                                         <h5 class="card-title">${name}</h5>
                                         <p class="card-text">${description}</p>
-                                        <a onclick="redirect('${uuid}','${category_type}')" class="btn btn-primary stretched-link">More details</a>     
+                                        <a onclick="redirect('${uuid}','${category_type}')" class="btn btn-danger stretched-link">More details</a>     
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ function display_specific_poi(
 
 	document.getElementById("siteTitle").innerText = title;
 
-	var poi_html = `        <div class='mt-4'>                 
+	var poi_html = `<div class='mt-4'>                 
                                     <div id='title'>
 										<p class='h2'>${title}</p>
 										<h5 class='text-muted'>${type_of_poi}</h5>
@@ -140,7 +140,7 @@ function display_specific_poi(
 		scrollbar: false,
 		zindex: 3500,
 		change: function (time) {
-			$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+			$("#endTime").timepicker("option", "minTime", time);
 		},
 	});
 
@@ -154,7 +154,7 @@ function display_specific_poi(
 		dropdown: true,
 		scrollbar: false,
 		change: function (time) {
-			$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+			$("#startTime").timepicker("option", "maxTime", time);
 		},
 	});
 }

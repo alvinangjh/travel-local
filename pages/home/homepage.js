@@ -8,6 +8,9 @@ ajaxCall(url, display_itin_cards, "POST", { userID: get_userID }); //Call api, d
 url = "../../php/objects/retrievePopItins.php";
 ajaxCall(url, display_popular_cards);
 
+url = "../../php/objects/userItinRecommendedDefault.php";
+ajaxCall(url, display_recommended_cards, "POST", { userID: get_userID });
+
 function redirect_to_poi(keyword) {
 	window.location.href = "../search/search_poi.html?keyword=" + keyword;
 }
@@ -60,6 +63,8 @@ function display_itin_cards(intineraries) {
 		startDate = intineraries[i].startDate.replaceAll("-", "/");
 		endDate = intineraries[i].endDate.replaceAll("-", "/");
 		var new_card = document.createElement("div");
+		var itineraryType = capitalizeFirstLetter(intineraries[i].itineraryType);
+
 		new_card.className = "col-lg-3 col-md-4 d-flex";
 		new_card.innerHTML = `
                 <div class="card mx-auto mb-5" style="width: 22rem;">
@@ -67,10 +72,10 @@ function display_itin_cards(intineraries) {
                     <button onClick="view_itin(${intineraries[i].itineraryID}, 'yes')" class="link_overlay">
                         <div class="card-img-overlay">
                             <h4 class="card-title">${intineraries[i].name}</h4>
-                            <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
+                            <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${itineraryType}</p>
                         </div>
                     </button>
-                    <button type="button"  onclick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
+                    <button type="button"  onclick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fas fa-trash"></i></button>
                 </div>
             `;
 		itins_view.appendChild(new_card);
@@ -98,15 +103,40 @@ function display_popular_cards(intineraries) {
 		new_card.className = "col-lg-3 col-md-4 d-flex";
 		new_card.innerHTML = `
         <div class="card mx-auto mb-5" style="width: 22rem;">
-            <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
+            <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${
+			intineraries[i].itineraryType
+		}.jpg">
             <button onclick="view_itin(${intineraries[i].itineraryID}, 'no')" class="link_overlay">
                 <div class="card-img-overlay">
                     <h4 class="card-title">${intineraries[i].name}</h4>
-                    <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
+                    <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${capitalizeFirstLetter(intineraries[i].itineraryType)}</p>
                 </div>
             </button>
         </div>
     `;
+		itins_view.appendChild(new_card);
+	}
+}
+
+function display_recommended_cards(intineraries) {
+	let itins_view = document.getElementById("recommended_itins");
+	itins_view.innerHTML = "";
+	for (let i = 0; i < intineraries.length; i++) {
+		startDate = intineraries[i].startDate.replaceAll("-", "/");
+		endDate = intineraries[i].endDate.replaceAll("-", "/");
+		let new_card = document.createElement("div");
+		new_card.className = "col-lg-3 col-md-4 d-flex";
+		new_card.innerHTML = `
+		  <div class="card mx-auto mb-5" style="width: 22rem;">
+			  <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
+			  <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
+				  <div class="card-img-overlay">
+					  <h4 class="card-title">${intineraries[i].name}</h4>
+					  <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${capitalizeFirstLetter(intineraries[i].itineraryType)}</p>
+				  </div>
+			  </button>
+		  </div>
+	  `;
 		itins_view.appendChild(new_card);
 	}
 }
@@ -136,6 +166,10 @@ function add_itinerary() {
 	// var get_userID = sessionStorage.getItem("userID");
 	ajaxCall(url, display_itin_cards, "POST", { userID: get_userID });
 	location.reload();
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function dateFormat(date) {

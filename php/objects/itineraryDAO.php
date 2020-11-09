@@ -619,4 +619,44 @@ class itineraryDAO {
         return $isOk;
     }
 
+    public function getRecommendedDefault($userID) {
+            
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection(); // PDO object
+        
+        $sql = "SELECT * 
+            FROM itinerary 
+            WHERE itineraryType = 
+            (SELECT itineraryType from itinerary GROUP by itineraryType ORDER by count(itineraryType) DESC 
+            limit 1 ) 
+            AND userID <> :userID
+            ORDER BY shared DESC LIMIT 4
+            ";
+                    
+        $stmt = $pdo->prepare($sql); // SQLStatement object
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->execute(); // RUN SQL
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $itineraries = [];
+        while ( $row = $stmt->fetch() ) {
+            $itinerary = new itinerary( 
+                        $row['itineraryID'], 
+                        $row['name'], 
+                        $row['startDate'], 
+                        $row['endDate'], 
+                        $row['itineraryType'],
+                        $row['userID'],
+                        $row['shared'] 
+                    ); // new itinerary object
+            $itineraries[] = $itinerary; // add itinerary object to ret array
+        }
+        // $itineraryID; $name; $startDate; $endDate; $userID;
+
+        // STEP 5
+        $stmt = null; // clear memory
+        $pdo = null; // clear memory
+        
+        return $itineraries;
+    }
 }
