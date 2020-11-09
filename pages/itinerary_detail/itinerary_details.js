@@ -90,6 +90,14 @@ function retrieveActivity() {
 
 	//remember to change to dynamic itineraryID
 	var itineraryID = new URL(window.location.href).searchParams.get("id");
+	var ownParam = new URL(window.location.href).searchParams.get("own");
+	var baseUrl = "../../php/objects/itineraryCopy.php";
+
+	if (ownParam.toLowerCase() != "yes") {
+		$("#btnCopy").attr("style", "display:''");
+	} else {
+		$("#btnCopy").attr("style", "display:none");
+	}
 
 	var activities = [];
 	var baseUrl = "../../php/objects/activityRetrieve.php";
@@ -139,7 +147,10 @@ function generateDay(itineraryID, activities) {
 
 		document.getElementById("siteHeader").innerText = result[0].name;
 		document.getElementById("itineraryTheme").href = "itinerary_" + result[0].itineraryType.toLowerCase() + ".css";
-		document.getElementById("itinerary_name").innerText = result[0].name;
+		document.getElementById(
+			"itinerary_name"
+		).innerHTML = `${result[0].name} <button class="btn btn-lg p-0" data-toggle="modal" data-target="#editItineraryModal"><i class="icon fas fa-edit pb-2" style="height: 100%"></i></button>`;
+		$("#tbItineraryTitle").val(result[0].name);
 		document.getElementById("itinerary_date").innerText = result[0].startDate + " - " + result[0].endDate;
 
 		var dateArray = getDates(new Date(result[0].startDate), new Date(result[0].endDate));
@@ -445,7 +456,7 @@ function display() {
 function shareItinerary() {
 	$("#successLink").attr("style", "display:none");
 	$("#shareModal").modal("show");
-	$("#tbShareLink").val(window.location.href);
+	$("#tbShareLink").val(window.location.href.split("&")[0] + "&own=no");
 }
 
 function copyLink() {
@@ -460,6 +471,38 @@ function copyLink() {
 	document.execCommand("copy");
 
 	$("#successLink").attr("style", "display:''");
+}
+
+function copyItinerary() {
+	var idParam = new URL(window.location.href).searchParams.get("id");
+	var baseUrl = "../../php/objects/itineraryCopy.php";
+
+	$.ajax({
+		url: baseUrl,
+		type: "POST",
+		data: { itinerary_id: idParam, userID: sessionStorage.getItem("userID") },
+	}).done(function (responseText) {
+		if (responseText == 1) {
+			$("#copyStatusTitle").html("Success");
+			$("#copyStatusMsg").html("This itinerary has been successfully copied to your profile.");
+			$("#copySuccessModal").modal("show");
+		}
+	});
+}
+
+function editItinerary() {
+	var idParam = new URL(window.location.href).searchParams.get("id");
+	var baseUrl = "../../php/objects/itineraryUpdateName.php";
+
+	$.ajax({
+		url: baseUrl,
+		type: "POST",
+		data: { itinerary_id: idParam, name: $("#tbItineraryTitle").val() },
+	}).done(function (responseText) {
+		if (responseText == 1) {
+			window.location.reload();
+		}
+	});
 }
 
 function redirect_to_poi(keyword) {

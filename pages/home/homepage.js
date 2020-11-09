@@ -52,8 +52,6 @@ function ajaxCall(search, callback, method = "GET", value = null) {
 }
 
 function display_itin_cards(intineraries) {
-	console.log(intineraries);
-	console.log(sessionStorage.getItem("userID"));
 	// console.log(intineraries);
 	let startDate = null;
 	var itins_view = document.getElementById("my_itins");
@@ -66,13 +64,13 @@ function display_itin_cards(intineraries) {
 		new_card.innerHTML = `
                 <div class="card mx-auto mb-5" style="width: 22rem;">
                     <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
-                    <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
+                    <button onClick="view_itin(${intineraries[i].itineraryID}, 'yes')" class="link_overlay">
                         <div class="card-img-overlay">
                             <h4 class="card-title">${intineraries[i].name}</h4>
                             <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>
                         </div>
                     </button>
-                    <button type="button"  onClick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
+                    <button type="button"  onclick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fa fa-trash"></i></button>
                 </div>
             `;
 		itins_view.appendChild(new_card);
@@ -84,8 +82,8 @@ function open_Modal(itin) {
 	$("#exampleModalCenter").modal("show");
 }
 
-function view_itin(link) {
-	window.location.href = "../itinerary_detail/itinerary_details.html?id=" + link;
+function view_itin(link, own) {
+	window.location.href = "../itinerary_detail/itinerary_details.html?id=" + link + "&own=" + own;
 }
 
 function display_popular_cards(intineraries) {
@@ -101,7 +99,7 @@ function display_popular_cards(intineraries) {
 		new_card.innerHTML = `
         <div class="card mx-auto mb-5" style="width: 22rem;">
             <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
-            <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
+            <button onclick="view_itin(${intineraries[i].itineraryID}, 'no')" class="link_overlay">
                 <div class="card-img-overlay">
                     <h4 class="card-title">${intineraries[i].name}</h4>
                     <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${intineraries[i].itineraryType}</p>

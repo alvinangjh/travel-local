@@ -30,6 +30,12 @@
 	display: none;
 }
 
+.btn:focus,
+.btn:active {
+	outline: none !important;
+	box-shadow: none;
+}
+
 // #header {
 // 	background: url("../../images/test2.png") no-repeat;
 // 	background-size: 100%;

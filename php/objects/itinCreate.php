@@ -13,8 +13,8 @@ $startDate = $new['startDate'];
 $endDate = $new['endDate'];
 $itinType = $new['itinType'];
 $userID = $new['userID'];
-$result = json_encode($dao->add_itinerary($itinName,$startDate,$endDate,$itinType,$userID,0));
 
+$result = json_encode($dao->add_itinerary($itinName,$startDate,$endDate,$itinType,$userID,0));
 
 echo $result;
 

@@ -577,4 +577,46 @@ class itineraryDAO {
         return $isOk;
     }
 
+    public function copyItinerary($itineraryID, $userID){
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+
+        $sql = "
+            INSERT INTO itinerary (itineraryID, name, startDate, endDate, itineraryType, userID, shared) 
+            SELECT null, name, startDate, endDate, itineraryType, :userID, 0 from itinerary WHERE itineraryID = :itineraryID
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_STR);
+        
+        $isOk = $stmt->execute();
+        
+
+        $stmt = null;
+        $pdo = null;        
+        
+        return $isOk;
+    }
+
+    public function updateItineraryName($itineraryID, $name) {      
+
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+
+        $sql = "
+            UPDATE itinerary SET name = :name where itineraryID = :itineraryID
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_STR);
+
+        $isOk = $stmt->execute();
+        
+
+        $stmt = null;
+        $pdo = null;        
+        
+        return $isOk;
+    }
+
 }
