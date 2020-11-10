@@ -29,6 +29,7 @@
 		/>
 
 		<!-- Custom CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css" />
 		<link rel="stylesheet" type="text/css" href="poi_create.css" />
 
 		<title>Custom Location</title>
@@ -98,24 +99,41 @@
 			<!--Card-->
 			<div class="card mx-5 mb-3 p-2" style="max-width: auto">
 				<div class="row no-gutters p-2">
-					<!--Card Body Start-->
-					<div class="card-body col-md-12 pl-3">
+					<!--Image Card Start-->
+					<div class="card-body col-md-4 px-1 align-self-center text-center">
+						<p>
+							<img id="output" width="100%" height="100%" style="z-index: 1" />
+						</p>
+						<div class="custom-file">
+							<input
+								type="file"
+								class="custom-file-input"
+								id="imageUrl"
+								accept="image/x-png,image/gif,image/jpeg"
+								onchange="loadFile(event)"
+								multiple
+							/>
+							<label class="custom-file-label" for="imageUrl">Choose file</label>
+						</div>
+					</div>
+					<!--Image Card End-->
+
+					<!--Form Card Start-->
+					<div class="card-body col-md-8 pl-5">
 						<!--Form Start-->
-						<!-- <form action="../../php/objects/locationTest.php" method="POST" name="insertPOI"> -->
-						<!--Title-->
-						<div class="row col-sm-12 mb-2 p-0">
+						<div class="row col-sm-12 mb-3 p-0">
 							<h4>Title</h4>
 							<input class="form-control form-control-lg" type="text" id="locTitle" placeholder="Kampong Lorong Buangkok" />
 						</div>
 
 						<!--Postal Code & Venue Type-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
-							<div class="col-md-5 p-0">
+						<div class="row col-sm-12 p-0 justify-content-between">
+							<div class="col-md-5 mb-3 p-0">
 								Postal Code
 								<input type="text" id="locPostalCode" class="form-control" placeholder="E.g. 819663" oninput="fillAddress()" />
 							</div>
 
-							<div class="col-md-6 p-0">
+							<div class="col-md-6 mb-3 p-0">
 								Venue Type <br />
 								<select name="venueType" id="venueType" class="custom-select">
 									<option value="Casual">Casual</option>
@@ -127,7 +145,7 @@
 						</div>
 
 						<!--Address plus checkbox-->
-						<div class="row col-sm-12 mb-2 p-0">
+						<div class="row col-sm-12 mb-3 p-0">
 							Address
 							<input
 								type="text"
@@ -146,45 +164,59 @@
 						<input type="hidden" id="lon" value="" />
 
 						<!--Business hours & Contact-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
-							<div class="col-md-6 p-0">
-								Business hours
-								<input type="text" id="businessHrs" class="form-control" name="businessHrs" placeholder="E.g. 10:00 AM - 10:00 PM" />
+						<div class="row col-sm-12 p-0 justify-content-between">
+							<div class="col-md-6 mb-3 m-0 p-0">
+								<div class="row m-0 p-0">Operating Hours</div>
+								<div class="row m-0 p-0">
+									<div class="col-md-5 m-0 p-0">
+										<input type="text" id="startTime" class="form-control" name="startTime" placeholder="Start" />
+									</div>
+									&nbsp; - &nbsp;
+									<div class="col-md-5 m-0 p-0">
+										<input type="text" id="endTime" class="form-control" name="endTime" placeholder="End" />
+									</div>
+								</div>
 							</div>
 
-							<div class="col-md-5 p-0">
+							<div class="col-md-6 mb-3 p-0">
+								Categories <br />
+								<select name="categories" id="categories" class="custom-select">
+									<option value="Attraction">Attraction</option>
+									<option value="Venues">Venues</option>
+									<option value="Food & Beverages">Food & Beverages</option>
+									<option value="Walking Trails">Walking Trails</option>
+									<option value="Malls & Shops">Malls & Shops</option>
+								</select>
+							</div>
+						</div>
+
+						<!--Business Email & Categories-->
+						<div class="row col-sm-12 p-0 justify-content-between">
+							<div class="col-md-6 mb-3 p-0">
+								Business Email
+								<input type="text" id="businessEmail" class="form-control" name="businessEmail" placeholder="xyz@yahoo.com.sg" />
+							</div>
+
+							<div class="col-md-5 mb-3 p-0">
 								Business Contact
 								<input type="text" id="businessContact" class="form-control" name="businessContact" placeholder="E.g. 62353539" />
 							</div>
 						</div>
 
-						<!--Business Email & Recommended duration-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
-							<div class="col-md-6 p-0">
-								Business Email
-								<input type="text" id="businessEmail" class="form-control" name="businessEmail" placeholder="xyz@yahoo.com.sg" />
-							</div>
-
-							<div class="col-md-5 p-0">
-								Recommended Duration
-								<input type="text" id="recDuration" class="form-control" name="recDuration" placeholder="E.g. 1 hours" />
-							</div>
-						</div>
-
 						<!--Business website-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
+						<div class="row col-sm-12 mb-3 p-0 justify-content-between">
 							Business Website
 							<input type="text" id="businessWeb" class="form-control" name="businessWeb" placeholder="E.g. www.xyz.com.sg" />
 						</div>
 
 						<!--Experiences-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
+						<div class="row col-sm-12 mb-3 p-0 justify-content-between">
 							Share Your Experience!
 							<textarea class="form-control" id="locDesc" rows="3"></textarea>
 						</div>
 
 						<!--Ratings-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
+						<div class="row col-sm-12 mb-3 p-0 justify-content-between">
 							<div class="rate" id="rating">
 								Overall Experience:
 								<input type="radio" id="rate5" name="rate" value="5" />
@@ -200,31 +232,13 @@
 							</div>
 						</div>
 
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
-							<p>
-								<img id="output" width="100%" height="80%" style="z-index: 1" />
-							</p>
-							<div class="custom-file">
-								<input
-									type="file"
-									class="custom-file-input"
-									id="imageUrl"
-									accept="image/x-png,image/gif,image/jpeg"
-									onchange="loadFile(event)"
-									multiple
-								/>
-								<label class="custom-file-label" for="imageUrl">Choose file</label>
-							</div>
-						</div>
-
 						<!--Submit-->
-						<div class="row col-sm-12 mb-2 p-0 justify-content-between">
+						<div class="row col-sm-12 mb-1 p-0 justify-content-between">
 							<button type="button" class="btn btn-block btn-danger" onclick="insert_poi()">Publish</button>
 						</div>
-						<!-- </form> -->
 						<!--Form End-->
 					</div>
-					<!--Card Body End-->
+					<!--Form Card End-->
 				</div>
 			</div>
 		</div>
@@ -272,9 +286,11 @@
 			crossorigin="anonymous"
 		></script>
 
+		<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
 		<script
-			src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-			integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+			src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+			integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
 			crossorigin="anonymous"
 		></script>
 

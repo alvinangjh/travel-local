@@ -9,7 +9,7 @@ include_once 'autoload.php';
         private $locAddress;
         private $locPostalCode;
         private $locDesc;
-        private $recDuration;
+        private $categories;
         private $rating;
         private $imageUrl;
         private $createdBy;
@@ -18,18 +18,19 @@ include_once 'autoload.php';
         private $venueType;
         private $businessContact;
         private $businessEmail;
-        private $businessHrs;
+        private $startTime;
+        private $endTime;
         private $businessWeb;
 
 
         // constructor with $db as database connection
-        public function __construct($locID, $locTitle, $locAddress, $locPostalCode, $locDesc, $recDuration, $rating, $imageUrl, $createdBy, $latitude, $longitude, $venueType, $businessContact, $businessEmail, $businessHrs, $businessWeb) {
+        public function __construct($locID, $locTitle, $locAddress, $locPostalCode, $locDesc, $categories, $rating, $imageUrl, $createdBy, $latitude, $longitude, $venueType, $businessContact, $businessEmail, $startTime, $endTime, $businessWeb) {
             $this->locID = $locID;
             $this->locTitle = $locTitle;
             $this->locAddress = $locAddress;
             $this->locPostalCode = $locPostalCode;
             $this->locDesc = $locDesc;
-            $this->recDuration = $recDuration;
+            $this->categories = $categories;
             $this->rating = $rating;
             $this->imageUrl = $imageUrl;
             $this->createdBy = $createdBy;
@@ -38,7 +39,8 @@ include_once 'autoload.php';
             $this->venueType = $venueType;
             $this->businessContact = $businessContact;
             $this->businessEmail = $businessEmail;
-            $this->businessHrs = $businessHrs;
+            $this->startTime = $startTime;
+            $this->endTime = $endTime;
             $this->businessWeb = $businessWeb;
         }
 
@@ -62,8 +64,8 @@ include_once 'autoload.php';
             return $this->locDesc;
         }
 
-        public function getRecDuration(){
-            return $this->recDuration;
+        public function getCategories(){
+            return $this->categories;
         }
 
         public function getRating(){
@@ -98,8 +100,12 @@ include_once 'autoload.php';
             return $this->businessEmail;
         }
 
-        public function getBusinessHrs(){
-            return $this->businessHrs;
+        public function getStartTime(){
+            return $this->startTime;
+        }
+
+        public function getEndTime(){
+            return $this->endTime;
         }
 
         public function getBusinessWeb(){

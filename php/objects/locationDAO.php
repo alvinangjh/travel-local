@@ -9,8 +9,8 @@ class LocationDAO {
     
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection();
-        $sql = 'INSERT INTO custom_loc (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy, latitude, longitude, venueType, businessContact, businessEmail, businessHrs, businessWeb)
-        VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :recDuration, :rating, :imageUrl, :createdBy, :latitude, :longitude, :venueType, :businessContact, :businessEmail, :businessHrs, :businessWeb)';
+        $sql = 'INSERT INTO custom_loc (locID, locTitle, locAddress, locPostalCode, locDesc, categories, rating, imageUrl, createdBy, latitude, longitude, venueType, businessContact, businessEmail, startTime, endTime, businessWeb)
+        VALUES (:locID, :locTitle, :locAddress, :locPostalCode, :locDesc, :categories, :rating, :imageUrl, :createdBy, :latitude, :longitude, :venueType, :businessContact, :businessEmail, :startTime, :endTime, :businessWeb)';
         $stmt = $pdo->prepare($sql); 
 
         $locID = $location->getLocID(); 
@@ -18,7 +18,7 @@ class LocationDAO {
         $locAddress = $location->getLocAddress(); 
         $locPostalCode = $location->getLocPostalCode(); 
         $locDesc = $location->getLocDesc(); 
-        $recDuration = $location->getRecDuration(); 
+        $categories = $location->getCategories(); 
         $rating = $location->getRating(); 
         $imageUrl = $location->getImageUrl(); 
         $createdBy = $location->getCreatedBy(); 
@@ -27,7 +27,8 @@ class LocationDAO {
         $venueType = $location->getVenueType(); 
         $businessContact = $location->getBusinessContact(); 
         $businessEmail = $location->getBusinessEmail(); 
-        $businessHrs = $location->getBusinessHrs(); 
+        $startTime = $location->getStartTime(); 
+        $endTime = $location->getEndTime(); 
         $businessWeb = $location->getBusinessWeb(); 
 
         $stmt->bindParam(':locID', $locID, PDO::PARAM_INT);
@@ -35,7 +36,7 @@ class LocationDAO {
         $stmt->bindParam(':locAddress', $locAddress, PDO::PARAM_STR);
         $stmt->bindParam(':locPostalCode', $locPostalCode, PDO::PARAM_INT);
         $stmt->bindParam(':locDesc', $locDesc, PDO::PARAM_STR);
-        $stmt->bindParam(':recDuration', $recDuration, PDO::PARAM_INT);
+        $stmt->bindParam(':categories', $categories, PDO::PARAM_STR);
         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         $stmt->bindParam(':imageUrl', $imageUrl, PDO::PARAM_STR);
         $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_INT);
@@ -44,7 +45,8 @@ class LocationDAO {
         $stmt->bindParam(':venueType', $venueType, PDO::PARAM_STR);
         $stmt->bindParam(':businessContact', $businessContact, PDO::PARAM_INT);
         $stmt->bindParam(':businessEmail', $businessEmail, PDO::PARAM_STR);
-        $stmt->bindParam(':businessHrs', $businessHrs, PDO::PARAM_STR);
+        $stmt->bindParam(':startTime', $startTime, PDO::PARAM_STR);
+        $stmt->bindParam(':endTime', $endTime, PDO::PARAM_STR);
         $stmt->bindParam(':businessWeb', $businessWeb, PDO::PARAM_STR);
 
         try {

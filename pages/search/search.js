@@ -15,6 +15,9 @@ function call_api(keyword, data_types) {
 				}
 			}
 			document.getElementById("insert_poi_result").innerHTML = new_str + "</div> </div>";
+		} else if (this.readyState == 4) {
+			var new_str = "<span class='display-4'>No search result has been found</span>";
+			document.getElementById("insert_poi_result").innerHTML = new_str;
 		}
 	};
 
@@ -186,7 +189,6 @@ function call_uuid_api(uuid, type) {
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(uuid);
 			var response_json = JSON.parse(this.responseText);
 			var data = response_json.data[0];
 
@@ -349,19 +351,44 @@ function creating_reviews_html(reviews) {
 }
 
 function filter() {
-	var checkboxes = document.getElementsByName("categories");
-	var categories_array = [];
+	if (document.getElementById("tourist_attractions").checked) {
+		var checkboxes = document.getElementsByName("categories");
+		var categories_array = [];
 
-	for (var checkbox of checkboxes) {
-		if (checkbox.checked) {
-			categories_array.push(checkbox.getAttribute("value"));
+		for (var checkbox of checkboxes) {
+			if (checkbox.checked) {
+				categories_array.push(checkbox.getAttribute("value"));
+			}
 		}
+		var str_for_types = "";
+		for (category of categories_array) {
+			str_for_types += category + ",";
+		}
+		if (str_for_types == "") {
+			var str_for_types = "all";
+		} else {
+			var str_for_types = str_for_types.slice(0, str_for_types.length - 1);
+		}
+		call_api(new URL(window.location.href).searchParams.get("keyword"), str_for_types);
+	} else {
+		var checkboxes = document.getElementsByName("categories");
+		var categories_array = [];
+
+		for (var checkbox of checkboxes) {
+			if (checkbox.checked) {
+				categories_array.push(checkbox.getAttribute("value"));
+			}
+		}
+		var title = new URL(window.location.href).searchParams.get("keyword");
+
+		if (title == "") {
+			title = "empty";
+		}
+		if (categories_array.length == 0) {
+			var categories_array = [""];
+		}
+		call_hidden_gems(categories_array, title);
 	}
-	var str_for_types = "";
-	for (category of categories_array) {
-		str_for_types += category + ",";
-	}
-	call_api(document.getElementById("searching_poi").value, str_for_types.slice(0, str_for_types.length - 1));
 }
 
 function poi_page_html(keyword, data_types) {
@@ -453,7 +480,7 @@ function poi_page_html(keyword, data_types) {
 function onEvent(event) {
 	if (event.key === "Enter") {
 		// After user typed enter
-		poi_page_html(document.getElementById("searching_poi").value, "all");
+		gem_or_nah();
 	}
 }
 
@@ -462,7 +489,7 @@ function redirect(uuid, type) {
 }
 
 function redirect_to_poi(keyword) {
-	window.location.href = "search_poi.html?keyword=" + keyword;
+	window.location.href = "alvin_search.html?keyword=" + keyword;
 }
 
 function addActivity() {
@@ -605,6 +632,284 @@ function getDates(startDate, stopDate) {
 function alvin_search() {
 	check_user();
 
-	var keyword = new URL(window.location.href).searchParams.get("uuid");
-	call_api("garden", "all");
+	document.getElementById("searching_poi").value = new URL(window.location.href).searchParams.get("keyword");
+	var keyword = new URL(window.location.href).searchParams.get("keyword");
+	document.getElementById("insert_search_title").innerHTML = keyword;
+	call_api(keyword, "all");
+}
+function call_hidden_gems(categories_list, title_str) {
+	// Take in list of categories
+	console.log(title_str);
+	console.log(categories_list);
+	$.ajax({
+		url: "../../php/objects/jerriel_test.php", // your php file
+		type: "GET", // type of the HTTP request
+		data: { categories: categories_list, title: title_str },
+		success: function (data) {
+			var obj = JSON.parse(data);
+			console.log(obj);
+			str_for_cards = "";
+
+			for (gem of obj) {
+				var title = gem.locTitle;
+				var image = gem.imageUrl;
+				var locID = gem.locID;
+				var description = gem.locDesc;
+				str_for_cards += display_hidden_gems(title, image, locID, description);
+			}
+			if (str_for_cards == "") {
+				var new_str = "<span class='display-4'>No search result has been found</span>";
+				document.getElementById("insert_poi_result").innerHTML = new_str;
+			} else {
+				document.getElementById("insert_poi_result").innerHTML = str_for_cards + "</div> </div>";
+			}
+		},
+	});
+}
+
+function display_hidden_gems(name, image, locID, description) {
+	// Do take note of where the image are stored and edit accordingly
+
+	var search_hidden_gems_html = `
+						<div class="card mb-3" >
+                            <div class="row no-gutters">
+                                <div class="col-md-5">
+                                    <img src="../../${image}" class="card-img stretched-link " onclick="redirect_hidden_gems_page('${locID}')" alt="${name}" style='height:250px;'>                                 
+                                </div>
+                                <div class="col-md-7 w-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${name}</h5>
+                                        <p class="card-text">${description}</p>
+                                        <a onclick="redirect_hidden_gems_page('${locID}')" class="btn btn-danger stretched-link">More details</a>     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+
+	return search_hidden_gems_html;
+}
+
+function redirect_hidden_gems_page(locID) {
+	window.location.href = "specific_gem_design.html?locID=" + locID;
+}
+
+function display_specific_hidden_gems(
+	locID,
+	title,
+	address,
+	postal,
+	description,
+	rating,
+	image,
+	createdBy,
+	lat,
+	lng,
+	venueType,
+	hp_contact,
+	email,
+	startTime,
+	endTime,
+	website
+) {
+	check_user();
+	console.log("hello1");
+	var insert_poi = document.getElementById("insert_poi");
+	var map_link = call_onemap_api(lat, lng, postal);
+
+	insert_poi.setAttribute("style", "width:80%; margin:auto;");
+	// insert_poi.setAttribute('class','row');
+
+	document.getElementById("siteTitle").innerText = title;
+
+	var poi_html = `<div class='mt-4'>                 
+                                    <div id='title'>
+										<p class='h2'>${title}</p>
+										<h5 class='text-muted'>${venueType}</h5>
+                                    </div>
+                            </div>
+                            <div id='poi_category' class='row'>
+                                    <h4 class='col-md-4 text-muted'> ${creating_stars_html(Math.floor(rating))}</h4>
+                            </div>
+                        
+                            <div class='row'>
+                                <div class='col-md-7'>
+                                    <div id='poi_image'>
+                                        <img src="../../${image}" alt="${title}" class="img-thumbnail" style='width: 100%; height: 100%;'>
+                                    </div>
+                                    <div id='poi_description'>
+                                        <p>${description}</p>
+                                    </div>
+                                </div>
+                                
+
+                            <div class='col-md-5'>
+
+                                <div id='poi_business_hours'>
+                                    <h6>Business Hours</h6>
+                                    <p>Opening hours: ${startTime} - ${endTime}</p> <br>
+                                </div>
+                                <div id='poi_contact'>
+                                    <h6>Contact</h6>
+                                    <p>Email: ${email} </br>
+                                    Phone: ${hp_contact} </br>
+                                    Website: ${website}</p> 
+                                </div>
+                                <div id='poi_itinerary_creation' style='width: 100%;'>
+                                    <h6>Create an itinerary with ${title}</h6>
+                                    <button type="button" class="btn btn-danger btn-block w-50" onclick="startPlanning()">Start Planning</button>
+                                </div>
+                                <div id='onemap_image' class='mt-3'>
+                                    <img src='${map_link}' alt='map' class="img-thumbnail">
+                                </div>
+                            </div>
+                        </div>`;
+
+	// insert_poi.innerHTML = poi_html + review_section(reviews, rating);
+	insert_poi.innerHTML = poi_html;
+	window.scrollTo(0, 0);
+
+	$("#startTime").timepicker({
+		timeFormat: "hh:mm p",
+		interval: 15,
+		defaultTime: startTime,
+		minTime: startTime,
+		maxTime: endTime,
+		startTime: startTime,
+		dropdown: true,
+		scrollbar: false,
+		zindex: 3500,
+		change: function (time) {
+			$("#endTime").timepicker("option", "minTime", time);
+		},
+	});
+
+	$("#endTime").timepicker({
+		timeFormat: "hh:mm p",
+		interval: 15,
+		zindex: 3500,
+		defaultTime: endTime,
+		minTime: startTime,
+		maxTime: endTime,
+		dropdown: true,
+		scrollbar: false,
+		change: function (time) {
+			$("#startTime").timepicker("option", "maxTime", time);
+		},
+	});
+}
+
+function call_locID(locID_int) {
+	$.ajax({
+		url: "../../php/objects/jerriel_test_specific.php", // your php file
+		type: "GET", // type of the HTTP request
+		data: { locID: locID_int },
+		success: function (data) {
+			var obj = JSON.parse(data);
+			console.log(obj);
+			str_for_cards = "";
+
+			locID = obj.locID;
+			locTitle = obj.locTitle;
+			locAddress = obj.locAddress;
+			locPostalCode = obj.locPostalCode;
+			locDesc = obj.locDesc;
+			rating = obj.rating;
+			imageUrl = obj.imageUrl;
+			createdBy = obj.createdBy;
+			latitude = obj.latitude;
+			longitude = obj.longitude;
+			latitude = obj.latitude;
+			venueType = obj.venueType;
+			businessContact = obj.businessContact;
+			businessEmail = obj.businessEmail;
+			startTime = obj.startTime;
+			endTime = obj.endTime;
+			businessWeb = obj.businessWeb;
+
+			display_specific_hidden_gems(
+				locID,
+				locTitle,
+				locAddress,
+				locPostalCode,
+				locDesc,
+				rating,
+				imageUrl,
+				createdBy,
+				latitude,
+				longitude,
+				venueType,
+				businessContact,
+				businessEmail,
+				startTime,
+				endTime,
+				businessWeb
+			);
+		},
+	});
+}
+
+function gem_or_nah() {
+	if (document.getElementById("tourist_attractions").checked) {
+		var checkboxes = document.getElementsByName("categories");
+		var categories_array = [];
+
+		for (var checkbox of checkboxes) {
+			if (checkbox.checked) {
+				categories_array.push(checkbox.getAttribute("value"));
+			}
+		}
+		var str_for_types = "";
+		for (category of categories_array) {
+			str_for_types += category + ",";
+		}
+		if (str_for_types == "") {
+			var str_for_types = "all";
+		} else {
+			var str_for_types = str_for_types.slice(0, str_for_types.length - 1);
+		}
+		if (history.pushState) {
+			var newUrl =
+				window.location.protocol +
+				"//" +
+				window.location.host +
+				window.location.pathname +
+				"?keyword=" +
+				document.getElementById("searching_poi").value;
+			window.history.pushState({ path: newUrl }, "", newUrl);
+		}
+
+		document.getElementById("insert_search_title").innerHTML = new URL(window.location.href).searchParams.get("keyword");
+		call_api(new URL(window.location.href).searchParams.get("keyword"), str_for_types);
+	} else {
+		var checkboxes = document.getElementsByName("categories");
+		var categories_array = [];
+
+		for (var checkbox of checkboxes) {
+			if (checkbox.checked) {
+				categories_array.push(checkbox.getAttribute("value"));
+			}
+		}
+		if (categories_array.length == 0) {
+			var categories_array = [""];
+		}
+		if (history.pushState) {
+			var newUrl =
+				window.location.protocol +
+				"//" +
+				window.location.host +
+				window.location.pathname +
+				"?keyword=" +
+				document.getElementById("searching_poi").value;
+			window.history.pushState({ path: newUrl }, "", newUrl);
+		}
+
+		var title = new URL(window.location.href).searchParams.get("keyword");
+
+		if (title == "") {
+			title = "empty";
+		}
+		document.getElementById("insert_search_title").innerHTML = title;
+
+		call_hidden_gems(categories_array, title);
+	}
 }

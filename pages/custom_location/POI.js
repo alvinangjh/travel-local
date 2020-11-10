@@ -7,6 +7,28 @@ var loadFile = function (event) {
 	image.src = URL.createObjectURL(event.target.files[0]);
 };
 
+$("#startTime").timepicker({
+	timeFormat: "hh:mm p",
+	interval: 15,
+	dropdown: true,
+	scrollbar: false,
+	zindex: 3500,
+	change: function (selected) {
+		$("#endTime").timepicker("option", "minTime", $("#startTime").val());
+	},
+});
+
+$("#endTime").timepicker({
+	timeFormat: "hh:mm p",
+	interval: 15,
+	zindex: 3500,
+	dropdown: true,
+	scrollbar: false,
+	change: function (selected) {
+		$("#startTime").timepicker("option", "maxTime", $("#endTime").val());
+	},
+});
+
 function fillAddress() {
 	var searchval = document.getElementById("locPostalCode").value;
 	console.log(searchval);
@@ -47,12 +69,6 @@ function fillAddress() {
 }
 
 function EnableDisableTextBox(addressChkBox) {
-	// var txtPassportNumber = document.getElementById("locAddress");
-	// txtPassportNumber.readonly = addressChkBox.checked ? false : true;
-	// if (!txtPassportNumber.readonly) {
-	// 	txtPassportNumber.focus();
-	// }
-
 	if (addressChkBox.checked == true) {
 		$("#locAddress").attr("readonly", false);
 	} else {
@@ -61,28 +77,8 @@ function EnableDisableTextBox(addressChkBox) {
 }
 
 function insert_poi() {
-	// var location = {
-	// 	locTitle: $("#locTitle").val(),
-	// 	locAddress: $("#locAddress").val(),
-	// 	locPostalCode: $("#locPostalCode").val(),
-	// 	locDesc: $("#locDesc").val(),
-	// 	recDuration: $("#recDuration").val(),
-	// 	imageUrl: $("#imageUrl").val(),
-	// 	rating: $('input[name="rate"]:checked').val(),
-	// 	latitude: $("#lat").val(),
-	// 	longitude: $("#lon").val(),
-	// 	venueType: $("#venueType").val(),
-	// 	businessContact: $("#businessContact").val(),
-	// 	businessEmail: $("#businessEmail").val(),
-	// 	businessHrs: $("#businessHrs").val(),
-	// 	businessWeb: $("#businessWeb").val(),
-	// };
-
-	// (locID, locTitle, locAddress, locPostalCode, locDesc, recDuration, rating, imageUrl, createdBy)
-
-	// var data = JSON.stringify(location);
-
 	var url = "../../php/objects/locationTest.php";
+	$img = document.getElementById("imageUrl").files[0].name;
 
 	$.ajax({
 		url: url,
@@ -92,15 +88,16 @@ function insert_poi() {
 			locAddress: $("#locAddress").val(),
 			locPostalCode: $("#locPostalCode").val(),
 			locDesc: $("#locDesc").val(),
-			recDuration: $("#recDuration").val(),
-			imageUrl: $("#imageUrl").val(),
+			categories: $("#categories").val(),
+			imageUrl: $img,
 			rating: $('input[name="rate"]:checked').val(),
 			latitude: $("#lat").val(),
 			longitude: $("#lon").val(),
 			venueType: $("#venueType").val(),
 			businessContact: $("#businessContact").val(),
 			businessEmail: $("#businessEmail").val(),
-			businessHrs: $("#businessHrs").val(),
+			startTime: $("#startTime").val(),
+			endTime: $("#endTime").val(),
 			businessWeb: $("#businessWeb").val(),
 		},
 	}).done(function (responseText) {
@@ -108,20 +105,6 @@ function insert_poi() {
 			$("#successModal").modal("show");
 		}
 	});
-
-	// var request = new XMLHttpRequest();
-
-	// request.onreadystatechange = function () {
-	// 	if (request.readyState == 4 && request.status == 200) {
-	// 		var status = request.responseText;
-
-	// 		if (status == "Success") {
-	// 		}
-	// 	}
-	// };
-
-	// request.open("POST", url);
-	// request.send(data);
 }
 
 function redirect_to_poi(keyword) {

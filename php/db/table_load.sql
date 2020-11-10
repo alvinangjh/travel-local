@@ -33,13 +33,13 @@
     `itineraryID` integer NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-       CREATE TABLE if not exists `custom_loc` (
+ CREATE TABLE if not exists `custom_loc` (
   `locID` integer NOT NULL AUTO_INCREMENT,
   `locTitle` varchar(256) NOT NULL,
   `locAddress` varchar(256) NOT NULL,
   `locPostalCode` integer NOT NULL,
   `locDesc` varchar(256) NULL,
-  `recDuration` integer NOT NULL,
+  `categories` varchar(256) NOT NULL,
   `rating` integer NOT NULL,
   `imageUrl` varchar(256) NOT NULL,
   `createdBy` integer NOT NULL,
@@ -48,7 +48,8 @@
   `venueType` varchar(256) NOT NULL,
   `businessContact` integer NOT NULL,
   `businessEmail` varchar(256) NOT NULL,
-  `businessHrs` varchar(256) NOT NULL,
+  `startTime` varchar(256) NOT NULL,
+  `endTime` varchar(256) NOT NULL,
   `businessWeb` varchar(256) NOT NULL,
   PRIMARY KEY (`locID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
