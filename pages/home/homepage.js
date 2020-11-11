@@ -55,18 +55,25 @@ function ajaxCall(search, callback, method = "GET", value = null) {
 }
 
 function display_itin_cards(intineraries) {
-	// console.log(intineraries);
-	let startDate = null;
-	var itins_view = document.getElementById("my_itins");
-	itins_view.innerHTML = "";
-	for (let i = 0; i < intineraries.length; i++) {
-		startDate = intineraries[i].startDate.replaceAll("-", "/");
-		endDate = intineraries[i].endDate.replaceAll("-", "/");
-		var new_card = document.createElement("div");
-		var itineraryType = capitalizeFirstLetter(intineraries[i].itineraryType);
+	if (intineraries.length == 0) {
+		var itins_view = document.getElementById("my_itins");
+		itins_view.innerHTML = `<div class="col-md-12 d-flex"><div class="alert alert-danger w-100" role="alert">
+		You have no itineraries planned yet. Why not start planning one now by filling up the form above!
+	  </div></div>`;
+		itins_view.appendChild(new_card);
+	} else {
+		// console.log(intineraries);
+		let startDate = null;
+		var itins_view = document.getElementById("my_itins");
+		itins_view.innerHTML = "";
+		for (let i = 0; i < intineraries.length; i++) {
+			startDate = intineraries[i].startDate.replaceAll("-", "/");
+			endDate = intineraries[i].endDate.replaceAll("-", "/");
+			var new_card = document.createElement("div");
+			var itineraryType = capitalizeFirstLetter(intineraries[i].itineraryType);
 
-		new_card.className = "col-lg-3 col-md-4 d-flex";
-		new_card.innerHTML = `
+			new_card.className = "col-lg-3 col-md-4 d-flex";
+			new_card.innerHTML = `
                 <div class="card mx-auto mb-5" style="width: 22rem;">
                     <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
                     <button onClick="view_itin(${intineraries[i].itineraryID}, 'yes')" class="link_overlay">
@@ -78,7 +85,8 @@ function display_itin_cards(intineraries) {
                     <button type="button"  onclick="open_Modal(${intineraries[i].itineraryID})"  class="to_delete btn py-0 px-1"><i class="fas fa-trash"></i></button>
                 </div>
             `;
-		itins_view.appendChild(new_card);
+			itins_view.appendChild(new_card);
+		}
 	}
 }
 
@@ -119,14 +127,17 @@ function display_popular_cards(intineraries) {
 }
 
 function display_recommended_cards(intineraries) {
-	let itins_view = document.getElementById("recommended_itins");
-	itins_view.innerHTML = "";
-	for (let i = 0; i < intineraries.length; i++) {
-		startDate = intineraries[i].startDate.replaceAll("-", "/");
-		endDate = intineraries[i].endDate.replaceAll("-", "/");
-		let new_card = document.createElement("div");
-		new_card.className = "col-lg-3 col-md-4 d-flex";
-		new_card.innerHTML = `
+	if (intineraries.length == 0) {
+		$("#Recommended").html("");
+	} else {
+		let itins_view = document.getElementById("recommended_itins");
+		itins_view.innerHTML = "";
+		for (let i = 0; i < intineraries.length; i++) {
+			startDate = intineraries[i].startDate.replaceAll("-", "/");
+			endDate = intineraries[i].endDate.replaceAll("-", "/");
+			let new_card = document.createElement("div");
+			new_card.className = "col-lg-3 col-md-4 d-flex";
+			new_card.innerHTML = `
 		  <div class="card mx-auto mb-5" style="width: 22rem;">
 			  <img alt="Card image cap" id="itin+${intineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${intineraries[i].itineraryType}.jpg">
 			  <button onClick="view_itin(${intineraries[i].itineraryID})" class="link_overlay">
@@ -137,7 +148,8 @@ function display_recommended_cards(intineraries) {
 			  </button>
 		  </div>
 	  `;
-		itins_view.appendChild(new_card);
+			itins_view.appendChild(new_card);
+		}
 	}
 }
 

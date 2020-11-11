@@ -627,7 +627,7 @@ class itineraryDAO {
         $sql = "SELECT * 
             FROM itinerary 
             WHERE itineraryType = 
-            (SELECT itineraryType from itinerary GROUP by itineraryType ORDER by count(itineraryType) DESC 
+            (SELECT itineraryType from itinerary WHERE userID =:userID GROUP by itineraryType ORDER by count(itineraryType) DESC 
             limit 1 ) 
             AND userID <> :userID
             ORDER BY shared DESC LIMIT 4

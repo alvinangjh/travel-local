@@ -490,7 +490,7 @@ function redirect(uuid, type) {
 }
 
 function redirect_to_poi(keyword) {
-	window.location.href = "alvin_search.html?keyword=" + keyword + "&locType=TA";
+	window.location.href = "search.html?keyword=" + keyword + "&locType=TA";
 }
 
 function addActivity() {
@@ -665,6 +665,17 @@ function call_hidden_gems(categories_list, title_str) {
 			}
 		},
 	});
+}
+
+function redirect_to_poi(keyword) {
+	window.location.href = "../search/search.html?keyword=" + keyword;
+}
+
+function onEvent(event) {
+	if (event.key === "Enter") {
+		// After user typed enter
+		redirect_to_poi(document.getElementById("searching_poi").value, "all");
+	}
 }
 
 function display_hidden_gems(name, image, locID, description) {

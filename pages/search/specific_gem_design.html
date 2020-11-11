@@ -31,122 +31,126 @@
 		<link rel="stylesheet" href="../../scss/master.css" />
 		<link rel="stylesheet" href="search.css" />
 
+		<link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
+
 		<title id="siteTitle"></title>
 	</head>
 	<body onload="call_locID(new URL(window.location.href).searchParams.get('locID'))">
-		<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom shadow-sm">
-			<a class="navbar-brand mb-0 h1" href="../home/homepage.html">
-				<img src="../../images/logo.png" width="32" height="32" class="d-inline-block align-top" loading="lazy" />
-				Travel <span class="font-weight-bold text-danger">Local</span></a
-			>
+		<div id="page-container">
+			<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom shadow-sm">
+				<a class="navbar-brand mb-0 h1" href="../home/homepage.html">
+					<img src="../../images/logo.png" width="32" height="32" class="d-inline-block align-top" loading="lazy" />
+					Travel <span class="font-weight-bold text-danger">Local</span></a
+				>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<!-- <ul class="navbar-nav"> -->
-				<!-- <li class="nav-item">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- <ul class="navbar-nav"> -->
+					<!-- <li class="nav-item">
 					<a class="nav-link" href="../home/homepage.html">Home <span class="sr-only">(current)</span></a>
 				</li> -->
-				<!-- <li class="nav-item active">
+					<!-- <li class="nav-item active">
 					<a class="nav-link" href="#">My Itinerary</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">My Profile</a>
 				</li> -->
-				<!-- </ul> -->
-				<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
-					<div class="input-group">
-						<input
-							class="form-control border-right-0 border"
-							type="search"
-							placeholder="Search for places of interest"
-							id="searching_poi"
-							onkeypress="onEvent(event)"
-						/>
-						<span class="input-group-append">
-							<button
-								class="btn btn-outline-secondary border-left-0 border"
-								type="button"
-								onclick="poi_page_html(document.getElementById('searching_poi').value,'all')"
-							>
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
+					<!-- </ul> -->
+					<form class="form-inline mx-auto d-inline w-50" action="javascript:void(-1)">
+						<div class="input-group">
+							<input
+								class="form-control border-right-0 border"
+								type="search"
+								placeholder="Search places & activities"
+								id="searching_poi"
+								onkeypress="onEvent(event)"
+							/>
+							<span class="input-group-append">
+								<button
+									class="btn btn-outline-secondary border-left-0 border"
+									type="button"
+									onclick="redirect_to_poi(document.getElementById('searching_poi').value)"
+								>
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div>
+
+						<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+						Search
+					</button> -->
+					</form>
+
+					<div id="signUpDiv" class="ml-auto">
+						<a href="../user/user_signup.html" class="btn btn-danger my-2 my-sm-0">Sign Up</a>
 					</div>
 
-					<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-					Search
-				</button> -->
-				</form>
+					<div id="signOutDiv" class="ml-auto">
+						<a onclick="logOut()" class="btn btn-danger my-2 my-sm-0">Log Out</a>
+					</div>
+				</div>
+			</nav>
 
-				<div id="signUpDiv" class="ml-auto">
-					<a href="../user/user_signup.html" class="btn btn-danger my-2 my-sm-0">Sign Up</a>
+			<div id="content-wrap">
+				<div id="insert_poi"></div>
+
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<!--   Modal    -->
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Add into your itinerary</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								Choose your itinerary
+								<select id="ddlItinerary" class="form-control" onchange="filterActivityDate()"></select>
+								<br />
+								Activity Date
+								<select id="ddlActivityDate" class="form-control"></select>
+								<br />
+								Start Time
+								<input type="text" class="form-control" id="startTime" />
+								<br />
+								End Time
+								<input type="text" class="form-control" id="endTime" />
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-danger" onclick="addActivity()">Add to itinerary</button>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<div id="signOutDiv" class="ml-auto">
-					<a onclick="logOut()" class="btn btn-danger my-2 my-sm-0">Log Out</a>
+				<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Success!</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">Success!</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save changes</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</nav>
 
-		<div id="insert_poi"></div>
-
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<!--   Modal    -->
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Add into your itinerary</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						Choose your itinerary
-						<select id="ddlItinerary" class="form-control" onchange="filterActivityDate()"></select>
-						<br />
-						Activity Date
-						<select id="ddlActivityDate" class="form-control"></select>
-						<br />
-						Start Time
-						<input type="text" class="form-control" id="startTime" />
-						<br />
-						End Time
-						<input type="text" class="form-control" id="endTime" />
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-danger" onclick="addActivity()">Add to itinerary</button>
-					</div>
-				</div>
-			</div>
+			<footer class="footer">
+				<p class="pl-5 text-muted mt-2">© 2020 Travel Local. All Rights Reserved.</p>
+			</footer>
 		</div>
-
-		<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Success!</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">Success!</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 
-		<footer class="footer">
-			<div class="container">
-				<span class="text-muted">Web Application Development II</span>
-			</div>
-		</footer> -->
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -177,8 +181,6 @@
 		<!-- Custom CSS -->
 		<script src="search.js"></script>
 
-		<script>
-			
-		</script>
+		<script></script>
 	</body>
 </html>

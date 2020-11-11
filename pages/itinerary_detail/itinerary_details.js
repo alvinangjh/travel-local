@@ -198,47 +198,47 @@ function populateItinerary(activities, startDate, endDate) {
 	for (var i = 0; i < activities.length; i++) {
 		(function (i) {
 			if (activities[i].locType == "HG") {
-				var baseUrl = "../../php/objects/locationRetrieve.php";
+				setTimeout(function () {
+					var baseUrl = "../../php/objects/locationRetrieve.php";
 
-				$.ajax({
-					url: baseUrl,
-					type: "POST",
-					data: { location_id: activities[i].poiUUID },
-				}).done(function (responseText) {
-					var data = JSON.parse(responseText);
-					console.log(data);
+					$.ajax({
+						url: baseUrl,
+						type: "POST",
+						data: { location_id: activities[i].poiUUID },
+						success: function (responseText) {
+							var data = JSON.parse(responseText);
 
-					var dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + data[0]["latitude"] + "," + data[0]["longitude"];
+							var dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + data[0]["latitude"] + "," + data[0]["longitude"];
 
-					var imageUrl = data[0]["imageUrl"];
+							var imageUrl = data[0]["imageUrl"];
 
-					var startTime = moment(activities[i].startTime, "HH:mm:ss A").format("hh:mm A");
-					var endTime = moment(activities[i].endTime, "HH:mm:ss A").format("hh:mm A");
+							var startTime = moment(activities[i].startTime, "HH:mm:ss A").format("hh:mm A");
+							var endTime = moment(activities[i].endTime, "HH:mm:ss A").format("hh:mm A");
 
-					var openingHour = "N/A";
-					var closingHour = "N/A";
+							var openingHour = "N/A";
+							var closingHour = "N/A";
 
-					if (data[0]["startTime"] != "") {
-						openingHour = moment(data[0]["startTime"], "HH:mm").format("hh:mm A");
-					}
+							if (data[0]["startTime"] != "") {
+								openingHour = moment(data[0]["startTime"], "HH:mm").format("hh:mm A");
+							}
 
-					if (data[0]["endTime"] != "") {
-						closingHour = moment(data[0]["endTime"], "HH:mm").format("hh:mm A");
-					}
+							if (data[0]["endTime"] != "") {
+								closingHour = moment(data[0]["endTime"], "HH:mm").format("hh:mm A");
+							}
 
-					var ms = moment(endTime, "hh:mm A").diff(moment(startTime, "hh:mm A"));
-					var d = moment.duration(ms);
-					var hours = parseInt(d.asHours());
-					var minutes = parseInt(d.asMinutes()) % 60;
-					var totalDuration = "";
+							var ms = moment(endTime, "hh:mm A").diff(moment(startTime, "hh:mm A"));
+							var d = moment.duration(ms);
+							var hours = parseInt(d.asHours());
+							var minutes = parseInt(d.asMinutes()) % 60;
+							var totalDuration = "";
 
-					if (hours != 0) {
-						totalDuration = hours + " hrs " + minutes + " mins";
-					} else {
-						totalDuration = minutes + " mins";
-					}
+							if (hours != 0) {
+								totalDuration = hours + " hrs " + minutes + " mins";
+							} else {
+								totalDuration = minutes + " mins";
+							}
 
-					str = `
+							str = `
 							<div class="card mb-2 rounded-0" >
 								<div class="row no-gutters">
 									<div class="col-md-2 text-center my-auto">
@@ -335,53 +335,57 @@ function populateItinerary(activities, startDate, endDate) {
 								</div>
 							</div> -->`;
 
-					document.getElementById(moment(activities[i].activityDate).format("DD-MM-YYYY")).innerHTML += str;
+							document.getElementById(moment(activities[i].activityDate).format("DD-MM-YYYY")).innerHTML += str;
 
-					var select = document.getElementById("ddlDate" + activities[i].activityID);
+							var select = document.getElementById("ddlDate" + activities[i].activityID);
 
-					for (var j = 0; j < dateArray.length; j++) {
-						var formattedDate = moment(dateArray[j]).format("DD MMM YYYY");
-						var otherFormatDate = moment(dateArray[j]).format("YYYY-MM-DD");
+							for (var j = 0; j < dateArray.length; j++) {
+								var formattedDate = moment(dateArray[j]).format("DD MMM YYYY");
+								var otherFormatDate = moment(dateArray[j]).format("YYYY-MM-DD");
 
-						var elem = document.createElement("option");
-						elem.textContent = formattedDate;
-						elem.value = otherFormatDate;
-						select.appendChild(elem);
+								var elem = document.createElement("option");
+								elem.textContent = formattedDate;
+								elem.value = otherFormatDate;
+								select.appendChild(elem);
 
-						if (otherFormatDate == activities[i].activityDate) {
-							elem.selected = true;
-						}
-					}
+								if (otherFormatDate == activities[i].activityDate) {
+									elem.selected = true;
+								}
+							}
 
-					$("#tbStartTime" + activities[i].activityID).timepicker({
-						timeFormat: "hh:mm p",
-						interval: 15,
-						defaultTime: openingHour,
-						minTime: openingHour,
-						maxTime: closingHour,
-						startTime: openingHour,
-						dropdown: true,
-						scrollbar: false,
-						zindex: 3500,
-						change: function (time) {
-							$("#tbEndTime" + activities[i].activityID).timepicker("option", "minTime", time);
+							console.log(activities[i].activityID);
+
+							$("#tbStartTime" + activities[i].activityID).timepicker({
+								timeFormat: "hh:mm p",
+								interval: 15,
+								defaultTime: openingHour,
+								minTime: openingHour,
+								maxTime: closingHour,
+								startTime: openingHour,
+								dropdown: true,
+								scrollbar: false,
+								zindex: 3500,
+								// change: function (time) {
+								// 	$("#tbEndTime" + activities[i].activityID).timepicker("option", "minTime", time);
+								// },
+							});
+
+							$("#tbEndTime" + activities[i].activityID).timepicker({
+								timeFormat: "hh:mm p",
+								interval: 15,
+								zindex: 3500,
+								defaultTime: closingHour,
+								minTime: openingHour,
+								maxTime: closingHour,
+								dropdown: true,
+								scrollbar: false,
+								// change: function (time) {
+								// 	$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
+								// },
+							});
 						},
 					});
-
-					$("#tbEndTime" + activities[i].activityID).timepicker({
-						timeFormat: "hh:mm p",
-						interval: 15,
-						zindex: 3500,
-						defaultTime: closingHour,
-						minTime: openingHour,
-						maxTime: closingHour,
-						dropdown: true,
-						scrollbar: false,
-						change: function (time) {
-							$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
-						},
-					});
-				});
+				}, 2000);
 			} else {
 				setTimeout(function () {
 					var baseUrl = "https://tih-api.stb.gov.sg/content/v1/attractions";
@@ -545,6 +549,8 @@ function populateItinerary(activities, startDate, endDate) {
 								}
 							}
 
+							console.log(activities[i].activityID);
+
 							$("#tbStartTime" + activities[i].activityID).timepicker({
 								timeFormat: "hh:mm p",
 								interval: 15,
@@ -555,9 +561,9 @@ function populateItinerary(activities, startDate, endDate) {
 								dropdown: true,
 								scrollbar: false,
 								zindex: 3500,
-								change: function (time) {
-									$("#tbEndTime" + activities[i].activityID).timepicker("option", "minTime", time);
-								},
+								// change: function (time) {
+								// 	$("#tbEndTime" + activities[i].activityID).timepicker("option", "minTime", time);
+								// },
 							});
 
 							$("#tbEndTime" + activities[i].activityID).timepicker({
@@ -569,13 +575,13 @@ function populateItinerary(activities, startDate, endDate) {
 								maxTime: closingHour,
 								dropdown: true,
 								scrollbar: false,
-								change: function (time) {
-									$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
-								},
+								// change: function (time) {
+								// 	$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
+								// },
 							});
 						},
 					});
-				}, 0000);
+				}, 2000);
 			}
 		})(i);
 	}
