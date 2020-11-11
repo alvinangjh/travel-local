@@ -9,12 +9,13 @@ include_once '../includes/autoload.php';
         public $itineraryID;
             
         // constructor with $db as database connection
-        public function __construct($activityID, $poiUUID, $startTime, $endTime, $activityDate, $itineraryID) {
+        public function __construct($activityID, $poiUUID, $startTime, $endTime, $activityDate, $locType, $itineraryID) {
             $this->activityID = $activityID;
             $this->poiUUID = $poiUUID;
             $this->startTime = $startTime;
             $this->endTime = $endTime;
             $this->activityDate = $activityDate;
+            $this->locType = $locType;
             $this->itineraryID = $itineraryID;
         }
 
@@ -30,12 +31,16 @@ include_once '../includes/autoload.php';
             return $this->startTime;
         }
 
+        public function getEndTime(){
+            return $this->endTime;
+        }
+        
         public function getActivityDate(){
             return $this->activityDate;
         }
 
-        public function getEndTime(){
-            return $this->endTime;
+        public function getLocType(){
+            return $this->locType;
         }
 
         public function getItineraryID(){

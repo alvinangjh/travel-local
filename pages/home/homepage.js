@@ -12,13 +12,13 @@ url = "../../php/objects/userItinRecommendedDefault.php";
 ajaxCall(url, display_recommended_cards, "POST", { userID: get_userID });
 
 function redirect_to_poi(keyword) {
-	window.location.href = "../search/alvin_search.html?keyword=" + keyword;
+	window.location.href = "../search/search.html?keyword=" + keyword;
 }
 
 function onEvent(event) {
 	if (event.key === "Enter") {
 		// After user typed enter
-		poi_page_html(document.getElementById("searching_poi").value, "all");
+		redirect_to_poi(document.getElementById("searching_poi").value, "all");
 	}
 }
 

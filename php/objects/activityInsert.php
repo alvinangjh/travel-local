@@ -10,7 +10,7 @@ $activity_decoded = json_decode($activity, true);
 
 $activityDate = str_replace('/', '-', $activity_decoded["activityDate"]);
 
-$new_activity = new Activity($activity_decoded["activityID"], $activity_decoded["poiUUID"], $activity_decoded["startTime"], $activity_decoded["endTime"], date('Y-m-d', strtotime($activityDate)), $activity_decoded["itineraryID"] );
+$new_activity = new Activity($activity_decoded["activityID"], $activity_decoded["poiUUID"], $activity_decoded["startTime"], $activity_decoded["endTime"], date('Y-m-d', strtotime($activityDate)), $activity_decoded["locType"], $activity_decoded["itineraryID"] );
 
 $activity = new activityDAO();
 

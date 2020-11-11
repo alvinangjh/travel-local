@@ -132,33 +132,34 @@ function display_specific_poi(
 	insert_poi.innerHTML = poi_html + review_section(reviews, rating);
 	window.scrollTo(0, 0);
 
+	var startTime = business_hours["openTime"];
+	var endTime = business_hours["closeTime"];
+
 	$("#startTime").timepicker({
 		timeFormat: "hh:mm p",
 		interval: 15,
-		defaultTime: business_hours["openTime"],
-		minTime: business_hours["openTime"],
-		maxTime: business_hours["closeTime"],
-		startTime: business_hours["openTime"],
+		defaultTime: startTime,
+		minTime: startTime,
+		maxTime: endTime,
 		dropdown: true,
+		dynamic: false,
 		scrollbar: false,
 		zindex: 3500,
-		change: function (time) {
-			$("#endTime").timepicker("option", "minTime", time);
-		},
 	});
+
+	// $("#startTime").timepicker("option", "minTime", startTime);
+	// $("#startTime").timepicker("option", "defaultTime", startTime);
 
 	$("#endTime").timepicker({
 		timeFormat: "hh:mm p",
 		interval: 15,
-		zindex: 3500,
-		defaultTime: business_hours["closeTime"],
-		minTime: business_hours["openTime"],
-		maxTime: business_hours["closeTime"],
+		defaultTime: endTime,
+		minTime: startTime,
+		maxTime: endTime,
 		dropdown: true,
+		dynamic: false,
 		scrollbar: false,
-		change: function (time) {
-			$("#startTime").timepicker("option", "maxTime", time);
-		},
+		zindex: 3500,
 	});
 }
 
@@ -485,18 +486,19 @@ function onEvent(event) {
 }
 
 function redirect(uuid, type) {
-	window.location.href = "specific_poi_design.html?uuid=" + uuid + "&type=" + type;
+	window.location.href = "specific_poi_design.html?uuid=" + uuid + "&type=" + type + "&locType=TA";
 }
 
 function redirect_to_poi(keyword) {
-	window.location.href = "alvin_search.html?keyword=" + keyword;
+	window.location.href = "alvin_search.html?keyword=" + keyword + "&locType=TA";
 }
 
 function addActivity() {
 	var poiUUID = new URL(window.location.href).searchParams.get("uuid");
+	var locType = new URL(window.location.href).searchParams.get("locType");
 	var selectedItinerary = $("#ddlItinerary :selected").val();
-	var startTime = $("#startTime").val();
-	var endTime = $("#endTime").val();
+	var startTime = moment($("#startTime").val(), ["hh:mm A"]).format("HH:mm");
+	var endTime = moment($("#endTime").val(), ["hh:mm A"]).format("HH:mm");
 	var activityDate = $("#ddlActivityDate :selected").val();
 
 	var url = "../../php/objects/activityInsert.php";
@@ -507,18 +509,16 @@ function addActivity() {
 		startTime: startTime,
 		endTime: endTime,
 		activityDate: activityDate,
+		locType: locType,
 		itineraryID: selectedItinerary,
 	};
 
 	var data = JSON.stringify(activity);
 
-	console.log(data);
-
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
 			//hide success modal
-			console.log(request.responseText);
 			if (request.responseText == "Success") {
 				$("#exampleModal").modal("hide");
 				$("#successModal").modal("show");
@@ -690,7 +690,7 @@ function display_hidden_gems(name, image, locID, description) {
 }
 
 function redirect_hidden_gems_page(locID) {
-	window.location.href = "specific_gem_design.html?locID=" + locID;
+	window.location.href = "specific_gem_design.html?uuid=" + locID + "&locType=HG";
 }
 
 function display_specific_hidden_gems(
@@ -712,7 +712,6 @@ function display_specific_hidden_gems(
 	website
 ) {
 	check_user();
-	console.log("hello1");
 	var insert_poi = document.getElementById("insert_poi");
 	var map_link = call_onemap_api(lat, lng, postal);
 
@@ -774,27 +773,22 @@ function display_specific_hidden_gems(
 		defaultTime: startTime,
 		minTime: startTime,
 		maxTime: endTime,
-		startTime: startTime,
 		dropdown: true,
+		dynamic: false,
 		scrollbar: false,
 		zindex: 3500,
-		change: function (time) {
-			$("#endTime").timepicker("option", "minTime", time);
-		},
 	});
 
 	$("#endTime").timepicker({
 		timeFormat: "hh:mm p",
 		interval: 15,
-		zindex: 3500,
 		defaultTime: endTime,
 		minTime: startTime,
 		maxTime: endTime,
 		dropdown: true,
+		dynamic: false,
 		scrollbar: false,
-		change: function (time) {
-			$("#startTime").timepicker("option", "maxTime", time);
-		},
+		zindex: 3500,
 	});
 }
 

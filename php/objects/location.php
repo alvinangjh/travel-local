@@ -4,23 +4,23 @@ include_once 'autoload.php';
 
     class Location {
         // object properties
-        private $locID;
-        private $locTitle;
-        private $locAddress;
-        private $locPostalCode;
-        private $locDesc;
-        private $categories;
-        private $rating;
-        private $imageUrl;
-        private $createdBy;
-        private $latitude;
-        private $longitude;
-        private $venueType;
-        private $businessContact;
-        private $businessEmail;
-        private $startTime;
-        private $endTime;
-        private $businessWeb;
+        public $locID;
+        public $locTitle;
+        public $locAddress;
+        public $locPostalCode;
+        public $locDesc;
+        public $categories;
+        public $rating;
+        public $imageUrl;
+        public $createdBy;
+        public $latitude;
+        public $longitude;
+        public $venueType;
+        public $businessContact;
+        public $businessEmail;
+        public $startTime;
+        public $endTime;
+        public $businessWeb;
 
 
         // constructor with $db as database connection

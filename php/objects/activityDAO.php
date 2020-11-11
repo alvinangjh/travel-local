@@ -25,6 +25,7 @@ class ActivityDAO {
                 $row["startTime"],
                 $row["endTime"],
                 $row["activityDate"],
+                $row["locType"],
                 $row["itineraryID"]
             );
             $activities[] = $activity;
@@ -83,22 +84,25 @@ class ActivityDAO {
     
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection();
-        $sql = 'INSERT INTO activity (activityID, poiUUID, startTime, endTime, activityDate, itineraryID)
-                VALUES (:activityID, :poiUUID, :startTime, :endTime, :activityDate, :itineraryID)';
+        $sql = 'INSERT INTO activity (activityID, poiUUID, startTime, endTime, activityDate, locType, itineraryID)
+                VALUES (null, :poiUUID, :startTime, :endTime, :activityDate, :locType, :itineraryID)';
         $stmt = $pdo->prepare($sql); 
 
-        $activityID = $activity->getActivityID();
+        //$activityID = $activity->getActivityID();
         $poiUUID = $activity->getPOIUUID();
         $startTime = $activity->getStartTime();
         $endTime = $activity->getEndTime();
         $activityDate = $activity->getActivityDate();
+        $locType = $activity->getLocType();
         $itineraryID = $activity->getItineraryID();
 
-        $stmt->bindParam(':activityID', $itineraryID, PDO::PARAM_INT);
+
+        //$stmt->bindParam(':activityID', $itineraryID, PDO::PARAM_INT);
         $stmt->bindParam(':poiUUID', $poiUUID, PDO::PARAM_STR);
         $stmt->bindParam(':startTime', $startTime, PDO::PARAM_STR);
         $stmt->bindParam(':endTime', $endTime, PDO::PARAM_STR);
         $stmt->bindParam(':activityDate', $activityDate, PDO::PARAM_STR);
+        $stmt->bindParam(':locType', $locType, PDO::PARAM_STR);
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
 
         try {

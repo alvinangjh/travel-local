@@ -58,6 +58,51 @@ class LocationDAO {
             return $e;
         }
     }
+
+    public function retrieveByLocationID($locID) {
+        $connMgr = new Connection();
+        $conn = $connMgr->getConnection();
+
+        $sql = "SELECT * FROM custom_loc WHERE locID = :locID";
+        
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bindParam(':locID', $locID, PDO::PARAM_INT);
+        
+        $status = $stmt->execute();
+
+        $locations = [];
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        while( $row = $stmt->fetch() ) {
+            $location = new Location(
+                $row["locID"],
+                $row["locTitle"],
+                $row["locAddress"],
+                $row["locPostalCode"],
+                $row["locDesc"],
+                $row["categories"],
+                $row["rating"],
+                $row["imageUrl"],
+                $row["createdBy"],
+                $row["latitude"],
+                $row["longitude"],
+                $row["venueType"],
+                $row["businessContact"],
+                $row["businessEmail"],
+                $row["startTime"],
+                $row["endTime"],
+                $row["businessWeb"]
+            );
+
+            $locations[] = $location;
+        }
+
+
+        $stmt = null;
+        $conn = null;
+
+        return $locations;
+    }
 }
 
 ?>

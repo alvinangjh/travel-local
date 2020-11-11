@@ -30,7 +30,8 @@
     `startTime` TIME NOT NULL,
     `endTime` TIME NOT NULL,
     `activityDate` DATE NOT NULL,
-    `itineraryID` integer NOT NULL
+    `locType` varchar(256) NOT NULL,
+    `itineraryID` integer NOT NULL,
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
  CREATE TABLE if not exists `custom_loc` (
