@@ -118,12 +118,15 @@ function display_popular_cards(itineraries) {
                 <div class="card-img-overlay">
                     <h4 class="card-title">${itineraries[i].name}</h4>
                     <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${capitalizeFirstLetter(itineraries[i].itineraryType)}</p>
-                    <p class="text-white bg-danger">Shared over ${itineraries[i].shared} times!<p>
+                    <p class="text-white bg-danger">Shared over ${itineraries[i].shared} times!
+                    <img src="images/like" class="like_img">
+                    <p>
                 </div>
                 
             </button>
         </div>
     `;
+    
 		itins_view.appendChild(new_card);
 	}
 }
