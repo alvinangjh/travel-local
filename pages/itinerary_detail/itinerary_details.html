@@ -93,13 +93,13 @@
 				<div class="p-3 mt-2 mb-5 clearfix">
 					<div class="text-right">
 						<div class="dropdown mb-3">
-							<button class="btn utility" onclick="redirect_to_poi()">Add New Activity</button>
+							<button id="btnAddNewActivity" class="btn utility" onclick="redirect_to_poi('')">Add New Activity</button>
 
 							<a class="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown">
 								<i class="fas fa-cog"></i> Settings
 							</a>
 							<div class="dropdown-menu" id="ddlSetting" aria-labelledby="dropdownMenuLink">
-								<button type="button" class="dropdown-item" data-toggle="modal" data-target="#themeModal">
+								<button type="button" id="btnChangeTheme" class="dropdown-item" data-toggle="modal" data-target="#themeModal">
 									<i class="icon fas fa-palette"></i> Change theme
 								</button>
 								<!-- <a href="#" class="dropdown-item"><i class="icon fas fa-palette"></i> Change theme</a> -->
