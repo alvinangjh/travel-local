@@ -2,7 +2,15 @@ html {
   background-color: #fffafa;
 }
 
+.like_img {
+  max-width: 15px;
+  max-height: 15px;
+  margin-top: -5px;
+}
+
 .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 70%;
   max-height: 100%;
@@ -11,10 +19,12 @@ html {
   font-size: 2rem;
   overflow: hidden;
 }
+
 .card .blockquote-footer {
   font-size: 12px;
   color: white;
 }
+
 .card .card-footer {
   color: white;
   vertical-align: text-top;
@@ -27,18 +37,21 @@ a {
 
 .link_overlay :hover {
   background-color: rgba(0, 0, 0, 0.5);
-  transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+          transform: scale(1.15);
   overflow: hidden;
 }
 
 .card-img-overlay {
   color: white;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.5)));
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
 .card-img-overlay :hover {
   background-color: rgba(0, 0, 0, 0);
-  transform: scale(1);
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
 
 .card-img-top {
@@ -46,6 +59,7 @@ a {
 }
 
 .hero-image {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.5))), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images7.alphacoders.com/456/thumb-1920-456555.jpg");
   display: block;
   min-height: 520px;
@@ -57,14 +71,17 @@ a {
   position: relative;
   margin-bottom: 50px;
 }
+
 .hero-image .hero-content {
   text-align: center;
   color: white;
   font-size: 3rem;
 }
+
 .hero-image #itinCreationForm {
   color: white;
 }
+
 .hero-image #btm_cont {
   margin-top: 7%;
   right: 0;
@@ -108,5 +125,4 @@ a {
 #signOutDiv {
   display: none;
 }
-
 /*# sourceMappingURL=homepage.css.map */
