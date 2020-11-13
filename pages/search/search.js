@@ -539,6 +539,8 @@ function startPlanning() {
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
+			$("#ddlActivityDate").empty();
+			$("#ddlItinerary").empty();
 			var data = JSON.parse(request.responseText);
 			sessionStorage.setItem("test", request.responseText);
 			var selectElem = document.getElementById("ddlItinerary");
