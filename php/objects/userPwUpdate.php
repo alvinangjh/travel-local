@@ -10,7 +10,9 @@ $user_decoded = json_decode($user, true);
 
 $user = new UserDAO();
 
-$status = $user->updateUserPw($user_decoded["email"], $user_decoded["pw"]);
+$passwordHash = password_hash($user_decoded["pw"], PASSWORD_DEFAULT);
+
+$status = $user->updateUserPw($user_decoded["email"], $passwordHash);
 
 return $status;
 

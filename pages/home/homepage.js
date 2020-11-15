@@ -1,27 +1,29 @@
 const apiKey = "2DeahNNW3hdNmHNNpsUFv0BH7mQeZm63"; //Hong Tao's API Auth Token
 
-var url = "../../php/objects/userItinRetrieve.php";
-var get_userID = sessionStorage.getItem("userID");
-// var userID = sessionStorage.getItem("userID");
-ajaxCall(url, display_itin_cards, "POST", { userID: get_userID }); //Call api, d
+var url = "../../php/objects/userItinRetrieve.php"; //Always set url for api call
+var get_userID = sessionStorage.getItem("userID"); //Get's the current user's ID (userID)
 
-url = "../../php/objects/retrievePopItins.php";
-ajaxCall(url, display_popular_cards);
+ajaxCall(url, display_itin_cards, "POST", { userID: get_userID }); //Call api to php & MySQL to generate the user's (in reference to userID) itinerary cards
+url = "../../php/objects/retrievePopItins.php"; 
+ajaxCall(url, display_popular_cards); //Call api to php & MySQL to generate popular itinerary cards
 
 url = "../../php/objects/userItinRecommendedDefault.php";
-ajaxCall(url, display_recommended_cards, "POST", { userID: get_userID });
+ajaxCall(url, display_recommended_cards, "POST", { userID: get_userID }); //Call api to php & MySQL to generate recommended itinerary cards based on userID
 
+//Used to redirect to search if they used searchbar
 function redirect_to_poi(keyword) {
 	window.location.href = "../search/search.html?keyword=" + keyword;
-}
+} 
 
+//If they used enter on searchbar instead of clicking search button, redirect
 function onEvent(event) {
 	if (event.key === "Enter") {
 		// After user typed enter
 		redirect_to_poi(document.getElementById("searching_poi").value, "all");
 	}
-}
+} 
 
+// if session has no userID, send back to login page. Otherwise there will be errors for api calls requiring userID
 function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
 		window.location.href = "../../index.html";
@@ -31,11 +33,13 @@ function checkUser() {
 	}
 }
 
+//Log out, remove session ID
 function logOut() {
 	window.location.href = "../../index.html";
 	sessionStorage.clear();
 }
 
+//ajax call function, allows for more flexible variables
 function ajaxCall(search, callback, method = "GET", value = null) {
 	$.ajax({
 		url: search,
@@ -54,6 +58,7 @@ function ajaxCall(search, callback, method = "GET", value = null) {
 	});
 }
 
+//used to generate user's itineraries after recieving the data from PHP & MySQL ref (userID)
 function display_itin_cards(itineraries) {
 	if (itineraries.length == 0) {
 		var itins_view = document.getElementById("my_itins");
@@ -90,15 +95,7 @@ function display_itin_cards(itineraries) {
 	}
 }
 
-function open_Modal(itin) {
-	document.getElementById("confirm").id = itin;
-	$("#exampleModalCenter").modal("show");
-}
-
-function view_itin(link, own) {
-	window.location.href = "../itinerary_detail/itinerary_details.html?id=" + link + "&own=" + own;
-}
-
+//used to generate popular itineraries after recieving the data from PHP & MySQL
 function display_popular_cards(itineraries) {
 	// console.log(itineraries);
 	let startDate = null;
@@ -131,6 +128,7 @@ function display_popular_cards(itineraries) {
 	}
 }
 
+//used to generate recommended itineraries after recieving the data from PHP & MySQL ref (userID)
 function display_recommended_cards(itineraries) {
 	if (itineraries.length == 0) {
 		$("#Recommended").html("");
@@ -158,6 +156,18 @@ function display_recommended_cards(itineraries) {
 	}
 }
 
+//redirect upon clicking itinerary card to itinerary 
+function view_itin(link, own) {
+	window.location.href = "../itinerary_detail/itinerary_details.html?id=" + link + "&own=" + own;
+}
+
+//modal toggle to prevent accidental deletion
+function open_Modal(itin) {
+	document.getElementById("confirm").id = itin;
+	$("#exampleModalCenter").modal("show");
+}
+
+//delete itinerary ref (itineraryID)
 function delete_itin(id) {
 	var itineraryID = { itineraryID: id };
 	itineraryID = JSON.stringify(itineraryID);
@@ -166,6 +176,7 @@ function delete_itin(id) {
 	location.reload();
 }
 
+//Add new itinerary based on details in form
 function add_itinerary() {
 	var itinerary = {
 		itinName: $("#itinName").val(),
@@ -185,10 +196,12 @@ function add_itinerary() {
 	location.reload();
 }
 
+//Capitalize card itineraryType for consistency
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+//Date formatting
 function dateFormat(date) {
 	// console.log(date);
 	let date_array = date.split("/");

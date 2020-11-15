@@ -56,4 +56,25 @@ class UserDAO {
 
         return $user;
     }
+
+    public function updateUserPw($email, $password) {      
+
+        $connMgr = new Connection();
+        $pdo = $connMgr->getConnection();
+
+        $sql = "
+            UPDATE user SET password = :password where emailAddress = :email
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+
+        $isOk = $stmt->execute();
+        
+
+        $stmt = null;
+        $pdo = null;        
+        
+        return $isOk;
+    }
 }

@@ -2,12 +2,15 @@ const apiKey = "jKNTmdblMsxZWS3mrwmxz7i5fujbBlZU";
 const dataset = "accommodation,attractions,event,food_beverages,shops,venue,walking_trail";
 
 /* Utilities */
+
+/* Utility function to facilitate finding the days in between two dates */
 Date.prototype.addDays = function (days) {
 	var dat = new Date(this.valueOf());
 	dat.setDate(dat.getDate() + days);
 	return dat;
 };
 
+/* Facilitate in finding the days between two dates */
 function getDates(startDate, stopDate) {
 	var dateArray = new Array();
 	var currentDate = startDate;
@@ -18,6 +21,7 @@ function getDates(startDate, stopDate) {
 	return dateArray;
 }
 
+/* Save the theme that users select in the theme modal */
 function changeTheme() {
 	var clicked_id = $("input:radio[name=rdBtnTheme]:checked").val();
 	var baseUrl = "../../php/objects/itineraryThemeUpdate.php";
@@ -58,42 +62,17 @@ function changeTheme() {
 	});
 }
 
-// function changeTheme(clicked_id) {
-// 	if (clicked_id == "nature") {
-// 		console.log(clicked_id);
-// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-// 		var icons = document.getElementsByClassName("navigationIcon");
-// 		for (icon of icons) {
-// 			icon.className = "icon navigationIcon fas fa-leaf";
-// 		}
-// 	} else if (clicked_id == "family") {
-// 		console.log(clicked_id);
-// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-// 		var icons = document.getElementsByClassName("navigationIcon");
-// 		for (icon of icons) {
-// 			icon.className = "icon navigationIcon fas fa-home";
-// 		}
-// 	} else if (clicked_id == "romantic") {
-// 		console.log(clicked_id);
-// 		document.getElementById("itineraryTheme").href = "itinerary_" + clicked_id + ".css";
-// 		var icons = document.getElementsByClassName("navigationIcon");
-// 		for (icon of icons) {
-// 			icon.className = "icon navigationIcon fas fa-heart";
-// 		}
-// 	}
-
-// 	$("#themeModal").modal("hide");
-// }
-
 /* Retrieve all activities under the same itinerary */
 function retrieveActivity() {
+	/* Check if sessionStorage exist for userID
+	If not send the user back to login html */
 	checkUser();
 
-	//remember to change to dynamic itineraryID
 	var itineraryID = new URL(window.location.href).searchParams.get("id");
 	var ownParam = new URL(window.location.href).searchParams.get("own");
 	var baseUrl = "../../php/objects/itineraryCopy.php";
 
+	/* If the itinerary does not belong to the user, allow only specific buttons */
 	if (ownParam.toLowerCase() != "yes") {
 		$("#btnCopy").attr("style", "display:''");
 		$("#btnChangeTheme").attr("style", "display:none");
@@ -115,6 +94,7 @@ function retrieveActivity() {
 	}).done(function (responseText) {
 		var data = responseText;
 
+		/* Sort activities based on start time (earliest first) */
 		var sorted = data.sort((a, b) => {
 			return a.startTime.localeCompare(b.startTime);
 		});
@@ -137,8 +117,8 @@ function retrieveActivity() {
 	});
 }
 
+/* Generate the skeleton for all the days of the itinerary */
 function generateDay(itineraryID, activities) {
-	//remember to change to dynamic itineraryID
 	var itineraryID = itineraryID;
 	var baseUrl = "../../php/objects/itineraryRetrieve.php";
 	var ownParam = new URL(window.location.href).searchParams.get("own");
@@ -163,13 +143,16 @@ function generateDay(itineraryID, activities) {
 
 		var dateArray = getDates(new Date(result[0].startDate), new Date(result[0].endDate));
 
+		/* Assign correct icons according to the itinerary type/theme */
 		for (var i = 0; i < dateArray.length; i++) {
 			var formattedDate = moment(dateArray[i]).format("DD-MM-YYYY");
 			var itineraryDays = document.getElementById("itinerary_days");
 
-			//dating: heart
+			//romantic: heart
 			//family: home
 			//nature: leaf
+			//casual: footstep
+
 			if (result[0].itineraryType.toLowerCase() == "romantic") {
 				itineraryDays.innerHTML += `<h5 class="text-center"><a class="dayLink" href="#${formattedDate}"><i class="icon navigationIcon fas fa-heart"></i> 
 			Day ${i + 1}</a></h5>`;
@@ -195,12 +178,14 @@ function generateDay(itineraryID, activities) {
 	});
 }
 
+/* Retrieve all the activities in the itinerary from TIH API or MySQL */
 function populateItinerary(activities, startDate, endDate) {
 	var str = "";
 
 	var dateArray = getDates(new Date(startDate), new Date(endDate));
 	var ownParam = new URL(window.location.href).searchParams.get("own");
 
+	/* Generate the individual day skeleteon, "Day 1", "Day 2", etc. */
 	for (var i = 0; i < dateArray.length; i++) {
 		var entrySection = document.getElementById("entry_section");
 		var formattedDate = moment(dateArray[i]).format("DD-MM-YYYY");
@@ -209,6 +194,7 @@ function populateItinerary(activities, startDate, endDate) {
 		entrySection.innerHTML += str;
 	}
 
+	/* For each activity, generate the details needed and image */
 	for (var i = 0; i < activities.length; i++) {
 		(function (i) {
 			if (activities[i].locType == "HG") {
@@ -553,6 +539,7 @@ function populateItinerary(activities, startDate, endDate) {
 
 						var select = document.getElementById("ddlDate" + activities[i].activityID);
 
+						/* Populate the dates available to choose from when user wants to edit the activity */
 						for (var j = 0; j < dateArray.length; j++) {
 							var formattedDate = moment(dateArray[j]).format("DD MMM YYYY");
 							var otherFormatDate = moment(dateArray[j]).format("YYYY-MM-DD");
@@ -567,6 +554,7 @@ function populateItinerary(activities, startDate, endDate) {
 							}
 						}
 
+						/* Timepicker initialization */
 						setTimeout(function () {
 							$("#tbStartTime" + activities[i].activityID).timepicker({
 								timeFormat: "hh:mm p",
@@ -595,6 +583,7 @@ function populateItinerary(activities, startDate, endDate) {
 							});
 						}, 300);
 
+						/* Disable editing features if user do not own the itinerary */
 						if (ownParam.toLowerCase() != "yes") {
 							$("#activity" + activities[i].activityID).attr("style", "display:none");
 							$("#remove" + activities[i].activityID).attr("style", "display:none");
@@ -605,6 +594,7 @@ function populateItinerary(activities, startDate, endDate) {
 					},
 				});
 
+				/* delay to allow async to finish before moving on (sequence matter) */
 				sleep(300);
 			}
 		})(i);
@@ -616,6 +606,7 @@ function sleep(delay) {
 	while (new Date().getTime() < start + delay);
 }
 
+/* Call the image from another TIH API */
 function callImage(imageUUID, callback) {
 	var base_url = "https://tih-api.stb.gov.sg/media/v1/image/uuid/";
 	var final_url = base_url + imageUUID + "?apikey=" + apiKey;
@@ -637,6 +628,7 @@ function callImage(imageUUID, callback) {
 	request.send();
 }
 
+/* Allow the user to edit activity based on time and date */
 function editActivity(clicked_id) {
 	var baseUrl = "../../php/objects/activityUpdate.php";
 	var ddlDate = document.getElementById("ddlDate" + clicked_id);
@@ -645,6 +637,7 @@ function editActivity(clicked_id) {
 
 	var checkValid = moment(startTime, "hh:mm A").isBefore(moment(endTime, "hh:mm A"));
 
+	/* before allowing edit, check if time set is valid */
 	if (checkValid == true) {
 		document.getElementById("conflictAlert" + clicked_id).style.display = "none";
 
@@ -668,6 +661,7 @@ function editActivity(clicked_id) {
 	}
 }
 
+/* delete activity */
 function deleteActivity(clicked_id) {
 	var baseUrl = "../../php/objects/activityDelete.php";
 
@@ -682,16 +676,19 @@ function deleteActivity(clicked_id) {
 	});
 }
 
+/* Show the print display */
 function display() {
 	window.print();
 }
 
+/* Shareable link */
 function shareItinerary() {
 	$("#successLink").attr("style", "display:none");
 	$("#shareModal").modal("show");
 	$("#tbShareLink").val(window.location.href.split("&")[0] + "&own=no");
 }
 
+/* Shareable link */
 function copyLink() {
 	/* Get the text field */
 	var copyText = document.getElementById("tbShareLink");
@@ -706,6 +703,7 @@ function copyLink() {
 	$("#successLink").attr("style", "display:''");
 }
 
+/* Allow user to copy itinerary and save as their own */
 function copyItinerary() {
 	var idParam = new URL(window.location.href).searchParams.get("id");
 	var baseUrl = "../../php/objects/itineraryCopy.php";
@@ -727,6 +725,7 @@ function redirectCopied(id) {
 	window.location.href = "itinerary_details?id=" + id + "&own=yes";
 }
 
+/* Edit itinerary title */
 function editItinerary() {
 	var idParam = new URL(window.location.href).searchParams.get("id");
 	var baseUrl = "../../php/objects/itineraryUpdateName.php";
@@ -742,10 +741,12 @@ function editItinerary() {
 	});
 }
 
+/* Search result */
 function redirect_to_poi(keyword) {
 	window.location.href = "../search/search.html?keyword=" + keyword;
 }
 
+/* Search result with enter key */
 function onEvent(event) {
 	if (event.key === "Enter") {
 		// After user typed enter
@@ -753,6 +754,7 @@ function onEvent(event) {
 	}
 }
 
+/* Check if sessionStorage exist */
 function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
 		window.location.href = "../../index.html";
@@ -762,6 +764,7 @@ function checkUser() {
 	}
 }
 
+/* Clear sessionStorage upon log out */
 function logOut() {
 	window.location.href = "../../index.html";
 	sessionStorage.clear();

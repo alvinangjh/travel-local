@@ -48,7 +48,6 @@ function reset() {
 
 		request.onreadystatechange = function () {
 			if (request.readyState == 4 && request.status == 200) {
-				var status = request.responseText;
 				$("#resetModal").modal("show");
 			}
 		};

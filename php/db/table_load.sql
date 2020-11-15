@@ -55,14 +55,6 @@
   PRIMARY KEY (`locID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-    CREATE TABLE if not exists `review` (
-    `reviewID` integer NOT NULL,
-    `reviewDesc` varchar(256) NOT NULL,
-    `rating` varchar(256) NOT NULL,
-    `reviewDate` datetime NOT NULL,
-    `locID` integer NOT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-
 
 insert into user values (1, 'Ellia', 'Ryan', 'e.ryan@randatmail.com', 'hashEllia');
 insert into user values (2, 'Amanda', 'Ryan', 'a.ryan@randatmail.com', 'hashAmanda');
@@ -74,8 +66,12 @@ insert into user values (7, 'Victoria', 'Roberts', 'v.roberts@randatmail.com', '
 insert into user values (8, 'Cherry', 'Morrison', 'c.morrison@randatmail.com', 'hashCherry');
 insert into user values (9, 'John', 'Mitchell', 'j.mitchell@randatmail.com', 'hashJohn');
 insert into user values (10, 'Lily', 'Harris', 'l.harris@randatmail.com', 'hashLily');
-insert into user values (11, 'Aldus', 'Anderson', 'a.anderson@randatmail.com', 'hashAldus');
+insert into user values (11, 'Tony', 'Stark', 'a.anderson@randatmail.com', 'hashTony');
 insert into user values (12, 'Ryan', 'Scott', 'r.scott@randatmail.com', 'hashRyan');
+insert into user values (13, 'Scott', 'Lang', 'r.scott@randatmail.com', 'hashScott');
+insert into user values (14, 'Kyung', 'JS', 'r.scott@randatmail.com', 'hashKyung');
+insert into user values (15, 'Yimeng', 'Lau', 'r.scott@randatmail.com', 'hashYimeng');
+
 
 
 insert into itinerary values (1,'Down the rabbit hole', '2020/10/19', "2020/10/20",'Nature', "1", 0);
@@ -141,13 +137,3 @@ insert into itinerary values (60, "TRIP? It's Easy If You Do It Smart", '2020/12
 insert into itinerary values (61, "Using 7 TRIP Strategies Like The Pros", '2020/12/18', '2020/12/23', 'Family', 3, 65);
 insert into itinerary values (62, "Why I Hate TRIP", '2020/12/30', '2021/01/06', 'Casual', 4, 94);
 insert into itinerary values (63, "Does TRIP Sometimes Make You Feel Stupid?", '2020/11/30', '2020/12/09', 'Nature', 11, 145);
-
-
-
-    
-
-
-
-    -- insert into activity values (1, '002a031ff1aa6b9471e8327b48fb5e2014a'); 
-    -- insert into activity values (2, '0026271c23371bb4aafbf5985bef950172e'); 
-    -- insert into activity values (3, '002f1eb8d5a13324c56b25344b30465d861'); 
