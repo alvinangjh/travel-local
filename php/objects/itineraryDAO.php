@@ -583,19 +583,20 @@ class itineraryDAO {
 
         $sql = "
             INSERT INTO itinerary (itineraryID, name, startDate, endDate, itineraryType, userID, shared) 
-            SELECT null, name, startDate, endDate, itineraryType, :userID, 0 from itinerary WHERE itineraryID = :itineraryID
+            SELECT null, name, startDate, endDate, itineraryType, :userID, 0 from itinerary WHERE itineraryID = :itineraryID;
+            UPDATE itinerary SET shared = ((SELECT shared WHERE itineraryID = :itineraryID) + 1) where itineraryID = :itineraryID;
+            SELECT LAST_INSERT_ID();
         ";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':userID', $userID, PDO::PARAM_STR);
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_STR);
-        
         $isOk = $stmt->execute();
-        
+        $id = $pdo->lastInsertId();
 
         $stmt = null;
         $pdo = null;        
         
-        return $isOk;
+        return $id;
     }
 
     public function updateItineraryName($itineraryID, $name) {      

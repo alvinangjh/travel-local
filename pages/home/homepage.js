@@ -145,7 +145,7 @@ function display_recommended_cards(itineraries) {
 			new_card.innerHTML = `
 		  <div class="card mx-auto mb-5" style="width: 22rem;">
 			  <img alt="Card image cap" id="itin+${itineraries[i].itineraryID}" class="card-img-top img-fluid" src="images/${itineraries[i].itineraryType}.jpg">
-			  <button onClick="view_itin(${itineraries[i].itineraryID})" class="link_overlay">
+			  <button onClick="view_itin(${itineraries[i].itineraryID}, 'no')" class="link_overlay">
 				  <div class="card-img-overlay">
 					  <h4 class="card-title">${itineraries[i].name}</h4>
 					  <footer class="blockquote-footer">${startDate} - ${endDate} <br> ${capitalizeFirstLetter(itineraries[i].itineraryType)}</p>

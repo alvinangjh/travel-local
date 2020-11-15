@@ -1,4 +1,5 @@
 const apiKey = "jKNTmdblMsxZWS3mrwmxz7i5fujbBlZU";
+const dataset = "accommodation,attractions,event,food_beverages,shops,venue,walking_trail";
 
 /* Utilities */
 Date.prototype.addDays = function (days) {
@@ -126,6 +127,7 @@ function retrieveActivity() {
 				endTime: item.endTime,
 				activityDate: item.activityDate,
 				locType: item.locType,
+				locDataset: item.locDataset,
 			};
 
 			activities.push(activity);
@@ -257,7 +259,7 @@ function populateItinerary(activities, startDate, endDate) {
 									</div>
 
 									<div class="col-md-4 my-auto">
-											<img src="${imageUrl}" class="card-img" width="478px"/>
+											<img src="../../images/${imageUrl}" class="card-img" width="478px"/>
 									</div>
 
 									<div class="col-md-6">
@@ -403,13 +405,16 @@ function populateItinerary(activities, startDate, endDate) {
 
 				sleep(100);
 			} else {
-				var baseUrl = "https://tih-api.stb.gov.sg/content/v1/attractions";
-				var finalUrl = baseUrl + "?uuid=" + activities[i].poiUUID + "&apikey=" + apiKey;
+				var baseUrl = "https://tih-api.stb.gov.sg/content/v1/";
+				var finalUrl = baseUrl + activities[i].locDataset + "?uuid=" + activities[i].poiUUID + "&apikey=" + apiKey;
+
+				console.log(finalUrl);
 
 				$.ajax({
 					url: finalUrl,
 					type: "GET",
 					success: function (responseText) {
+						console.log(responseText);
 						var data = responseText;
 
 						var dirUrl =
@@ -703,12 +708,17 @@ function copyItinerary() {
 		type: "POST",
 		data: { itinerary_id: idParam, userID: sessionStorage.getItem("userID") },
 	}).done(function (responseText) {
-		if (responseText == 1) {
-			$("#copyStatusTitle").html("Success");
-			$("#copyStatusMsg").html("This itinerary has been successfully copied to your profile.");
-			$("#copySuccessModal").modal("show");
-		}
+		console.log(responseText);
+		var url = "itinerary_details.html?id=" + responseText + "&own=yes";
+		$("#copyStatusTitle").html("Success");
+		$("#copyStatusMsg").html("This itinerary has been successfully copied to your profile.");
+		$("#copySuccessModal").modal("show");
+		$("#btnGoToCopied").attr("onclick", "redirectCopied(" + responseText + ")");
 	});
+}
+
+function redirectCopied(id) {
+	window.location.href = "itinerary_details?id=" + id + "&own=yes";
 }
 
 function editItinerary() {

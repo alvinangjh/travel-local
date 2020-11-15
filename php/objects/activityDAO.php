@@ -26,6 +26,7 @@ class ActivityDAO {
                 $row["endTime"],
                 $row["activityDate"],
                 $row["locType"],
+                $row["locDataset"],
                 $row["itineraryID"]
             );
             $activities[] = $activity;
@@ -84,8 +85,8 @@ class ActivityDAO {
     
         $connMgr = new Connection();
         $pdo = $connMgr->getConnection();
-        $sql = 'INSERT INTO activity (activityID, poiUUID, startTime, endTime, activityDate, locType, itineraryID)
-                VALUES (null, :poiUUID, :startTime, :endTime, :activityDate, :locType, :itineraryID)';
+        $sql = 'INSERT INTO activity (activityID, poiUUID, startTime, endTime, activityDate, locType, locDataset, itineraryID)
+                VALUES (null, :poiUUID, :startTime, :endTime, :activityDate, :locType, :locDataset, :itineraryID)';
         $stmt = $pdo->prepare($sql); 
 
         //$activityID = $activity->getActivityID();
@@ -94,6 +95,7 @@ class ActivityDAO {
         $endTime = $activity->getEndTime();
         $activityDate = $activity->getActivityDate();
         $locType = $activity->getLocType();
+        $locDataset = $activity->getLocDataset();
         $itineraryID = $activity->getItineraryID();
 
 
@@ -103,6 +105,7 @@ class ActivityDAO {
         $stmt->bindParam(':endTime', $endTime, PDO::PARAM_STR);
         $stmt->bindParam(':activityDate', $activityDate, PDO::PARAM_STR);
         $stmt->bindParam(':locType', $locType, PDO::PARAM_STR);
+        $stmt->bindParam(':locDataset', $locDataset, PDO::PARAM_STR);
         $stmt->bindParam(':itineraryID', $itineraryID, PDO::PARAM_INT);
 
         try {

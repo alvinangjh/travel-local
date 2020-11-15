@@ -500,6 +500,8 @@ function addActivity() {
 	var startTime = moment($("#startTime").val(), ["hh:mm A"]).format("HH:mm");
 	var endTime = moment($("#endTime").val(), ["hh:mm A"]).format("HH:mm");
 	var activityDate = $("#ddlActivityDate :selected").val();
+	var locDataset = new URL(window.location.href).searchParams.get("type");
+	$("#btnGoToItinerary").attr("onclick", "goToItinerary(" + selectedItinerary + ")");
 
 	var url = "../../php/objects/activityInsert.php";
 
@@ -510,6 +512,7 @@ function addActivity() {
 		endTime: endTime,
 		activityDate: activityDate,
 		locType: locType,
+		locDataset: locDataset,
 		itineraryID: selectedItinerary,
 	};
 
@@ -533,6 +536,9 @@ function addActivity() {
 	request.send(data);
 }
 
+function goToItinerary(id) {
+	window.location.href = "../itinerary_detail/itinerary_details.html?id=" + id + "&own=yes";
+}
 function startPlanning() {
 	var url = "../../php/objects/itineraryRetrieveAll.php";
 
@@ -687,7 +693,7 @@ function display_hidden_gems(name, image, locID, description) {
 						<div class="card mb-3" >
                             <div class="row no-gutters">
                                 <div class="col-md-5">
-                                    <img src="../../${image}" class="card-img stretched-link " onclick="redirect_hidden_gems_page('${locID}')" alt="${name}" style='height:250px;'>                                 
+                                    <img src="../../images/${image}" class="card-img stretched-link " onclick="redirect_hidden_gems_page('${locID}')" alt="${name}" style='height:250px;'>                                 
                                 </div>
                                 <div class="col-md-7 w-100">
                                     <div class="card-body">
@@ -746,7 +752,7 @@ function display_specific_hidden_gems(
                             <div class='row'>
                                 <div class='col-md-7'>
                                     <div id='poi_image'>
-                                        <img src="../../${image}" alt="${title}" class="img-thumbnail" style='width: 100%; height: 100%;'>
+                                        <img src="../../images/${image}" alt="${title}" class="img-thumbnail" style='width: 100%; height: 100%;'>
                                     </div>
                                     <div id='poi_description'>
                                         <p>${description}</p>
