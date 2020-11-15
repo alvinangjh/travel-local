@@ -185,7 +185,7 @@ function type_of_dataset(type) {
 }
 
 function call_uuid_api(uuid, type) {
-	check_user();
+	checkUser();
 
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function () {
@@ -393,7 +393,7 @@ function filter() {
 }
 
 function poi_page_html(keyword, data_types) {
-	check_user();
+	checkUser();
 
 	document.getElementById("insert_poi").setAttribute("class", "");
 	document.getElementById("insert_poi").setAttribute("style", "");
@@ -503,37 +503,45 @@ function addActivity() {
 	var locDataset = new URL(window.location.href).searchParams.get("type");
 	$("#btnGoToItinerary").attr("onclick", "goToItinerary(" + selectedItinerary + ")");
 
+	var checkValid = moment(startTime, "HH:mm").isBefore(moment(endTime, "HH:mm"));
+
 	var url = "../../php/objects/activityInsert.php";
 
-	var activity = {
-		activityID: "0",
-		poiUUID: poiUUID,
-		startTime: startTime,
-		endTime: endTime,
-		activityDate: activityDate,
-		locType: locType,
-		locDataset: locDataset,
-		itineraryID: selectedItinerary,
-	};
+	if (checkValid == true) {
+		document.getElementById("conflictAlert").style.display = "none";
 
-	var data = JSON.stringify(activity);
+		var activity = {
+			activityID: null,
+			poiUUID: poiUUID,
+			startTime: startTime,
+			endTime: endTime,
+			activityDate: activityDate,
+			locType: locType,
+			locDataset: locDataset,
+			itineraryID: selectedItinerary,
+		};
 
-	var request = new XMLHttpRequest();
-	request.onreadystatechange = function () {
-		if (this.readyState == 4 && this.status == 200) {
-			//hide success modal
-			if (request.responseText == "Success") {
-				$("#exampleModal").modal("hide");
-				$("#successModal").modal("show");
+		var data = JSON.stringify(activity);
+
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				//hide success modal
+				if (request.responseText == "Success") {
+					$("#exampleModal").modal("hide");
+					$("#successModal").modal("show");
+				}
 			}
-		}
-	};
+		};
 
-	request.open("POST", url, true);
+		request.open("POST", url, true);
 
-	request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+		request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
 
-	request.send(data);
+		request.send(data);
+	} else {
+		document.getElementById("conflictAlert").style.display = "";
+	}
 }
 
 function goToItinerary(id) {
@@ -606,18 +614,17 @@ function filterActivityDate() {
 	}
 }
 
-function check_user() {
+function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
-		window.location.href = "../user/user_login.html";
+		window.location.href = "../../index.html";
 	} else {
-		console.log("hello");
 		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
 		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
 	}
 }
 
 function logOut() {
-	window.location.href = "../user/user_login.html";
+	window.location.href = "../../index.html";
 	sessionStorage.clear();
 }
 
@@ -638,7 +645,7 @@ function getDates(startDate, stopDate) {
 }
 
 function alvin_search() {
-	check_user();
+	checkUser();
 
 	document.getElementById("searching_poi").value = new URL(window.location.href).searchParams.get("keyword");
 	var keyword = new URL(window.location.href).searchParams.get("keyword");
@@ -730,7 +737,7 @@ function display_specific_hidden_gems(
 	endTime,
 	website
 ) {
-	check_user();
+	checkUser();
 	var insert_poi = document.getElementById("insert_poi");
 	var map_link = call_onemap_api(lat, lng, postal);
 

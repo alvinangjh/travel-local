@@ -87,7 +87,7 @@ function changeTheme() {
 
 /* Retrieve all activities under the same itinerary */
 function retrieveActivity() {
-	check_user();
+	checkUser();
 
 	//remember to change to dynamic itineraryID
 	var itineraryID = new URL(window.location.href).searchParams.get("id");
@@ -304,11 +304,11 @@ function populateItinerary(activities, startDate, endDate) {
 													<label for="tbEndTime${activities[i].activityID}">End Time</label>
 													<input id="tbEndTime${activities[i].activityID}" type="text" class="form-control" value="${activities[i].endTime}" />
 												</div>
-												<!-- <div class="form-group col-md-12">
+												<div class="form-group col-md-12">
 													<div id="conflictAlert${activities[i].activityID}" class="alert alert-danger mb-0" role="alert" style="display: none;">
 														Your start/end time conflict with your existing itinerary!
 													</div>
-												</div> -->
+												</div>
 											</div>
 										</div>
 										<div class="modal-footer">
@@ -353,7 +353,7 @@ function populateItinerary(activities, startDate, endDate) {
 							$("#tbStartTime" + activities[i].activityID).timepicker({
 								timeFormat: "hh:mm p",
 								interval: 15,
-								defaultTime: data[0]["startTime"],
+								defaultTime: startTime,
 								minTime: data[0]["startTime"],
 								maxTime: data[0]["endTime"],
 								dropdown: true,
@@ -366,7 +366,7 @@ function populateItinerary(activities, startDate, endDate) {
 								timeFormat: "hh:mm p",
 								interval: 15,
 								zindex: 3500,
-								defaultTime: data[0]["endTime"],
+								defaultTime: endTime,
 								minTime: data[0]["startTime"],
 								maxTime: data[0]["endTime"],
 								dropdown: true,
@@ -375,7 +375,7 @@ function populateItinerary(activities, startDate, endDate) {
 								// 	$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
 								// },
 							});
-						}, 100);
+						}, 300);
 
 						var select = document.getElementById("ddlDate" + activities[i].activityID);
 
@@ -403,18 +403,15 @@ function populateItinerary(activities, startDate, endDate) {
 					},
 				});
 
-				sleep(100);
+				sleep(300);
 			} else {
 				var baseUrl = "https://tih-api.stb.gov.sg/content/v1/";
 				var finalUrl = baseUrl + activities[i].locDataset + "?uuid=" + activities[i].poiUUID + "&apikey=" + apiKey;
-
-				console.log(finalUrl);
 
 				$.ajax({
 					url: finalUrl,
 					type: "GET",
 					success: function (responseText) {
-						console.log(responseText);
 						var data = responseText;
 
 						var dirUrl =
@@ -510,11 +507,11 @@ function populateItinerary(activities, startDate, endDate) {
 														<label for="tbActivity${activities[i].activityID}">End Time</label>
 														<input id="tbEndTime${activities[i].activityID}" type="text" class="form-control" value=${activities[i].endTime} />
 													</div>
-													<!-- <div class="form-group col-md-12">
+													<div class="form-group col-md-12">
 														<div id="conflictAlert${activities[i].activityID}" class="alert alert-danger mb-0" role="alert" style="display: none;">
-															Your start/end time conflict with your existing itinerary!
+															Your start/end time is invalid!
 														</div>
-													</div> -->
+													</div>
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -574,7 +571,7 @@ function populateItinerary(activities, startDate, endDate) {
 							$("#tbStartTime" + activities[i].activityID).timepicker({
 								timeFormat: "hh:mm p",
 								interval: 15,
-								defaultTime: openingHour,
+								defaultTime: startTime,
 								minTime: openingHour,
 								maxTime: closingHour,
 								dropdown: true,
@@ -587,7 +584,7 @@ function populateItinerary(activities, startDate, endDate) {
 								timeFormat: "hh:mm p",
 								interval: 15,
 								zindex: 3500,
-								defaultTime: closingHour,
+								defaultTime: endTime,
 								minTime: openingHour,
 								maxTime: closingHour,
 								dropdown: true,
@@ -596,19 +593,19 @@ function populateItinerary(activities, startDate, endDate) {
 								// 	$("#tbStartTime" + activities[i].activityID).timepicker("option", "maxTime", time);
 								// },
 							});
-						}, 100);
+						}, 300);
 
 						if (ownParam.toLowerCase() != "yes") {
 							$("#activity" + activities[i].activityID).attr("style", "display:none");
 							$("#remove" + activities[i].activityID).attr("style", "display:none");
 						} else {
 							$("#activity" + activities[i].activityID).attr("style", "display:''");
-							$("#remove" + activities[i].activityID).attr("style", "display:''''");
+							$("#remove" + activities[i].activityID).attr("style", "display:''");
 						}
 					},
 				});
 
-				sleep(100);
+				sleep(300);
 			}
 		})(i);
 	}
@@ -643,22 +640,32 @@ function callImage(imageUUID, callback) {
 function editActivity(clicked_id) {
 	var baseUrl = "../../php/objects/activityUpdate.php";
 	var ddlDate = document.getElementById("ddlDate" + clicked_id);
+	var startTime = document.getElementById("tbStartTime" + clicked_id).value;
+	var endTime = document.getElementById("tbEndTime" + clicked_id).value;
 
-	$.ajax({
-		url: baseUrl,
-		type: "POST",
-		dataType: "json",
-		data: {
-			activityID: clicked_id,
-			activityDate: ddlDate.options[ddlDate.selectedIndex].value,
-			startTime: document.getElementById("tbStartTime" + clicked_id).value,
-			endTime: document.getElementById("tbEndTime" + clicked_id).value,
-		},
-	}).done(function (responseText) {
-		if (responseText == 1) {
-			window.location.reload();
-		}
-	});
+	var checkValid = moment(startTime, "hh:mm A").isBefore(moment(endTime, "hh:mm A"));
+
+	if (checkValid == true) {
+		document.getElementById("conflictAlert" + clicked_id).style.display = "none";
+
+		$.ajax({
+			url: baseUrl,
+			type: "POST",
+			dataType: "json",
+			data: {
+				activityID: clicked_id,
+				activityDate: ddlDate.options[ddlDate.selectedIndex].value,
+				startTime: moment(startTime, "hh:mm A").format("HH:mm"),
+				endTime: moment(endTime, "hh:mm A").format("HH:mm"),
+			},
+		}).done(function (responseText) {
+			if (responseText == 1) {
+				window.location.reload();
+			}
+		});
+	} else {
+		document.getElementById("conflictAlert" + clicked_id).style.display = "";
+	}
 }
 
 function deleteActivity(clicked_id) {
@@ -708,7 +715,6 @@ function copyItinerary() {
 		type: "POST",
 		data: { itinerary_id: idParam, userID: sessionStorage.getItem("userID") },
 	}).done(function (responseText) {
-		console.log(responseText);
 		var url = "itinerary_details.html?id=" + responseText + "&own=yes";
 		$("#copyStatusTitle").html("Success");
 		$("#copyStatusMsg").html("This itinerary has been successfully copied to your profile.");
@@ -747,9 +753,9 @@ function onEvent(event) {
 	}
 }
 
-function check_user() {
+function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
-		window.location.href = "../user/user_login.html";
+		window.location.href = "../../index.html";
 	} else {
 		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
 		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
@@ -757,6 +763,6 @@ function check_user() {
 }
 
 function logOut() {
-	window.location.href = "../user/user_login.html";
+	window.location.href = "../../index.html";
 	sessionStorage.clear();
 }

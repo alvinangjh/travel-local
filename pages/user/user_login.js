@@ -1,5 +1,5 @@
 function login() {
-	var url = "../../php/objects/UserTestLogin.php";
+	var url = "php/objects/UserTestLogin.php";
 	// var request = new XMLHttpRequest();
 
 	// request.onreadystatechange = function () {
@@ -31,7 +31,7 @@ function login() {
 			document.getElementById("error_msg").setAttribute("style", "display:block;");
 		} else {
 			sessionStorage.setItem("userID", result["userID"]);
-			window.location.href = "../home/homepage.html";
+			window.location.href = "pages/home/homepage.html";
 		}
 	});
 }

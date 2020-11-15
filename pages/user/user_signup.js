@@ -15,17 +15,46 @@ function register() {
 	request.onreadystatechange = function () {
 		if (request.readyState == 4 && request.status == 200) {
 			var status = request.responseText;
-			console.log("hello")
-			console.log(status)
+
 			if (status == "Success") {
-				console.log(status + "SDADSAD")
 				$("#registermodal").modal("show");
 			}
 		}
 	};
-	
+
 	request.open("POST", url, true);
 	request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	request.send(data);
-}	
+}
 
+function reset() {
+	var email = $("#inputEmail").val();
+	var pw = $("#inputPassword").val();
+	var cfmPw = $("#inputCfmPassword").val();
+
+	if (pw != cfmPw) {
+		$("#conflictAlert").attr("style", "display: ''");
+	} else {
+		$("#conflictAlert").attr("style", "display: none");
+
+		var user = {
+			email: email,
+			pw: cfmPw,
+		};
+
+		var data = JSON.stringify(user);
+		var url = "../../php/objects/userPwUpdate.php";
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function () {
+			if (request.readyState == 4 && request.status == 200) {
+				var status = request.responseText;
+				$("#resetModal").modal("show");
+			}
+		};
+
+		request.open("POST", url, true);
+		request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		request.send(data);
+	}
+}

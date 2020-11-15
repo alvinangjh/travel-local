@@ -22,9 +22,9 @@ function onEvent(event) {
 	}
 }
 
-function check_user() {
+function checkUser() {
 	if (sessionStorage.getItem("userID") === null) {
-		window.location.href = "../user/user_login.html";
+		window.location.href = "../../index.html";
 	} else {
 		document.getElementById("signOutDiv").setAttribute("style", "display:block;");
 		document.getElementById("signUpDiv").setAttribute("style", "display:none;");
@@ -32,7 +32,7 @@ function check_user() {
 }
 
 function logOut() {
-	window.location.href = "../user/user_login.html";
+	window.location.href = "../../index.html";
 	sessionStorage.clear();
 }
 
@@ -126,7 +126,7 @@ function display_popular_cards(itineraries) {
             </button>
         </div>
     `;
-    
+
 		itins_view.appendChild(new_card);
 	}
 }
